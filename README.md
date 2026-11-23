@@ -1,8 +1,6 @@
 # Python Path
 
-A beginner-friendly, privacy-first interactive Python learning and assessment studio built around **zero-storage UK GDPR principles**. All Python execution, grading, progress tracking, and certificate generation run directly in the learner's browser with no accounts, no cookies, and no backend user storage.
-
-Created by **Emma Hicks**.
+A beginner-friendly, privacy-first interactive Python learning and assessment studio built around zero-storage UK GDPR principles. All Python execution, grading, progress tracking, and certificate generation run directly in the learner's browser with no accounts, no cookies, and no backend user storage.
 
 ---
 
@@ -29,6 +27,7 @@ Created by **Emma Hicks**.
 - **Live Executive Certificate Preview & Client-Side PDF Export**  
   Upon completing all 10 challenges, learners can enter their name to preview a live parchment-and-navy **Certificate of Achievement** and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a UK issue date (`DD/MM/YYYY`) and locally generated Credential ID (`CERT-XXXXXX`).
 
+[python-foundations-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35267099/python-foundations-certificate-emma-hicks.pdf)
 
 ---
 
