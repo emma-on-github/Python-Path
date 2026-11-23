@@ -2,5 +2,7 @@
   "name": "Python Path — Privacy-First Python Sandbox",
   "description": "Beginner-friendly, zero-storage UK GDPR compliant interactive Python learning and assessment studio.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
