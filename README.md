@@ -29,6 +29,9 @@ Created by **Emma Hicks**.
 - **Live Executive Certificate Preview & Client-Side PDF Export**  
   Upon completing all 10 challenges, learners can enter their name to preview a live parchment-and-navy **Certificate of Achievement** and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a UK issue date (`DD/MM/YYYY`) and locally generated Credential ID (`CERT-XXXXXX`).
 
+[python-foundations-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35266572/python-foundations-certificate-emma-hicks.pdf)
+
+
 ---
 
 ## Zero-Storage UK GDPR Architecture
