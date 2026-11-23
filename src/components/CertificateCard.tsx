@@ -327,17 +327,6 @@ function CertificateCanvas({
                   </div>
                 </div>
               </div>
-
-              <div
-                style={{
-                  marginTop: "8px",
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  color: "#047857",
-                }}
-              >
-                Zero-Storage Privacy Verified
-              </div>
             </div>
           </div>
         </div>

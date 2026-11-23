@@ -177,24 +177,20 @@ export async function downloadCertificatePdf({
   ctx.font = "600 12px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
   ctx.fillText("Lead Systems & Data Instructor", 90, 604);
 
-  // Right column: UK Issue Date, Credential ID & Zero-Storage Privacy Verified
+  // Right column: UK Issue Date & Credential ID
   ctx.textAlign = "right";
   ctx.fillStyle = "#64748b";
   ctx.font = "700 10px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText("ISSUE DATE (UK)", 730, 558);
-  ctx.fillText("CREDENTIAL ID", 900, 558);
+  ctx.fillText("ISSUE DATE (UK)", 730, 566);
+  ctx.fillText("CREDENTIAL ID", 900, 566);
 
   ctx.fillStyle = "#0f172a";
   ctx.font = "700 14px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText(ukDate, 730, 578);
+  ctx.fillText(ukDate, 730, 588);
 
   ctx.fillStyle = "#1e3a8a";
   ctx.font = "600 14px 'JetBrains Mono', 'Courier New', monospace";
-  ctx.fillText(credentialId, 900, 578);
-
-  ctx.fillStyle = "#047857";
-  ctx.font = "600 11px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText("Zero-Storage Privacy Verified", 900, 604);
+  ctx.fillText(credentialId, 900, 588);
 
   // Export single-page A4 landscape PDF
   const imgData = canvas.toDataURL("image/png", 1.0);
