@@ -131,12 +131,12 @@ function CertificateCanvas({
           </div>
 
           {/* Header Section */}
-          <div style={{ textAlign: "center", paddingRight: "48px", paddingLeft: "48px" }}>
+          <div style={{ textAlign: "center", paddingRight: "88px", paddingLeft: "88px" }}>
             <p
               style={{
-                fontSize: "11px",
+                fontSize: "15px",
                 fontWeight: 700,
-                letterSpacing: "0.18em",
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 color: "#1e3a8a",
                 margin: 0,
@@ -286,7 +286,7 @@ function CertificateCanvas({
                       color: "#64748b",
                     }}
                   >
-                    Issue Date (UK)
+                    Issue Date
                   </div>
                   <div
                     style={{

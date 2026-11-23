@@ -104,7 +104,7 @@ export async function downloadCertificatePdf({
   const centerX = logicalW / 2;
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#1e3a8a";
-  ctx.font = "700 11px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
+  ctx.font = "700 15px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
   ctx.fillText("PYTHON PATH  ·  PYTHON FOUNDATIONS ASSESSMENT", centerX, 102);
 
   ctx.fillStyle = "#0f172a";
@@ -177,11 +177,11 @@ export async function downloadCertificatePdf({
   ctx.font = "600 12px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
   ctx.fillText("Lead Systems & Data Instructor", 90, 604);
 
-  // Right column: UK Issue Date & Credential ID
+  // Right column: Issue Date & Credential ID
   ctx.textAlign = "right";
   ctx.fillStyle = "#64748b";
   ctx.font = "700 10px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText("ISSUE DATE (UK)", 730, 566);
+  ctx.fillText("ISSUE DATE", 730, 566);
   ctx.fillText("CREDENTIAL ID", 900, 566);
 
   ctx.fillStyle = "#0f172a";

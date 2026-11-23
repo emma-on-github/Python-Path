@@ -260,7 +260,7 @@ export default function App() {
               href="#privacy"
               className="transition-colors hover:text-slate-900 hover:underline underline-offset-4 whitespace-nowrap shrink-0"
             >
-              Privacy Promise
+              Privacy
             </a>
           </nav>
 
@@ -692,7 +692,7 @@ export default function App() {
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 text-xs text-slate-500 sm:px-6">
           <span>Python Path · Created by Emma Hicks</span>
-          <span>100% Client-Side Execution · Zero Backend User Storage</span>
+          <span>Client-Side Execution · Zero Backend User Storage</span>
         </div>
       </footer>
     </div>
