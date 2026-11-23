@@ -27,7 +27,7 @@ A beginner-friendly, privacy-first interactive Python learning and assessment st
 - **Live Executive Certificate Preview & Client-Side PDF Export**  
   Upon completing all 10 challenges, learners can enter their name to preview a live parchment-and-navy **Certificate of Achievement** and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a UK issue date (`DD/MM/YYYY`) and locally generated Credential ID (`CERT-XXXXXX`).
 
-[python-foundations-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35267099/python-foundations-certificate-emma-hicks.pdf)
+[python-foundations-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35267779/python-foundations-certificate-emma-hicks.pdf)
 
 ---
 
