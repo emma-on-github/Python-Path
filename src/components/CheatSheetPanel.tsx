@@ -32,8 +32,8 @@ export function CheatSheetPanel() {
     >
       <div className="mb-5 flex flex-col justify-between gap-4 border-b border-slate-200 pb-4 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-slate-900">Python Reference Cheat Sheet</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Python Reference Cheat Sheet</h2>
+          <p className="mt-1 text-base text-slate-600">
             Quick syntax examples across Beginner, Intermediate, and Advanced Python concepts.
           </p>
         </div>
@@ -44,7 +44,7 @@ export function CheatSheetPanel() {
               key={tab}
               type="button"
               onClick={() => setFilter(tab)}
-              className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 ${
+              className={`rounded-md px-3.5 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
                 filter === tab
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-600 hover:text-slate-900"
@@ -65,34 +65,34 @@ export function CheatSheetPanel() {
               className="flex flex-col justify-between rounded-lg border border-slate-200 bg-slate-50/70 p-4"
             >
               <div>
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-xs text-slate-500">
-                    <span className="font-medium text-sky-700">{item.level}</span>
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <span className="font-semibold text-sky-700">{item.level}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleCopy(item.code, idx)}
-                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-200/70 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-200/70 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
                     aria-label={`Copy ${item.title} example`}
                   >
                     {isCopied ? (
                       <>
-                        <Check className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
+                        <Check className="h-4 w-4 text-emerald-600" aria-hidden="true" />
                         <span className="text-emerald-700">Copied</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                        <Copy className="h-4 w-4" aria-hidden="true" />
                         <span>Copy</span>
                       </>
                     )}
                   </button>
                 </div>
 
-                <h3 className="font-mono text-sm font-semibold text-slate-900">{item.title}</h3>
-                <p className="mt-1 mb-3 text-xs leading-relaxed text-slate-600">{item.summary}</p>
+                <h3 className="font-mono text-base font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-1 mb-3 text-sm leading-relaxed text-slate-600">{item.summary}</p>
               </div>
-              <pre className="whitespace-pre-wrap break-words rounded-md bg-slate-900 px-3 py-2.5 font-mono text-xs leading-relaxed text-slate-100">
+              <pre className="whitespace-pre-wrap break-words rounded-md bg-slate-900 px-3.5 py-3 font-mono text-sm leading-relaxed text-slate-100">
                 <code>{item.code}</code>
               </pre>
             </div>

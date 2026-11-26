@@ -164,31 +164,31 @@ export function SelfStudyCourse({
         aria-label="Course Progression and Lessons"
         className="space-y-4 lg:col-span-4 xl:col-span-3"
       >
-        <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
           <div className="mb-3 flex items-center justify-between gap-2">
             <button
               type="button"
               onClick={onBackToHome}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 hover:text-sky-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 hover:text-sky-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
-              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>All Course Levels</span>
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              <span>All Levels</span>
             </button>
-            <span className="text-xs font-semibold text-slate-600 tabular-nums">
-              {totalCompleted} / {COURSE_LESSONS.length} overall
+            <span className="text-sm font-semibold text-slate-600 tabular-nums">
+              {totalCompleted} / {COURSE_LESSONS.length} total
             </span>
           </div>
 
-          <h2 className="text-base font-bold text-slate-900">
+          <h2 className="text-lg font-bold text-slate-900">
             {activeModule.title}
           </h2>
-          <p className="mt-1 text-xs leading-relaxed text-slate-600">
+          <p className="mt-1 text-sm leading-relaxed text-slate-600">
             {activeModule.subtitle}
           </p>
 
           {/* Module Progression Bar */}
           <div className="mt-4">
-            <div className="mb-1.5 flex items-center justify-between text-xs font-semibold text-slate-700 tabular-nums">
+            <div className="mb-1.5 flex items-center justify-between text-sm font-semibold text-slate-700 tabular-nums">
               <span>Level Progress</span>
               <span>
                 {moduleCompleted} of {moduleLessons.length} ({modulePercent}%)
@@ -200,7 +200,7 @@ export function SelfStudyCourse({
               aria-valuemin={0}
               aria-valuemax={moduleLessons.length}
               aria-label={`${activeModule.title} progress`}
-              className="h-2 w-full overflow-hidden rounded-full bg-slate-100"
+              className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100"
             >
               <div
                 className="h-full rounded-full bg-sky-600 transition-all duration-300"
@@ -214,7 +214,7 @@ export function SelfStudyCourse({
             <p className="mb-2.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
               Lessons
             </p>
-            <nav aria-label="Module lessons" className="space-y-1.5">
+            <nav aria-label="Module lessons" className="space-y-2">
               {moduleLessons.map((lesson) => {
                 const isCurrent = lesson.id === activeLesson.id;
                 const isDone = Boolean(lessonProgress[lesson.id]?.passed);
@@ -234,7 +234,7 @@ export function SelfStudyCourse({
                     }`}
                   >
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold tabular-nums ${
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold tabular-nums ${
                         isCurrent
                           ? "bg-sky-600 text-white"
                           : isDone
@@ -243,18 +243,18 @@ export function SelfStudyCourse({
                       }`}
                     >
                       {isDone && !isCurrent ? (
-                        <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                       ) : (
                         lesson.lessonNumber
                       )}
                     </span>
 
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-semibold">
+                      <p className="truncate text-sm font-semibold">
                         {lesson.title}
                       </p>
                       <p
-                        className={`text-[11px] ${
+                        className={`text-xs ${
                           isCurrent
                             ? "font-medium text-sky-700"
                             : isDone
@@ -299,9 +299,9 @@ export function SelfStudyCourse({
                         : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
                     }`}
                   >
-                    <span className="block text-[11px] font-semibold">{shortLabel}</span>
+                    <span className="block text-xs font-semibold">{shortLabel}</span>
                     <span
-                      className={`block text-[10px] tabular-nums ${
+                      className={`block text-xs tabular-nums ${
                         isSelected ? "text-sky-100" : "text-slate-500"
                       }`}
                     >
@@ -317,111 +317,106 @@ export function SelfStudyCourse({
             <button
               type="button"
               onClick={onGoToExam}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
-              <Award className="h-3.5 w-3.5 text-sky-600" aria-hidden="true" />
+              <Award className="h-4 w-4 text-sky-600" aria-hidden="true" />
               <span>Take Certification Exam</span>
             </button>
           </div>
         </div>
       </aside>
 
-      {/* RIGHT WORKSPACE: Lesson + Hands-On Exercise on top, Larger Sandbox underneath */}
-      <div className="space-y-6 lg:col-span-8 xl:col-span-9">
-        {/* Top Row: Lesson Explanation & Hands-On Exercise */}
-        <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
-          {/* Short Lesson Card */}
-          <section
-            aria-label="Lesson Explanation"
-            className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6 xl:col-span-7"
-          >
-            <div className="mb-2 flex items-center gap-2 text-xs text-slate-500">
-              <BookOpen className="h-3.5 w-3.5 text-sky-600" aria-hidden="true" />
-              <span className="font-semibold text-sky-700">
-                Lesson {activeLesson.lessonNumber} of {moduleLessons.length}
-              </span>
-            </div>
+      {/* RIGHT WORKSPACE: 1. Lesson -> 2. Hands-On Exercise -> 3. Python Sandbox */}
+      <div className="space-y-5 lg:col-span-8 xl:col-span-9">
+        {/* 1. Lesson Explanation Card */}
+        <section
+          aria-label="Lesson Explanation"
+          className="rounded-xl border border-slate-200 bg-white p-6"
+        >
+          <div className="mb-2 flex items-center gap-2 text-sm text-slate-500">
+            <BookOpen className="h-4 w-4 text-sky-600" aria-hidden="true" />
+            <span className="font-semibold text-sky-700">
+              Lesson {activeLesson.lessonNumber} of {moduleLessons.length}
+            </span>
+          </div>
 
-            <h3 className="text-xl font-bold tracking-tight text-slate-900">
-              {activeLesson.title}
-            </h3>
+          <h3 className="text-2xl font-bold tracking-tight text-slate-900">
+            {activeLesson.title}
+          </h3>
 
-            <p className="mt-2.5 text-sm leading-relaxed text-slate-700">
-              {activeLesson.explanation}
+          <p className="mt-3 text-base leading-relaxed text-slate-700">
+            {activeLesson.explanation}
+          </p>
+
+          <div className="mt-4">
+            <p className="mb-2 text-sm font-semibold text-slate-700">Syntax Example</p>
+            <pre className="overflow-x-auto rounded-lg bg-slate-900 px-4 py-3 font-mono text-sm leading-relaxed text-slate-100">
+              <code>{activeLesson.syntaxExample}</code>
+            </pre>
+          </div>
+
+          <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="text-sm font-semibold text-slate-800">Why it matters</p>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              {activeLesson.whyItMatters}
             </p>
+          </div>
+        </section>
 
-            <div className="mt-4">
-              <p className="mb-1.5 text-xs font-semibold text-slate-600">Syntax Example</p>
-              <pre className="overflow-x-auto rounded-lg bg-slate-900 px-3.5 py-2.5 font-mono text-xs leading-relaxed text-slate-100">
-                <code>{activeLesson.syntaxExample}</code>
-              </pre>
-            </div>
+        {/* 2. Hands-On Exercise Card (Full Width Below Lesson, Before Sandbox) */}
+        <section
+          aria-label="Hands-On Exercise"
+          className="rounded-xl border border-slate-200 bg-white p-6"
+        >
+          <h4 className="text-lg font-bold text-slate-900">Hands-On Exercise</h4>
+          <p className="mt-2 text-base leading-relaxed text-slate-700">
+            {activeLesson.taskPrompt}
+          </p>
 
-            <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3.5">
-              <p className="text-xs font-semibold text-slate-800">Why it matters</p>
-              <p className="mt-0.5 text-xs leading-relaxed text-slate-600">
-                {activeLesson.whyItMatters}
-              </p>
-            </div>
-          </section>
+          <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-sm font-semibold text-slate-700">Target Behaviour</p>
+            <p className="mt-1 font-mono text-sm text-slate-900">
+              {activeLesson.expectedSummary}
+            </p>
+          </div>
 
-          {/* Hands-On Exercise Card */}
-          <section
-            aria-label="Hands-On Exercise"
-            className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 sm:p-6 xl:col-span-5"
-          >
-            <div>
-              <h4 className="text-base font-bold text-slate-900">Hands-On Exercise</h4>
-              <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                {activeLesson.taskPrompt}
-              </p>
+          <div className="mt-4 border-t border-slate-200 pt-4">
+            <button
+              type="button"
+              onClick={() =>
+                onUpdateLesson(activeLesson.id, (prev) => ({
+                  ...prev,
+                  hintVisible: !prev.hintVisible,
+                }))
+              }
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+            >
+              <Lightbulb className="h-4 w-4 text-amber-600" aria-hidden="true" />
+              <span>{currentState.hintVisible ? "Hide Hint" : "Show Hint"}</span>
+            </button>
 
-              <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5">
-                <p className="text-xs font-semibold text-slate-600">Target Behaviour</p>
-                <p className="mt-0.5 font-mono text-xs text-slate-800">
-                  {activeLesson.expectedSummary}
-                </p>
+            {currentState.hintVisible && (
+              <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/70 p-4 text-sm leading-relaxed text-amber-950">
+                {activeLesson.hint}
               </div>
-            </div>
+            )}
+          </div>
+        </section>
 
-            <div className="mt-5 border-t border-slate-200 pt-4">
-              <button
-                type="button"
-                onClick={() =>
-                  onUpdateLesson(activeLesson.id, (prev) => ({
-                    ...prev,
-                    hintVisible: !prev.hintVisible,
-                  }))
-                }
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
-              >
-                <Lightbulb className="h-3.5 w-3.5 text-amber-600" aria-hidden="true" />
-                <span>{currentState.hintVisible ? "Hide Hint" : "Show Hint"}</span>
-              </button>
-
-              {currentState.hintVisible && (
-                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/70 p-3.5 text-xs leading-relaxed text-amber-950">
-                  {activeLesson.hint}
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-
-        {/* Underneath: Larger Python Sandbox, Controls & Console Output */}
+        {/* 3. Larger Python Sandbox, Controls & Console Output */}
         <section
           aria-label="Python Sandbox and Console Output"
-          className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 sm:p-6"
+          className="space-y-4 rounded-xl border border-slate-200 bg-white p-6"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <h4 className="text-base font-bold text-slate-900">Python Sandbox</h4>
-              <p className="text-xs text-slate-500">
+              <h4 className="text-lg font-bold text-slate-900">Python Sandbox</h4>
+              <p className="text-sm text-slate-600">
                 Write and test your code directly in the browser before moving to the next lesson.
               </p>
             </div>
             {currentState.passed && (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
                 <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                 <span>Lesson Completed</span>
               </span>
@@ -453,7 +448,7 @@ export function SelfStudyCourse({
               type="button"
               onClick={handleRunLesson}
               disabled={engineStatus !== "ready" || isRunning}
-              className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600 whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-5 py-2.5 text-base font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600 whitespace-nowrap shrink-0"
             >
               {engineStatus === "loading" || isRunning ? (
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -473,7 +468,7 @@ export function SelfStudyCourse({
               <button
                 type="button"
                 onClick={handleNextLesson}
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-base font-semibold text-white transition-colors hover:bg-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 whitespace-nowrap shrink-0"
               >
                 {isLastOverallLesson ? (
                   <>
@@ -493,25 +488,25 @@ export function SelfStudyCourse({
           {/* Console Output */}
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2.5">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
-                <Terminal className="h-3.5 w-3.5 text-slate-500" aria-hidden="true" />
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                <Terminal className="h-4 w-4 text-slate-500" aria-hidden="true" />
                 <span>Console Output</span>
               </div>
               {currentState.lastResult && !currentState.lastResult.errorType && (
-                <span className="text-xs text-slate-500">Executed in browser</span>
+                <span className="text-sm text-slate-500">Executed in browser</span>
               )}
             </div>
 
             <div className="p-4">
               {!currentState.lastResult ? (
-                <p className="font-mono text-xs text-slate-400">
+                <p className="font-mono text-sm text-slate-400">
                   Click &quot;Run &amp; Check Code&quot; to test your solution.
                 </p>
               ) : (
                 <div className="space-y-3">
                   <div>
-                    <p className="mb-1 text-xs font-medium text-slate-500">Printed Output (stdout)</p>
-                    <pre className="min-h-[64px] overflow-x-auto rounded-lg bg-slate-900 px-3.5 py-3 font-mono text-sm leading-relaxed text-slate-100">
+                    <p className="mb-1.5 text-sm font-medium text-slate-600">Printed Output (stdout)</p>
+                    <pre className="min-h-[64px] overflow-x-auto rounded-lg bg-slate-900 px-4 py-3 font-mono text-base leading-relaxed text-slate-100">
                       <code>
                         {currentState.lastResult.stdout.length > 0
                           ? currentState.lastResult.stdout
@@ -522,25 +517,25 @@ export function SelfStudyCourse({
 
                   {currentState.lastResult.returnValue !== null && (
                     <div>
-                      <p className="mb-1 text-xs font-medium text-slate-500">Return Value</p>
-                      <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2 font-mono text-xs text-slate-800">
+                      <p className="mb-1.5 text-sm font-medium text-slate-600">Return Value</p>
+                      <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 font-mono text-sm text-slate-800">
                         <code>{currentState.lastResult.returnValue}</code>
                       </pre>
                     </div>
                   )}
 
                   {currentState.lastResult.errorType && (
-                    <div className="space-y-2.5 rounded-lg border border-red-200 bg-red-50/70 p-3.5">
+                    <div className="space-y-2.5 rounded-lg border border-red-200 bg-red-50/70 p-4">
                       {currentState.lastResult.friendlyTip && (
-                        <div className="flex items-start gap-2">
-                          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-700" aria-hidden="true" />
-                          <p className="text-sm font-medium leading-relaxed text-red-950">
+                        <div className="flex items-start gap-2.5">
+                          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-700" aria-hidden="true" />
+                          <p className="text-base font-medium leading-relaxed text-red-950">
                             {currentState.lastResult.friendlyTip}
                           </p>
                         </div>
                       )}
                       {currentState.lastResult.traceback && (
-                        <pre className="overflow-x-auto rounded-md bg-slate-900 px-3 py-2.5 font-mono text-xs leading-relaxed text-red-300">
+                        <pre className="overflow-x-auto rounded-md bg-slate-900 px-3.5 py-3 font-mono text-sm leading-relaxed text-red-300">
                           <code>{currentState.lastResult.traceback}</code>
                         </pre>
                       )}
@@ -562,10 +557,10 @@ export function SelfStudyCourse({
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-semibold text-emerald-950">
+                    <p className="text-base font-semibold text-emerald-950">
                       Lesson Complete — All Checks Passed
                     </p>
-                    <p className="text-xs text-emerald-800">
+                    <p className="text-sm text-emerald-800">
                       Great work! Your code passed all WebAssembly checks.
                     </p>
                   </div>
@@ -574,10 +569,10 @@ export function SelfStudyCourse({
                 <button
                   type="button"
                   onClick={handleNextLesson}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-800 whitespace-nowrap shrink-0"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-800 whitespace-nowrap shrink-0"
                 >
                   <span>{isLastOverallLesson ? "Start Certification Exam" : "Next Lesson"}</span>
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             )}
@@ -587,10 +582,10 @@ export function SelfStudyCourse({
             !currentState.lastResult.testsPassed && (
               <div
                 role="status"
-                className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"
+                className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-950"
               >
-                <p className="font-semibold text-amber-900">Not quite there yet</p>
-                <p className="mt-0.5 text-xs leading-relaxed text-amber-900">
+                <p className="text-base font-semibold text-amber-900">Not quite there yet</p>
+                <p className="mt-1 text-sm leading-relaxed text-amber-900">
                   {currentState.lastResult.testMessage ||
                     "Check your logic against the target behaviour and try running again."}
                 </p>

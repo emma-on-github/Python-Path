@@ -121,7 +121,7 @@ export function CodeEditor({
       >
         <div
           aria-hidden="true"
-          className="select-none border-r border-slate-800 bg-slate-950/40 px-3 py-3.5 text-right font-mono text-xs leading-6 text-slate-500 tabular-nums"
+          className="select-none border-r border-slate-800 bg-slate-950/40 px-3.5 py-3.5 text-right font-mono text-sm leading-7 text-slate-500 tabular-nums"
         >
           {Array.from({ length: lineCount }, (_, i) => (
             <div key={i + 1}>{i + 1}</div>
@@ -140,7 +140,7 @@ export function CodeEditor({
           autoCorrect="off"
           aria-label="Python code editor"
           rows={Math.max(lineCount, minRows)}
-          className="code-editor w-full resize-none bg-transparent px-4 py-3.5 font-mono text-sm leading-6 text-slate-100 placeholder:text-slate-500 focus:outline-none"
+          className="code-editor w-full resize-none bg-transparent px-4 py-3.5 font-mono text-base leading-7 text-slate-100 placeholder:text-slate-500 focus:outline-none"
           placeholder="# Write your Python code here..."
         />
       </div>

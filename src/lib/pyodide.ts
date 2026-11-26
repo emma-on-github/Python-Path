@@ -81,6 +81,9 @@ export function getPlainEnglishErrorTip(errorType: string | null, traceback: str
 
   switch (errorType) {
     case "SyntaxError":
+      if (tb.includes("=>") || tb.includes("=<")) {
+        return "Syntax tip: In Python, write >= for greater-than-or-equal (not =>) and <= for less-than-or-equal (not =<).";
+      }
       if (tb.includes("':'") || tb.includes("expected ':'")) {
         return "Syntax tip: Lines starting with if, elif, else, for, while, def, class, try, except, or with need a colon (:) at the end.";
       }

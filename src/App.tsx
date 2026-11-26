@@ -109,7 +109,7 @@ export default function App() {
 
           <nav
             aria-label="Primary navigation"
-            className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600"
+            className="hidden md:flex items-center gap-6 text-base font-medium text-slate-600"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = activeView === item.id;
@@ -135,16 +135,16 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setActiveView("exam")}
-                className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
               >
-                <Award className="h-3.5 w-3.5" aria-hidden="true" />
+                <Award className="h-4 w-4" aria-hidden="true" />
                 <span>Certification Exam</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => setActiveView("course")}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
               >
                 <span>Back to Course</span>
               </button>
@@ -161,7 +161,7 @@ export default function App() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveView(item.id)}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold whitespace-nowrap shrink-0 ${
+                className={`rounded-md px-3 py-1.5 text-sm font-semibold whitespace-nowrap shrink-0 ${
                   isActive
                     ? "bg-sky-600 text-white"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -178,22 +178,22 @@ export default function App() {
         {/* WebAssembly Status Bar */}
         <div className="mb-4 flex flex-wrap items-center gap-3 print:hidden">
           {engineStatus === "loading" && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 whitespace-nowrap shrink-0">
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-sky-600" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 whitespace-nowrap shrink-0">
+              <Loader2 className="h-4 w-4 animate-spin text-sky-600" aria-hidden="true" />
               <span>Loading browser Python sandbox...</span>
             </span>
           )}
 
           {engineStatus === "ready" && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 whitespace-nowrap shrink-0">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 whitespace-nowrap shrink-0">
+              <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden="true" />
               <span>Python 3 WebAssembly ready</span>
             </span>
           )}
 
           {engineStatus === "error" && (
-            <span className="inline-flex items-center gap-2 text-xs font-medium text-red-700">
-              <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-red-700">
+              <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span>{engineError}</span>
               <button
                 type="button"
@@ -250,16 +250,16 @@ export default function App() {
           >
             <div className="mb-4 flex items-center gap-2.5 border-b border-slate-200 pb-4">
               <ShieldCheck className="h-5 w-5 text-emerald-700" aria-hidden="true" />
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-xl font-bold text-slate-900">
                 Zero-Storage UK GDPR Architecture
               </h2>
             </div>
 
-            <div className="space-y-3 text-sm leading-relaxed text-slate-700">
+            <div className="space-y-3 text-base leading-relaxed text-slate-700">
               <p>
                 Python Path is built to store zero personal data on any server or browser storage mechanism.
               </p>
-              <ul className="list-disc space-y-2 pl-5 text-sm text-slate-600">
+              <ul className="list-disc space-y-2.5 pl-5 text-base text-slate-600">
                 <li>
                   <strong>Temporary Page Memory Only:</strong> Your lesson progress, exam code, scores, and optional
                   learner name exist solely in active React page memory and clear immediately when the tab closes.
@@ -282,14 +282,14 @@ export default function App() {
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
           <div className="mb-3 flex items-start gap-2.5 border-b border-slate-100 pb-3">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" aria-hidden="true" />
-            <p className="text-xs leading-relaxed text-slate-600">
+            <p className="text-sm leading-relaxed text-slate-600">
               <strong className="font-semibold text-slate-900">Zero-Storage UK GDPR Privacy Notice:</strong> Python
               runs locally in your browser via WebAssembly. Lesson progress, exam answers, and optional learner names
               stay strictly in temporary page memory and are never saved to cookies, local storage, or any backend
               server.
             </p>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500">
             <span>Python Path · Created by Emma Hicks</span>
             <span>Client-Side Execution · Zero Backend User Storage</span>
           </div>

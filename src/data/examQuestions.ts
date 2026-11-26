@@ -14,297 +14,271 @@ export interface ExamQuestion {
 
 export const EXAM_QUESTIONS: ExamQuestion[] = [
   // =========================================================================
-  // Q1–Q5: BEGINNER BAND
+  // BEGINNER BAND
   // =========================================================================
   {
     id: 1,
     band: "Beginner",
-    topic: "Core Syntax & Strings",
-    title: "Format a Welcome Message",
+    topic: "Strings & f-strings",
+    title: "Format a Greeting",
     prompt:
-      'Write a function format_welcome(name, city) that returns the exact string "Welcome, <name> from <city>!".',
-    exampleSummary: 'format_welcome("Sam", "Leeds") -> "Welcome, Sam from Leeds!"',
-    starterCode: `def format_welcome(name, city):\n    # Return the formatted welcome string\n    pass\n`,
+      'Write a function greet(name) that returns the exact string "Hello, <name>!".',
+    exampleSummary: 'greet("Sam") -> "Hello, Sam!"',
+    starterCode: `def greet(name):\n    # Return "Hello, <name>!"\n    pass\n`,
     recommendedLessonId: "b3",
     hiddenTests: `
-assert callable(globals().get("format_welcome")), "Define function format_welcome(name, city)."
-assert format_welcome("Sam", "Leeds") == "Welcome, Sam from Leeds!", "Check exact punctuation and spacing."
-assert format_welcome("Ada", "York") == "Welcome, Ada from York!", "Function must work for any inputs."
+assert callable(globals().get("greet")), "Define function greet(name)."
+assert greet("Sam") == "Hello, Sam!", "Check exact punctuation and spacing."
+assert greet("Ada") == "Hello, Ada!", "Function must work for any name."
 `,
   },
   {
     id: 2,
     band: "Beginner",
     topic: "Conditionals",
-    title: "Classify Temperature",
+    title: "Pass or Retry Check",
     prompt:
-      'Write a function classify_temp(c) that returns "Hot" if c >= 25, "Mild" if 15 <= c < 25, and "Cold" if c < 15.',
-    exampleSummary: 'classify_temp(28) -> "Hot", classify_temp(18) -> "Mild", classify_temp(8) -> "Cold"',
-    starterCode: `def classify_temp(c):\n    # Return "Hot", "Mild", or "Cold"\n    pass\n`,
+      'Write a function check_pass(score) that returns "Pass" if score >= 50, and "Retry" otherwise.',
+    exampleSummary: 'check_pass(65) -> "Pass", check_pass(40) -> "Retry"',
+    starterCode: `def check_pass(score):\n    # Return "Pass" if score >= 50 else "Retry"\n    pass\n`,
     recommendedLessonId: "b5",
     hiddenTests: `
-assert callable(globals().get("classify_temp")), "Define function classify_temp(c)."
-assert classify_temp(25) == "Hot", "25 should return 'Hot'."
-assert classify_temp(30) == "Hot", "30 should return 'Hot'."
-assert classify_temp(24) == "Mild", "24 should return 'Mild'."
-assert classify_temp(15) == "Mild", "15 should return 'Mild'."
-assert classify_temp(14) == "Cold", "14 should return 'Cold'."
+assert callable(globals().get("check_pass")), "Define function check_pass(score)."
+assert check_pass(50) == "Pass", "50 should return 'Pass'."
+assert check_pass(80) == "Pass", "80 should return 'Pass'."
+assert check_pass(49) == "Retry", "49 should return 'Retry'."
 `,
   },
   {
     id: 3,
     band: "Beginner",
-    topic: "Loops & Filtering",
-    title: "Sum Even Numbers",
+    topic: "Loops & Functions",
+    title: "Sum a List of Numbers",
     prompt:
-      "Write a function sum_evens(nums) that loops through a list of integers and returns the sum of all even numbers.",
-    exampleSummary: "sum_evens([1, 2, 3, 4, 6]) -> 12",
-    starterCode: `def sum_evens(nums):\n    # Return the sum of even numbers in nums\n    pass\n`,
+      "Write a function sum_all(nums) that loops through the list nums and returns the total sum.",
+    exampleSummary: "sum_all([2, 4, 6]) -> 12",
+    starterCode: `def sum_all(nums):\n    total = 0\n    # Loop through nums and return total\n    return total\n`,
     recommendedLessonId: "b6",
     hiddenTests: `
-assert callable(globals().get("sum_evens")), "Define function sum_evens(nums)."
-assert sum_evens([1, 2, 3, 4, 6]) == 12, "sum_evens([1, 2, 3, 4, 6]) should return 12."
-assert sum_evens([1, 3, 5]) == 0, "Odd-only list should return 0."
-assert sum_evens([0, -2, 8]) == 6, "Should handle zero and negative even integers."
+assert callable(globals().get("sum_all")), "Define function sum_all(nums)."
+assert sum_all([2, 4, 6]) == 12, "sum_all([2, 4, 6]) should return 12."
+assert sum_all([10, 5]) == 15, "sum_all([10, 5]) should return 15."
+assert sum_all([]) == 0, "Empty list should return 0."
 `,
   },
   {
     id: 4,
     band: "Beginner",
     topic: "Lists & Indexing",
-    title: "First and Last Elements",
+    title: "First Item in a List",
     prompt:
-      "Write a function edge_items(items) that returns a 2-item list [first, last] from a non-empty list.",
-    exampleSummary: 'edge_items(["a", "b", "c"]) -> ["a", "c"]',
-    starterCode: `def edge_items(items):\n    # Return [first_item, last_item]\n    pass\n`,
+      "Write a function get_first(items) that returns the first element of a non-empty list.",
+    exampleSummary: 'get_first(["red", "blue", "green"]) -> "red"',
+    starterCode: `def get_first(items):\n    # Return the first item in items\n    pass\n`,
     recommendedLessonId: "b4",
     hiddenTests: `
-assert callable(globals().get("edge_items")), "Define function edge_items(items)."
-assert edge_items(["a", "b", "c"]) == ["a", "c"], "Should return ['a', 'c']."
-assert edge_items([42]) == [42, 42], "Single-item list should return [42, 42]."
-assert edge_items([10, 20, 30, 40]) == [10, 40], "Should return [10, 40]."
+assert callable(globals().get("get_first")), "Define function get_first(items)."
+assert get_first(["red", "blue", "green"]) == "red", "Should return 'red'."
+assert get_first([42]) == 42, "Should return 42."
 `,
   },
   {
     id: 5,
     band: "Beginner",
-    topic: "Basic Functions",
-    title: "Count Vowels",
+    topic: "Loops & Strings",
+    title: "Count the Letter 'a'",
     prompt:
-      'Write a function count_vowels(text) that returns the total number of vowels (a, e, i, o, u — upper or lower case) in text.',
-    exampleSummary: 'count_vowels("Python Path") -> 2',
-    starterCode: `def count_vowels(text):\n    # Return vowel count in text\n    pass\n`,
+      "Write a function count_a(text) that returns how many times the lowercase letter 'a' appears in text.",
+    exampleSummary: 'count_a("banana") -> 3',
+    starterCode: `def count_a(text):\n    # Count how many 'a' characters are in text\n    pass\n`,
     recommendedLessonId: "b6",
     hiddenTests: `
-assert callable(globals().get("count_vowels")), "Define function count_vowels(text)."
-assert count_vowels("Python Path") == 2, "'Python Path' has 2 vowels."
-assert count_vowels("AEIOUaeiou") == 10, "Should count both uppercase and lowercase vowels."
-assert count_vowels("rhythm") == 0, "Should return 0 when no vowels exist."
+assert callable(globals().get("count_a")), "Define function count_a(text)."
+assert count_a("banana") == 3, "'banana' contains 3 'a' characters."
+assert count_a("apple") == 1, "'apple' contains 1 'a'."
+assert count_a("python") == 0, "'python' contains 0 'a' characters."
 `,
   },
 
   // =========================================================================
-  // Q6–Q10: INTERMEDIATE BAND
+  // INTERMEDIATE BAND
   // =========================================================================
   {
     id: 6,
     band: "Intermediate",
     topic: "List Comprehensions",
-    title: "Squares of Odd Numbers",
+    title: "Double All Numbers",
     prompt:
-      "Write a function odd_squares(nums) that returns a list containing the square (n ** 2) of each odd number in nums, preserving order.",
-    exampleSummary: "odd_squares([1, 2, 3, 4, 5]) -> [1, 9, 25]",
-    starterCode: `def odd_squares(nums):\n    # Return squares of odd numbers\n    pass\n`,
+      "Write a function double_all(nums) that uses a list comprehension to return a new list with every number multiplied by 2.",
+    exampleSummary: "double_all([1, 2, 3]) -> [2, 4, 6]",
+    starterCode: `def double_all(nums):\n    # Return doubled list\n    pass\n`,
     recommendedLessonId: "i1",
     hiddenTests: `
-assert callable(globals().get("odd_squares")), "Define function odd_squares(nums)."
-assert odd_squares([1, 2, 3, 4, 5]) == [1, 9, 25], "Expected [1, 9, 25]."
-assert odd_squares([2, 4, 6]) == [], "Even-only list should return []."
-assert odd_squares([-3, 0, 7]) == [9, 49], "Should handle negative odd numbers."
+assert callable(globals().get("double_all")), "Define function double_all(nums)."
+assert double_all([1, 2, 3]) == [2, 4, 6], "Expected [2, 4, 6]."
+assert double_all([]) == [], "Empty list should return []."
 `,
   },
   {
     id: 7,
     band: "Intermediate",
     topic: "Dictionaries & Sets",
-    title: "Common Unique Elements",
+    title: "Unique Sorted Items",
     prompt:
-      "Write a function common_sorted(list_a, list_b) that returns a sorted list of unique values appearing in both lists.",
-    exampleSummary: "common_sorted([3, 1, 2, 2], [2, 3, 4]) -> [2, 3]",
-    starterCode: `def common_sorted(list_a, list_b):\n    # Return sorted unique items present in both lists\n    pass\n`,
+      "Write a function unique_sorted(items) that removes duplicates from items and returns a sorted list.",
+    exampleSummary: "unique_sorted([3, 1, 2, 2, 3]) -> [1, 2, 3]",
+    starterCode: `def unique_sorted(items):\n    # Return a sorted list of unique items\n    pass\n`,
     recommendedLessonId: "i2",
     hiddenTests: `
-assert callable(globals().get("common_sorted")), "Define function common_sorted(list_a, list_b)."
-assert common_sorted([3, 1, 2, 2], [2, 3, 4]) == [2, 3], "Expected [2, 3]."
-assert common_sorted([1, 2], [3, 4]) == [], "Disjoint lists should return []."
-assert common_sorted(["b", "a", "b"], ["a", "c", "b"]) == ["a", "b"], "Should work with strings too."
+assert callable(globals().get("unique_sorted")), "Define function unique_sorted(items)."
+assert unique_sorted([3, 1, 2, 2, 3]) == [1, 2, 3], "Expected [1, 2, 3]."
+assert unique_sorted(["b", "a", "b"]) == ["a", "b"], "Should work with strings too."
+assert unique_sorted([]) == [], "Empty list should return []."
 `,
   },
   {
     id: 8,
     band: "Intermediate",
     topic: "Error Handling (try / except)",
-    title: "Safe Percentage Calculator",
+    title: "Safe Division",
     prompt:
-      "Write a function safe_percent(part, total) that returns round((part / total) * 100, 1). If total is 0 or an invalid type causes an error, return 0.0.",
-    exampleSummary: 'safe_percent(1, 4) -> 25.0, safe_percent(5, 0) -> 0.0, safe_percent("x", 10) -> 0.0',
-    starterCode: `def safe_percent(part, total):\n    # Return rounded percentage or 0.0 on error\n    pass\n`,
+      "Write a function safe_divide(a, b) that returns a / b, or 0 if b is 0 (using try / except ZeroDivisionError).",
+    exampleSummary: "safe_divide(10, 2) -> 5.0, safe_divide(10, 0) -> 0",
+    starterCode: `def safe_divide(a, b):\n    # Return a / b or 0 on ZeroDivisionError\n    pass\n`,
     recommendedLessonId: "i3",
     hiddenTests: `
-assert callable(globals().get("safe_percent")), "Define function safe_percent(part, total)."
-assert safe_percent(1, 4) == 25.0, "safe_percent(1, 4) should be 25.0."
-assert safe_percent(1, 3) == 33.3, "safe_percent(1, 3) should round to 33.3."
-assert safe_percent(5, 0) == 0.0, "Zero total should return 0.0."
-assert safe_percent("x", 10) == 0.0, "Invalid type should return 0.0."
+assert callable(globals().get("safe_divide")), "Define function safe_divide(a, b)."
+assert safe_divide(10, 2) == 5.0, "safe_divide(10, 2) should return 5.0."
+assert safe_divide(5, 0) == 0, "Zero divisor should return 0."
 `,
   },
   {
     id: 9,
     band: "Intermediate",
     topic: "OOP Classes",
-    title: "BankAccount Class",
+    title: "Simple Score Class",
     prompt:
-      "Build a BankAccount class initialised with balance=0. Implement deposit(amount) (adds to balance) and withdraw(amount) (subtracts and returns True if balance >= amount, otherwise leaves balance unchanged and returns False).",
-    exampleSummary: "acc = BankAccount(50); acc.withdraw(30) -> True (balance 20); acc.withdraw(40) -> False (balance 20)",
-    starterCode: `class BankAccount:\n    def __init__(self, balance=0):\n        # Initialise self.balance\n        pass\n\n    def deposit(self, amount):\n        pass\n\n    def withdraw(self, amount):\n        pass\n`,
+      "Complete the Score class so __init__(self) sets self.points = 0 and add(self, amount) adds amount to self.points.",
+    exampleSummary: "s = Score(); s.add(5); s.points -> 5",
+    starterCode: `class Score:\n    def __init__(self):\n        # Set self.points = 0\n        pass\n\n    def add(self, amount):\n        # Add amount to self.points\n        pass\n`,
     recommendedLessonId: "i4",
     hiddenTests: `
-assert "BankAccount" in globals(), "Define class BankAccount."
-acc = BankAccount(50)
-assert acc.balance == 50, "Initial balance should be 50."
-acc.deposit(25)
-assert acc.balance == 75, "Balance after deposit(25) should be 75."
-assert acc.withdraw(30) is True and acc.balance == 45, "Valid withdrawal should return True and deduct balance."
-assert acc.withdraw(100) is False and acc.balance == 45, "Overdraft must return False and keep balance unchanged."
-default_acc = BankAccount()
-assert default_acc.balance == 0, "Default balance should be 0."
+assert "Score" in globals(), "Define class Score."
+s = Score()
+assert s.points == 0, "Initial points should be 0."
+s.add(5)
+s.add(3)
+assert s.points == 8, "After adding 5 and 3, points should be 8."
 `,
   },
   {
     id: 10,
     band: "Intermediate",
-    topic: "JSON & Collections",
-    title: "Most Frequent Tag from JSON",
+    topic: "JSON & Dictionaries",
+    title: "Read a Name from JSON",
     prompt:
-      "Write a function top_tag(json_str) that parses a JSON string containing a list of string tags and returns the most frequent tag (or None if the list is empty).",
-    exampleSummary: 'top_tag(\'["api", "db", "api"]\') -> "api"',
-    starterCode: `import json\nfrom collections import Counter\n\ndef top_tag(json_str):\n    # Parse JSON and return the most common tag\n    pass\n`,
-    recommendedLessonId: "i6",
+      'Write a function read_name(json_str) that parses a JSON string (e.g. \'{"name": "Ada"}\') using json.loads() and returns the value of "name".',
+    exampleSummary: 'read_name(\'{"name": "Ada"}\') -> "Ada"',
+    starterCode: `import json\n\ndef read_name(json_str):\n    # Parse json_str and return the "name" value\n    pass\n`,
+    recommendedLessonId: "i5",
     hiddenTests: `
-assert callable(globals().get("top_tag")), "Define function top_tag(json_str)."
-assert top_tag('["api", "db", "api", "web"]') == "api", "Expected 'api'."
-assert top_tag('["ml"]') == "ml", "Single-item list should return 'ml'."
-assert top_tag("[]") is None, "Empty list should return None."
+assert callable(globals().get("read_name")), "Define function read_name(json_str)."
+assert read_name('{"name": "Ada"}') == "Ada", "Expected 'Ada'."
+assert read_name('{"name": "Sam", "age": 25}') == "Sam", "Expected 'Sam'."
 `,
   },
 
   // =========================================================================
-  // Q11–Q15: ADVANCED BAND
+  // ADVANCED BAND
   // =========================================================================
   {
     id: 11,
     band: "Advanced",
     topic: "Decorators",
-    title: "Prefix Return Value Decorator",
+    title: "Uppercase Return Decorator",
     prompt:
-      'Write a decorator tag_ok(fn) that calls fn(*args, **kwargs) and returns the string f"OK: {result}".',
-    exampleSummary: '@tag_ok def greet(n): return f"Hi {n}" -> greet("Ada") == "OK: Hi Ada"',
-    starterCode: `def tag_ok(fn):\n    # Implement wrapper(*args, **kwargs)\n    pass\n`,
+      "Complete the decorator make_upper(fn) so its wrapper calls fn(*args, **kwargs) and returns the string result converted to .upper().",
+    exampleSummary: '@make_upper def greet(n): return f"Hi {n}" -> greet("Ada") == "HI ADA"',
+    starterCode: `def make_upper(fn):\n    def wrapper(*args, **kwargs):\n        # Call fn(*args, **kwargs) and return .upper()\n        pass\n    return wrapper\n`,
     recommendedLessonId: "a1",
     hiddenTests: `
-assert callable(globals().get("tag_ok")), "Define decorator tag_ok(fn)."
-@tag_ok
-def _g(name, punctuation="!"):
-    return f"Hi {name}{punctuation}"
-assert _g("Ada") == "OK: Hi Ada!", "Decorated call should prepend 'OK: '."
-assert _g("Sam", punctuation=".") == "OK: Hi Sam.", "Decorator must forward **kwargs."
+assert callable(globals().get("make_upper")), "Define decorator make_upper(fn)."
+@make_upper
+def _g(name):
+    return f"Hi {name}"
+assert _g("Ada") == "HI ADA", "Decorated call should return 'HI ADA'."
 `,
   },
   {
     id: 12,
     band: "Advanced",
     topic: "Generators (yield)",
-    title: "Fibonacci Generator",
+    title: "Count Up Generator",
     prompt:
-      "Write a generator function fib_gen(count) that yields the first `count` numbers of the Fibonacci sequence starting with 0, 1, 1, 2, 3...",
-    exampleSummary: "list(fib_gen(6)) -> [0, 1, 1, 2, 3, 5]",
-    starterCode: `def fib_gen(count):\n    # Yield the first count Fibonacci numbers\n    pass\n`,
+      "Write a generator function count_up(n) that yields the integers from 1 up to n (inclusive).",
+    exampleSummary: "list(count_up(4)) -> [1, 2, 3, 4]",
+    starterCode: `def count_up(n):\n    # Use yield inside a loop from 1 to n\n    pass\n`,
     recommendedLessonId: "a2",
     hiddenTests: `
 import types
-assert callable(globals().get("fib_gen")), "Define generator function fib_gen(count)."
-gen = fib_gen(6)
-assert isinstance(gen, types.GeneratorType), "fib_gen must use yield and return a generator."
-assert list(gen) == [0, 1, 1, 2, 3, 5], "First 6 Fibonacci numbers are [0, 1, 1, 2, 3, 5]."
-assert list(fib_gen(1)) == [0], "fib_gen(1) should yield [0]."
-assert list(fib_gen(0)) == [], "fib_gen(0) should yield []."
+assert callable(globals().get("count_up")), "Define generator function count_up(n)."
+gen = count_up(4)
+assert isinstance(gen, types.GeneratorType), "count_up must use yield and return a generator."
+assert list(gen) == [1, 2, 3, 4], "Expected [1, 2, 3, 4]."
+assert list(count_up(0)) == [], "count_up(0) should yield []."
 `,
   },
   {
     id: 13,
     band: "Advanced",
     topic: "Context Managers",
-    title: "ListAppender Context Manager",
+    title: "Tracker Context Manager",
     prompt:
-      'Create a context manager class ListAppender(target, start_msg, end_msg) that appends start_msg to target on __enter__ (returning target) and appends end_msg to target on __exit__.',
-    exampleSummary: 'with ListAppender(log, "start", "done") as lst: lst.append("step") -> ["start", "step", "done"]',
-    starterCode: `class ListAppender:\n    def __init__(self, target, start_msg, end_msg):\n        self.target = target\n        self.start_msg = start_msg\n        self.end_msg = end_msg\n\n    # Implement __enter__ and __exit__\n`,
+      'Complete Tracker so __enter__ appends "open" to self.log and returns self, and __exit__ appends "close" to self.log and returns False.',
+    exampleSummary: 'with Tracker(log): log.append("work") -> ["open", "work", "close"]',
+    starterCode: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        # Append "open" and return self\n        pass\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Append "close" and return False\n        pass\n`,
     recommendedLessonId: "a3",
     hiddenTests: `
-assert "ListAppender" in globals(), "Define class ListAppender."
+assert "Tracker" in globals(), "Define class Tracker."
 log = []
-with ListAppender(log, "start", "done") as lst:
-    assert lst is log, "__enter__ should return target list."
-    lst.append("step")
-assert log == ["start", "step", "done"], f"Expected ['start', 'step', 'done'], got {log}."
-log2 = []
-try:
-    with ListAppender(log2, "begin", "cleanup"):
-        raise ValueError("fail")
-except ValueError:
-    pass
-assert log2 == ["begin", "cleanup"], "__exit__ must run even when an exception occurs."
+with Tracker(log):
+    log.append("work")
+assert log == ["open", "work", "close"], f"Expected ['open', 'work', 'close'], got {log}."
 `,
   },
   {
     id: 14,
     band: "Advanced",
-    topic: "Custom Iterators & Dataclasses",
-    title: "Dataclass & Step Range Iterator",
+    topic: "Dataclasses",
+    title: "Book Dataclass",
     prompt:
-      "Create a @dataclass named Task(title: str, priority: int = 1) AND a custom iterator class StepRange(start, stop, step) implementing __iter__ and __next__ that yields integers from start up to (but excluding) stop by step.",
-    exampleSummary: 'Task("Test").priority == 1; list(StepRange(1, 7, 2)) -> [1, 3, 5]',
-    starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Task:\n    # title: str and priority: int = 1\n    pass\n\nclass StepRange:\n    def __init__(self, start, stop, step=1):\n        self.current = start\n        self.stop = stop\n        self.step = step\n\n    # Implement __iter__ and __next__\n`,
-    recommendedLessonId: "a4",
+      "Complete the @dataclass named Book with fields title: str and pages: int = 100.",
+    exampleSummary: 'Book("Python").pages == 100',
+    starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    # Add title: str and pages: int = 100\n    pass\n`,
+    recommendedLessonId: "a5",
     hiddenTests: `
 from dataclasses import is_dataclass
-assert "Task" in globals() and is_dataclass(Task), "Task must be a @dataclass."
-t1 = Task("Deploy")
-t2 = Task("Deploy", 1)
-assert t1 == t2 and t1.priority == 1, "Task should default priority to 1 and support dataclass equality."
-assert "StepRange" in globals(), "Define custom iterator class StepRange."
-assert list(StepRange(1, 7, 2)) == [1, 3, 5], "list(StepRange(1, 7, 2)) should equal [1, 3, 5]."
-assert list(StepRange(5, 5, 1)) == [], "StepRange(5, 5, 1) should be empty."
+assert "Book" in globals() and is_dataclass(Book), "Book must be a @dataclass."
+b1 = Book("Python")
+b2 = Book("Python", 100)
+assert b1 == b2 and b1.pages == 100, "Book should default pages to 100 and support dataclass equality."
 `,
   },
   {
     id: 15,
     band: "Advanced",
     topic: "Algorithmic Problem-Solving",
-    title: "Balanced Brackets Validator",
+    title: "Duplicate Checker",
     prompt:
-      'Write a function is_balanced(text) that returns True if all brackets (), [], and {} in text are properly opened and closed in the correct nested order, and False otherwise.',
-    exampleSummary: 'is_balanced("([{}])") -> True, is_balanced("([)]") -> False',
-    starterCode: `def is_balanced(text):\n    # Use a stack list to validate brackets (), [], {}\n    pass\n`,
+      "Write a function has_duplicate(items) that returns True if any item appears more than once in items, and False otherwise.",
+    exampleSummary: "has_duplicate([1, 2, 2]) -> True, has_duplicate([1, 2, 3]) -> False",
+    starterCode: `def has_duplicate(items):\n    # Return True if items contains duplicates, else False\n    pass\n`,
     recommendedLessonId: "a6",
     hiddenTests: `
-assert callable(globals().get("is_balanced")), "Define function is_balanced(text)."
-assert is_balanced("([{}])") is True, "'([{}])' is balanced."
-assert is_balanced("a + (b * [c - {d}])") is True, "Should ignore non-bracket characters."
-assert is_balanced("([)]") is False, "'([)]' is improperly nested."
-assert is_balanced("(((") is False, "Unclosed brackets must return False."
-assert is_balanced("]") is False, "Unmatched closing bracket must return False."
-assert is_balanced("") is True, "Empty string is balanced."
+assert callable(globals().get("has_duplicate")), "Define function has_duplicate(items)."
+assert has_duplicate([1, 2, 2]) is True, "[1, 2, 2] has a duplicate."
+assert has_duplicate([1, 2, 3]) is False, "[1, 2, 3] has no duplicates."
+assert has_duplicate([]) is False, "Empty list has no duplicates."
 `,
   },
 ];
