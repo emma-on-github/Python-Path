@@ -18,3 +18,14 @@
     font-family: var(--font-mono);
   }
 }
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 10mm;
+  }
+
+  body {
+    background-color: #ffffff;
+  }
+}

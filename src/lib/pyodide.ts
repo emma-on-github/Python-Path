@@ -4,8 +4,8 @@ export interface PythonExecutionResult {
   errorType: string | null;
   traceback: string | null;
   friendlyTip: string | null;
-  extraCheckPassed: boolean;
-  extraCheckMessage: string | null;
+  testsPassed: boolean;
+  testMessage: string | null;
 }
 
 interface PyodideInterface {
@@ -82,47 +82,49 @@ export function getPlainEnglishErrorTip(errorType: string | null, traceback: str
   switch (errorType) {
     case "SyntaxError":
       if (tb.includes("':'") || tb.includes("expected ':'")) {
-        return "Syntax tip: Lines starting with if, else, for, or def need a colon (:) at the very end of the line.";
+        return "Syntax tip: Lines starting with if, elif, else, for, while, def, class, try, except, or with need a colon (:) at the end.";
       }
       if (tb.includes("unterminated string") || tb.includes("EOL")) {
-        return "Syntax tip: It looks like a quote mark is missing! Make sure text has matching quotes at both the start and end.";
+        return "Syntax tip: A quote mark appears to be missing. Ensure strings have matching quotes at both ends.";
       }
-      return "Syntax tip: Python couldn't read the punctuation or structure on one line. Check for missing quotes, brackets, parentheses, or colons (:).";
+      return "Syntax tip: Python could not parse a line. Check for missing quotes, brackets, parentheses, or colons (:).";
 
     case "IndentationError":
-      return "Indentation tip: Python uses 4 spaces to group code inside if, else, for, or def blocks. Make sure lines inside a block line up cleanly.";
+      return "Indentation tip: Python uses 4 spaces to group code inside blocks (if, for, def, class, with). Ensure lines inside a block align cleanly.";
 
     case "NameError": {
       const match = tb.match(/name '([^']+)' is not defined/);
       const missingName = match?.[1];
       if (missingName) {
-        return `Name tip: Python doesn't recognise "${missingName}" yet. Check your spelling/capitalisation, or put quotes around it if you meant plain text.`;
+        return `Name tip: Python does not recognise "${missingName}" yet. Check spelling and capitalisation, or add quotes if you meant plain text.`;
       }
-      return "Name tip: Python found a word it doesn't recognise. Check variable spelling, capitalisation, or add quotes around plain text.";
+      return "Name tip: Python found an unrecognised name. Check variable/function spelling, or add quotes around plain text.";
     }
 
     case "TypeError":
-      return "Type tip: You tried to combine incompatible data types (like adding a number directly to text). Try an f-string or str() to mix text and numbers.";
+      return "Type tip: Incompatible data types were combined or wrong arguments were passed. Check function parameters or use an f-string / str().";
 
     case "IndexError":
-      return "Index tip: You tried to access a list position that doesn't exist. Remember Python list positions start counting at 0.";
+      return "Index tip: You tried to access a list position that does not exist. Remember Python lists start at index 0.";
 
     case "KeyError":
-      return "Key tip: That dictionary key wasn't found. Double-check the exact spelling and quotes of the key name.";
+      return "Key tip: That dictionary key was not found. Double-check the exact spelling and quotes of the key, or use .get().";
+
+    case "ZeroDivisionError":
+      return "Maths tip: Division by zero is not allowed in Python. Guard against zero or catch ZeroDivisionError with try/except.";
 
     default:
-      return `${errorType} tip: Read the last line of the error message below and double-check your variable names and punctuation.`;
+      return `${errorType} tip: Check the final line of the traceback below for the exact cause and line number.`;
   }
+}
+
+export interface RunPythonOptions {
+  hiddenTests?: string;
 }
 
 export async function runPythonCode(
   userCode: string,
-  requiredSymbols?: {
-    variableName?: string;
-    functionName?: string;
-    functionCallCheck?: string;
-    friendlyMissingMessage?: string;
-  }
+  options?: RunPythonOptions
 ): Promise<PythonExecutionResult> {
   const pyodide = await getPyodide();
 
@@ -133,7 +135,7 @@ import ast
 import json
 import traceback
 
-def __run_sandbox__(code_str, req_var, req_func, req_call):
+def __run_sandbox__(code_str, hidden_tests_str):
     stdout_buf = io.StringIO()
     old_stdout = sys.stdout
     old_stderr = sys.stderr
@@ -144,7 +146,8 @@ def __run_sandbox__(code_str, req_var, req_func, req_call):
     return_val = None
     error_type = None
     tb_text = None
-    extra_ok = True
+    tests_passed = True
+    test_message = None
 
     try:
         tree = ast.parse(code_str, filename="<sandbox>", mode="exec")
@@ -160,43 +163,51 @@ def __run_sandbox__(code_str, req_var, req_func, req_call):
             val = eval(compile(last_expr, "<sandbox>", "eval"), ns)
             if val is not None:
                 return_val = repr(val)
-
-        if req_var and req_var not in ns:
-            extra_ok = False
-        if req_func and (req_func not in ns or not callable(ns[req_func])):
-            extra_ok = False
-        if extra_ok and req_call:
-            try:
-                if not bool(eval(req_call, ns)):
-                    extra_ok = False
-            except Exception:
-                extra_ok = False
     except Exception as exc:
         error_type = type(exc).__name__
         tb_lines = traceback.format_exception(type(exc), exc, exc.__traceback__)
         filtered = [line for line in tb_lines if "__run_sandbox__" not in line]
         tb_text = "".join(filtered).strip()
+        tests_passed = False
     finally:
+        captured_stdout = stdout_buf.getvalue()
         sys.stdout = old_stdout
         sys.stderr = old_stderr
 
+    if error_type is None and hidden_tests_str:
+        test_buf = io.StringIO()
+        sys.stdout = test_buf
+        sys.stderr = test_buf
+        try:
+            ns["__captured_stdout__"] = captured_stdout
+            exec(compile(hidden_tests_str, "<tests>", "exec"), ns)
+        except AssertionError as ae:
+            tests_passed = False
+            msg = str(ae).strip()
+            test_message = msg if msg else "Your code ran without errors, but did not pass all automated checks."
+        except Exception as exc:
+            tests_passed = False
+            test_message = f"Test check failed ({type(exc).__name__}: {exc}). Ensure the required function, class, or variable name matches the prompt."
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
+
     return json.dumps({
-        "stdout": stdout_buf.getvalue(),
+        "stdout": captured_stdout,
         "returnValue": return_val,
         "errorType": error_type,
         "traceback": tb_text,
-        "extraOk": extra_ok,
+        "testsPassed": tests_passed,
+        "testMessage": test_message,
     })
 `;
 
   await pyodide.runPythonAsync(runnerPython);
   pyodide.globals.set("__user_code__", userCode);
-  pyodide.globals.set("__req_var__", requiredSymbols?.variableName ?? "");
-  pyodide.globals.set("__req_func__", requiredSymbols?.functionName ?? "");
-  pyodide.globals.set("__req_call__", requiredSymbols?.functionCallCheck ?? "");
+  pyodide.globals.set("__hidden_tests__", options?.hiddenTests ?? "");
 
   const rawJson = (await pyodide.runPythonAsync(
-    `__run_sandbox__(__user_code__, __req_var__, __req_func__, __req_call__)`
+    `__run_sandbox__(__user_code__, __hidden_tests__)`
   )) as string;
 
   const parsed = JSON.parse(rawJson) as {
@@ -204,7 +215,8 @@ def __run_sandbox__(code_str, req_var, req_func, req_call):
     returnValue: string | null;
     errorType: string | null;
     traceback: string | null;
-    extraOk: boolean;
+    testsPassed: boolean;
+    testMessage: string | null;
   };
 
   return {
@@ -213,7 +225,7 @@ def __run_sandbox__(code_str, req_var, req_func, req_call):
     errorType: parsed.errorType,
     traceback: parsed.traceback,
     friendlyTip: getPlainEnglishErrorTip(parsed.errorType, parsed.traceback),
-    extraCheckPassed: parsed.extraOk,
-    extraCheckMessage: parsed.extraOk ? null : (requiredSymbols?.friendlyMissingMessage ?? null),
+    testsPassed: parsed.testsPassed,
+    testMessage: parsed.testMessage,
   };
 }

@@ -1,37 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Award, Download, Loader2, ShieldCheck } from "lucide-react";
-import { downloadCertificatePdf } from "../lib/certificate";
+import { Award, Download, Loader2, Printer } from "lucide-react";
+import { ExamBand } from "../data/examQuestions";
+import {
+  downloadCertificatePdf,
+  getCompetencyLines,
+  getCompetencyParagraph,
+} from "../lib/certificate";
 
 interface CertificateCardProps {
-  ukDate: string;
-  credentialId: string;
-  onBackToChallenges: () => void;
+  awardedLevel: ExamBand;
+  recipientName: string;
+  onRecipientNameChange: (name: string) => void;
+  completionDate: string;
+  certificateId: string;
 }
 
-const CORE_SKILLS = [
-  "Print Output & Variables",
-  "Strings",
-  "Lists & Indexing",
-  "len()",
-  "if / else Conditionals",
-  "for Loops & Filtering",
-  "Dictionaries",
-  "Functions",
-];
-
 interface CertificateCanvasProps {
-  learnerName: string;
-  ukDate: string;
-  credentialId: string;
+  recipientName: string;
+  awardedLevel: ExamBand;
+  completionDate: string;
+  certificateId: string;
 }
 
 function CertificateCanvas({
-  learnerName,
-  ukDate,
-  credentialId,
+  recipientName,
+  awardedLevel,
+  completionDate,
+  certificateId,
 }: CertificateCanvasProps) {
-  const displayName = learnerName.trim() || "Your Full Name";
-  const isPlaceholder = learnerName.trim().length === 0;
+  const displayName = recipientName.trim() || "Your Full Name";
+  const isPlaceholder = recipientName.trim().length === 0;
+  const [line1, line2] = getCompetencyLines(awardedLevel);
 
   return (
     <div
@@ -63,7 +62,7 @@ function CertificateCanvas({
             width: "100%",
             height: "100%",
             border: "1.5px solid #d97706",
-            padding: "40px 54px 36px 54px",
+            padding: "40px 54px 26px 54px",
             boxSizing: "border-box",
             position: "relative",
             display: "flex",
@@ -75,7 +74,7 @@ function CertificateCanvas({
           <div
             style={{
               position: "absolute",
-              top: "28px",
+              top: "26px",
               right: "34px",
               width: "106px",
               height: "106px",
@@ -117,15 +116,16 @@ function CertificateCanvas({
               </span>
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   fontWeight: 700,
                   letterSpacing: "0.04em",
                   color: "#ffffff",
                   marginTop: "2px",
                   lineHeight: 1.2,
+                  textTransform: "uppercase",
                 }}
               >
-                10/10 PASSED
+                {awardedLevel}
               </span>
             </div>
           </div>
@@ -134,15 +134,15 @@ function CertificateCanvas({
           <div style={{ textAlign: "center", paddingRight: "88px", paddingLeft: "88px" }}>
             <p
               style={{
-                fontSize: "15px",
+                fontSize: "14.5px",
                 fontWeight: 700,
-                letterSpacing: "0.1em",
+                letterSpacing: "0.09em",
                 textTransform: "uppercase",
                 color: "#1e3a8a",
                 margin: 0,
               }}
             >
-              Python Path · Python Foundations Assessment
+              Python Path — {awardedLevel} Python Certificate
             </p>
 
             <h3
@@ -156,7 +156,7 @@ function CertificateCanvas({
                 letterSpacing: "-0.01em",
               }}
             >
-              Certificate of Achievement
+              Certificate of Completion
             </h3>
 
             <p
@@ -167,12 +167,12 @@ function CertificateCanvas({
                 fontWeight: 500,
               }}
             >
-              This credential is proudly presented to
+              This certificate is proudly presented to
             </p>
           </div>
 
           {/* Recipient Name & Gold Divider Rule */}
-          <div style={{ textAlign: "center", margin: "8px 0" }}>
+          <div style={{ textAlign: "center", margin: "4px 0" }}>
             <div
               style={{
                 fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
@@ -199,18 +199,17 @@ function CertificateCanvas({
 
             <p
               style={{
-                fontSize: "14px",
-                lineHeight: 1.6,
+                fontSize: "13.5px",
+                lineHeight: 1.55,
                 color: "#334155",
-                maxWidth: "700px",
-                margin: "18px auto 0 auto",
+                maxWidth: "740px",
+                margin: "16px auto 0 auto",
               }}
             >
-              for successfully completing all 10 interactive challenges in the Python Foundations browser sandbox,
-              demonstrating practical proficiency across the following core programming skills:
+              {getCompetencyParagraph(awardedLevel)}
             </p>
 
-            {/* Core Skills Summary */}
+            {/* Core Competency Summary */}
             <div
               style={{
                 marginTop: "14px",
@@ -221,112 +220,127 @@ function CertificateCanvas({
                 fontSize: "12.5px",
                 fontWeight: 600,
                 color: "#1e293b",
-                lineHeight: 1.6,
+                lineHeight: 1.65,
               }}
             >
-              {CORE_SKILLS.join("  •  ")}
+              <div>{line1}</div>
+              <div>{line2}</div>
             </div>
           </div>
 
-          {/* Balanced Two-Column Footer */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              gap: "40px",
-              paddingTop: "12px",
-            }}
-          >
-            {/* Left Column: Digital Signature & Instructor Title */}
-            <div style={{ width: "300px", textAlign: "left" }}>
-              <div
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
-                  fontStyle: "italic",
-                  fontWeight: 600,
-                  fontSize: "26px",
-                  color: "#1e3a8a",
-                  lineHeight: 1.1,
-                  paddingBottom: "6px",
-                }}
-              >
-                Emma Hicks
+          {/* Balanced Two-Column Footer + Verification Line */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                gap: "40px",
+                paddingTop: "8px",
+              }}
+            >
+              {/* Left Column: Digital Signature & Instructor Title */}
+              <div style={{ width: "300px", textAlign: "left" }}>
+                <div
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
+                    fontStyle: "italic",
+                    fontWeight: 600,
+                    fontSize: "26px",
+                    color: "#1e3a8a",
+                    lineHeight: 1.1,
+                    paddingBottom: "6px",
+                  }}
+                >
+                  Emma Hicks
+                </div>
+                <div
+                  style={{
+                    borderTop: "1px solid #94a3b8",
+                    paddingTop: "6px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    color: "#334155",
+                  }}
+                >
+                  Lead Systems &amp; Data Instructor
+                </div>
               </div>
-              <div
-                style={{
-                  borderTop: "1px solid #94a3b8",
-                  paddingTop: "6px",
-                  fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#334155",
-                }}
-              >
-                Lead Systems &amp; Data Instructor
+
+              {/* Right Column: Completion Date & Certificate ID */}
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    gap: "28px",
+                    alignItems: "baseline",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#64748b",
+                      }}
+                    >
+                      Completion Date
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: "#0f172a",
+                        marginTop: "2px",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {completionDate}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#64748b",
+                      }}
+                    >
+                      Certificate ID
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        color: "#1e3a8a",
+                        marginTop: "2px",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {certificateId}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: UK Date, Monospaced Credential ID & Zero-Storage Note */}
-            <div style={{ textAlign: "right" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "28px",
-                  alignItems: "baseline",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "#64748b",
-                    }}
-                  >
-                    Issue Date
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: "#0f172a",
-                      marginTop: "2px",
-                      fontVariantNumeric: "tabular-nums",
-                    }}
-                  >
-                    {ukDate}
-                  </div>
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "#64748b",
-                    }}
-                  >
-                    Credential ID
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      color: "#1e3a8a",
-                      marginTop: "2px",
-                      fontVariantNumeric: "tabular-nums",
-                    }}
-                  >
-                    {credentialId}
-                  </div>
-                </div>
-              </div>
+            <div
+              style={{
+                marginTop: "18px",
+                textAlign: "center",
+                fontSize: "11px",
+                fontWeight: 600,
+                color: "#475569",
+              }}
+            >
+              Verified Client-Side Execution · Zero-Storage UK GDPR Compliant
             </div>
           </div>
         </div>
@@ -336,11 +350,12 @@ function CertificateCanvas({
 }
 
 export function CertificateCard({
-  ukDate,
-  credentialId,
-  onBackToChallenges,
+  awardedLevel,
+  recipientName,
+  onRecipientNameChange,
+  completionDate,
+  certificateId,
 }: CertificateCardProps) {
-  const [learnerName, setLearnerName] = useState("");
   const [isExporting, setIsExporting] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
@@ -367,15 +382,16 @@ export function CertificateCard({
 
   const handleDownloadPdf = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!learnerName.trim() || isExporting) return;
+    if (!recipientName.trim() || isExporting) return;
 
     setIsExporting(true);
     setExportError(null);
     try {
       await downloadCertificatePdf({
-        learnerName: learnerName.trim(),
-        ukDate,
-        credentialId,
+        recipientName: recipientName.trim(),
+        awardedLevel,
+        completionDate,
+        certificateId,
       });
       setDownloaded(true);
     } catch {
@@ -386,83 +402,73 @@ export function CertificateCard({
   };
 
   return (
-    <section aria-label="Completion Certificate" className="mx-auto max-w-5xl space-y-6">
-      {/* Control & Privacy Card */}
-      <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-7">
-        <div className="mb-5 flex flex-col items-start justify-between gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center">
-          <div className="flex items-start gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700">
-              <Award className="h-6 w-6" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold tracking-wide text-emerald-700">
-                10 of 10 Challenges Completed
-              </p>
-              <h2 className="mt-0.5 text-2xl font-bold tracking-tight text-slate-900">
-                Claim Your Certificate of Achievement
-              </h2>
-            </div>
+    <section aria-label="On-Device Certificate" className="space-y-6">
+      {/* Recipient Name & Actions */}
+      <div className="rounded-xl border border-slate-200 bg-white p-6 print:hidden">
+        <div className="mb-4 flex items-start gap-3.5 border-b border-slate-200 pb-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700">
+            <Award className="h-5 w-5" aria-hidden="true" />
           </div>
-
-          <button
-            type="button"
-            onClick={onBackToChallenges}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Review Challenges</span>
-          </button>
-        </div>
-
-        <div className="mb-5 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50/70 p-4 text-sm text-emerald-950">
-          <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" aria-hidden="true" />
           <div>
-            <p className="font-semibold text-emerald-900">UK GDPR Zero-Storage Privacy Notice</p>
-            <p className="mt-0.5 text-xs leading-relaxed text-emerald-800">
-              Your name stays strictly in local browser memory to render the live preview and export the PDF. Nothing is
-              transmitted to or stored on any backend server.
+            <p className="text-xs font-semibold text-emerald-700">
+              Certificate Unlocked · {awardedLevel} Level
             </p>
+            <h3 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900">
+              Python Path — {awardedLevel} Python Certificate
+            </h3>
           </div>
         </div>
 
-        <form onSubmit={handleDownloadPdf} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+        <form onSubmit={handleDownloadPdf} className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="flex-1">
-            <label htmlFor="learner-name" className="mb-1.5 block text-sm font-medium text-slate-800">
-              Full Name (updates live on your certificate below)
+            <label htmlFor="certificate-recipient-name" className="mb-1.5 block text-sm font-medium text-slate-800">
+              Recipient Name (updates live on your certificate below)
             </label>
             <input
-              id="learner-name"
+              id="certificate-recipient-name"
               type="text"
-              value={learnerName}
+              value={recipientName}
               onChange={(e) => {
-                setLearnerName(e.target.value);
+                onRecipientNameChange(e.target.value);
                 if (downloaded) setDownloaded(false);
                 if (exportError) setExportError(null);
               }}
               placeholder="e.g., Jordan Taylor"
               maxLength={80}
               required
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-600/20"
+              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-600/20"
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={!learnerName.trim() || isExporting}
-            className="inline-flex h-[46px] items-center justify-center gap-2 rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 whitespace-nowrap shrink-0"
-          >
-            {isExporting ? (
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            ) : (
-              <Download className="h-4 w-4" aria-hidden="true" />
-            )}
-            <span>{isExporting ? "Generating PDF..." : "Download PDF Certificate"}</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => window.print()}
+              disabled={!recipientName.trim()}
+              className="inline-flex h-[42px] items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap shrink-0"
+            >
+              <Printer className="h-4 w-4" aria-hidden="true" />
+              <span>Print</span>
+            </button>
+
+            <button
+              type="submit"
+              disabled={!recipientName.trim() || isExporting}
+              className="inline-flex h-[42px] items-center justify-center gap-2 rounded-lg bg-sky-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 whitespace-nowrap shrink-0"
+            >
+              {isExporting ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Download className="h-4 w-4" aria-hidden="true" />
+              )}
+              <span>{isExporting ? "Generating PDF..." : "Download PDF Certificate"}</span>
+            </button>
+          </div>
         </form>
 
         {downloaded && (
           <p className="mt-3 text-xs font-medium text-emerald-700">
-            High-resolution landscape PDF generated locally and saved to your downloads folder.
+            Landscape PDF certificate generated locally and saved to your downloads folder.
           </p>
         )}
 
@@ -472,17 +478,17 @@ export function CertificateCard({
       </div>
 
       {/* Live Styled Landscape Certificate Preview */}
-      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 print:border-0 print:p-0">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 print:hidden">
           <span className="font-semibold text-slate-700">Live Certificate Preview</span>
           <span className="font-mono tabular-nums">
-            {credentialId} · {ukDate}
+            {certificateId} · {completionDate}
           </span>
         </div>
 
         <div
           ref={previewContainerRef}
-          className="w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-100"
+          className="w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-100 print:border-0 print:bg-white"
           style={{ height: `${Math.round(700 * previewScale)}px` }}
         >
           <div
@@ -494,9 +500,10 @@ export function CertificateCard({
             }}
           >
             <CertificateCanvas
-              learnerName={learnerName}
-              ukDate={ukDate}
-              credentialId={credentialId}
+              recipientName={recipientName}
+              awardedLevel={awardedLevel}
+              completionDate={completionDate}
+              certificateId={certificateId}
             />
           </div>
         </div>

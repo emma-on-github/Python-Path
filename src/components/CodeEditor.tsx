@@ -7,6 +7,7 @@ interface CodeEditorProps {
   onReset: () => void;
   onRunShortcut: () => void;
   disabled?: boolean;
+  size?: "default" | "large";
 }
 
 export function CodeEditor({
@@ -15,9 +16,11 @@ export function CodeEditor({
   onReset,
   onRunShortcut,
   disabled = false,
+  size = "default",
 }: CodeEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const lineCount = Math.max(value.split("\n").length, 8);
+  const minRows = size === "large" ? 13 : 8;
+  const lineCount = Math.max(value.split("\n").length, minRows);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
@@ -109,7 +112,13 @@ export function CodeEditor({
         </button>
       </div>
 
-      <div className="flex max-h-[340px] min-h-[220px] overflow-auto">
+      <div
+        className={`flex overflow-auto ${
+          size === "large"
+            ? "max-h-[560px] min-h-[340px]"
+            : "max-h-[340px] min-h-[220px]"
+        }`}
+      >
         <div
           aria-hidden="true"
           className="select-none border-r border-slate-800 bg-slate-950/40 px-3 py-3.5 text-right font-mono text-xs leading-6 text-slate-500 tabular-nums"
@@ -130,7 +139,7 @@ export function CodeEditor({
           autoComplete="off"
           autoCorrect="off"
           aria-label="Python code editor"
-          rows={Math.max(lineCount, 8)}
+          rows={Math.max(lineCount, minRows)}
           className="code-editor w-full resize-none bg-transparent px-4 py-3.5 font-mono text-sm leading-6 text-slate-100 placeholder:text-slate-500 focus:outline-none"
           placeholder="# Write your Python code here..."
         />
