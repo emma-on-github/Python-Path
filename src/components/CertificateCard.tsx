@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Award, Download, Loader2, Printer } from "lucide-react";
-import { ExamBand } from "../data/examQuestions";
 import {
+  CertificateAwardLevel,
   downloadCertificatePdf,
+  getCertificateTitle,
   getCompetencyLines,
   getCompetencyParagraph,
 } from "../lib/certificate";
 
 interface CertificateCardProps {
-  awardedLevel: ExamBand;
+  awardedLevel: CertificateAwardLevel;
   recipientName: string;
   onRecipientNameChange: (name: string) => void;
   completionDate: string;
@@ -17,7 +18,7 @@ interface CertificateCardProps {
 
 interface CertificateCanvasProps {
   recipientName: string;
-  awardedLevel: ExamBand;
+  awardedLevel: CertificateAwardLevel;
   completionDate: string;
   certificateId: string;
 }
@@ -31,13 +32,14 @@ function CertificateCanvas({
   const displayName = recipientName.trim() || "Your Full Name";
   const isPlaceholder = recipientName.trim().length === 0;
   const [line1, line2] = getCompetencyLines(awardedLevel);
+  const isComplete = awardedLevel === "Complete";
 
   return (
     <div
       style={{
         width: "990px",
         height: "700px",
-        backgroundColor: "#fcfbf7",
+        backgroundColor: isComplete ? "#fefcf5" : "#fcfbf7",
         color: "#0f172a",
         padding: "20px",
         boxSizing: "border-box",
@@ -45,23 +47,25 @@ function CertificateCanvas({
         position: "relative",
       }}
     >
-      {/* Thick Deep-Navy Outer Frame */}
+      {/* Outer Frame */}
       <div
         style={{
           width: "100%",
           height: "100%",
-          border: "6px solid #1e3a8a",
+          border: isComplete ? "6px solid #b45309" : "6px solid #1e3a8a",
           padding: "10px",
           boxSizing: "border-box",
-          backgroundColor: "#fcfbf7",
+          backgroundColor: isComplete ? "#fefcf5" : "#fcfbf7",
         }}
       >
-        {/* Thin Metallic-Gold Inner Frame */}
+        {/* Inner Frame */}
         <div
           style={{
             width: "100%",
             height: "100%",
-            border: "1.5px solid #d97706",
+            border: isComplete ? "2.5px solid #1e3a8a" : "1.5px solid #d97706",
+            outline: isComplete ? "1px solid #f59e0b" : "none",
+            outlineOffset: isComplete ? "-7px" : "0px",
             padding: "40px 54px 26px 54px",
             boxSizing: "border-box",
             position: "relative",
@@ -70,7 +74,7 @@ function CertificateCanvas({
             justifyContent: "space-between",
           }}
         >
-          {/* Top-Right Gold-and-Navy Circular Seal */}
+          {/* Top-Right Circular Seal */}
           <div
             style={{
               position: "absolute",
@@ -79,8 +83,8 @@ function CertificateCanvas({
               width: "106px",
               height: "106px",
               borderRadius: "9999px",
-              border: "3px solid #d97706",
-              backgroundColor: "#1e3a8a",
+              border: isComplete ? "3px solid #1e3a8a" : "3px solid #d97706",
+              backgroundColor: isComplete ? "#b45309" : "#1e3a8a",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -93,7 +97,7 @@ function CertificateCanvas({
                 width: "100%",
                 height: "100%",
                 borderRadius: "9999px",
-                border: "1px solid #fbbf24",
+                border: isComplete ? "1px solid #fef3c7" : "1px solid #fbbf24",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -108,11 +112,11 @@ function CertificateCanvas({
                   fontSize: "8.5px",
                   fontWeight: 700,
                   letterSpacing: "0.08em",
-                  color: "#fde68a",
+                  color: isComplete ? "#fef3c7" : "#fde68a",
                   lineHeight: 1.25,
                 }}
               >
-                VERIFIED •
+                {isComplete ? "ALL 3 TIERS" : "VERIFIED •"}
               </span>
               <span
                 style={{
@@ -132,18 +136,32 @@ function CertificateCanvas({
 
           {/* Header Section */}
           <div style={{ textAlign: "center", paddingRight: "88px", paddingLeft: "88px" }}>
-            <p
-              style={{
-                fontSize: "14.5px",
-                fontWeight: 700,
-                letterSpacing: "0.09em",
-                textTransform: "uppercase",
-                color: "#1e3a8a",
-                margin: 0,
-              }}
+            <div
+              style={
+                isComplete
+                  ? {
+                      display: "inline-block",
+                      backgroundColor: "#fef3c7",
+                      border: "1px solid #f59e0b",
+                      padding: "8px 26px",
+                      marginBottom: "2px",
+                    }
+                  : undefined
+              }
             >
-              Python Path — {awardedLevel} Python Certificate
-            </p>
+              <p
+                style={{
+                  fontSize: "14.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.09em",
+                  textTransform: "uppercase",
+                  color: isComplete ? "#92400e" : "#1e3a8a",
+                  margin: 0,
+                }}
+              >
+                {getCertificateTitle(awardedLevel)}
+              </p>
+            </div>
 
             <h3
               style={{
@@ -151,7 +169,7 @@ function CertificateCanvas({
                 fontSize: "44px",
                 fontWeight: 700,
                 color: "#0f172a",
-                margin: "12px 0 0 0",
+                margin: isComplete ? "10px 0 0 0" : "12px 0 0 0",
                 lineHeight: 1.15,
                 letterSpacing: "-0.01em",
               }}
@@ -214,9 +232,9 @@ function CertificateCanvas({
               style={{
                 marginTop: "14px",
                 padding: "12px 20px",
-                borderTop: "1px solid #e2e8f0",
-                borderBottom: "1px solid #e2e8f0",
-                backgroundColor: "#f8f6f0",
+                borderTop: isComplete ? "1px solid #fde68a" : "1px solid #e2e8f0",
+                borderBottom: isComplete ? "1px solid #fde68a" : "1px solid #e2e8f0",
+                backgroundColor: isComplete ? "#fef9ec" : "#f8f6f0",
                 fontSize: "12.5px",
                 fontWeight: 600,
                 color: "#1e293b",
@@ -410,18 +428,18 @@ export function CertificateCard({
             <Award className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-emerald-700">
-              Certificate Unlocked · {awardedLevel} Level
+            <p className="text-sm font-semibold text-emerald-700">
+              Certificate Unlocked · {awardedLevel === "Complete" ? "All 3 Tiers Completed" : `${awardedLevel} Level`}
             </p>
-            <h3 className="mt-0.5 text-lg font-bold tracking-tight text-slate-900">
-              Python Path — {awardedLevel} Python Certificate
+            <h3 className="mt-0.5 text-xl font-bold tracking-tight text-slate-900">
+              {getCertificateTitle(awardedLevel)}
             </h3>
           </div>
         </div>
 
         <form onSubmit={handleDownloadPdf} className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="flex-1">
-            <label htmlFor="certificate-recipient-name" className="mb-1.5 block text-sm font-medium text-slate-800">
+            <label htmlFor="certificate-recipient-name" className="mb-1.5 block text-base font-medium text-slate-800">
               Recipient Name (updates live on your certificate below)
             </label>
             <input
@@ -436,7 +454,7 @@ export function CertificateCard({
               placeholder="e.g., Jordan Taylor"
               maxLength={80}
               required
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-600/20"
+              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-600/20"
             />
           </div>
 
@@ -445,7 +463,7 @@ export function CertificateCard({
               type="button"
               onClick={() => window.print()}
               disabled={!recipientName.trim()}
-              className="inline-flex h-[42px] items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap shrink-0"
+              className="inline-flex h-[46px] items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap shrink-0"
             >
               <Printer className="h-4 w-4" aria-hidden="true" />
               <span>Print</span>
@@ -454,7 +472,7 @@ export function CertificateCard({
             <button
               type="submit"
               disabled={!recipientName.trim() || isExporting}
-              className="inline-flex h-[42px] items-center justify-center gap-2 rounded-lg bg-sky-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 whitespace-nowrap shrink-0"
+              className="inline-flex h-[46px] items-center justify-center gap-2 rounded-lg bg-sky-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 whitespace-nowrap shrink-0"
             >
               {isExporting ? (
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -467,19 +485,19 @@ export function CertificateCard({
         </form>
 
         {downloaded && (
-          <p className="mt-3 text-xs font-medium text-emerald-700">
+          <p className="mt-3 text-sm font-medium text-emerald-700">
             Landscape PDF certificate generated locally and saved to your downloads folder.
           </p>
         )}
 
         {exportError && (
-          <p className="mt-3 text-xs font-medium text-red-700">{exportError}</p>
+          <p className="mt-3 text-sm font-medium text-red-700">{exportError}</p>
         )}
       </div>
 
       {/* Live Styled Landscape Certificate Preview */}
       <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 print:border-0 print:p-0">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 print:hidden">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-sm text-slate-500 print:hidden">
           <span className="font-semibold text-slate-700">Live Certificate Preview</span>
           <span className="font-mono tabular-nums">
             {certificateId} · {completionDate}

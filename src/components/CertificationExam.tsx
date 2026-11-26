@@ -6,6 +6,7 @@ import {
   Award,
   CheckCircle2,
   ClipboardCheck,
+  Lightbulb,
   Loader2,
   Play,
   RotateCcw,
@@ -13,7 +14,11 @@ import {
 } from "lucide-react";
 import { CourseModuleId } from "../data/courseLessons";
 import { EXAM_QUESTIONS, ExamBand } from "../data/examQuestions";
-import { formatUkDate, generateCertificateId } from "../lib/certificate";
+import {
+  CertificateAwardLevel,
+  formatUkDate,
+  generateCertificateId,
+} from "../lib/certificate";
 import { PythonExecutionResult, runPythonCode } from "../lib/pyodide";
 import { CertificateCard } from "./CertificateCard";
 import { CodeEditor } from "./CodeEditor";
@@ -25,6 +30,7 @@ export interface ExamAnswerState {
   code: string;
   attempted: boolean;
   passed: boolean;
+  hintVisible: boolean;
   lastResult: PythonExecutionResult | null;
 }
 
@@ -45,31 +51,31 @@ const EXAM_TRACKS: {
 }[] = [
   {
     id: "Beginner",
-    badge: "5 Questions · Pass threshold: 4 / 5",
+    badge: "5 Questions · Pass threshold: 3 / 5",
     title: "Beginner Exam",
     description:
-      "Core syntax, conditionals, loops, lists, and functions. Score at least 4/5 to earn the Beginner Python Certificate.",
+      "Core syntax, conditionals, loops, lists, and functions. Score at least 3/5 to earn the Beginner Python Certificate.",
   },
   {
     id: "Intermediate",
-    badge: "5 Questions · Pass threshold: 4 / 5",
+    badge: "5 Questions · Pass threshold: 3 / 5",
     title: "Intermediate Exam",
     description:
-      "Comprehensions, sets, try/except, OOP classes, and JSON. Score at least 4/5 to earn the Intermediate Python Certificate.",
+      "Comprehensions, dictionaries, try/except, OOP classes, and JSON. Score at least 3/5 to earn the Intermediate Python Certificate.",
   },
   {
     id: "Advanced",
-    badge: "5 Questions · Pass threshold: 4 / 5",
+    badge: "5 Questions · Pass threshold: 3 / 5",
     title: "Advanced Exam",
     description:
-      "Decorators, generators, context managers, iterators, dataclasses, and algorithms. Score at least 4/5 for the Advanced Certificate.",
+      "Decorators, generators, context managers, dataclasses, and algorithms. Score at least 3/5 for the Advanced Certificate.",
   },
   {
     id: "Full",
     badge: "15 Questions · All Levels",
     title: "Full Tiered Assessment",
     description:
-      "Take all 3 levels together. Unlocks Beginner, Intermediate, or Advanced based on sequential 4/5 pass thresholds.",
+      "Take all 3 levels together (3/5 per level to pass). Passing all 3 tiers unlocks the Complete Python Certificate.",
   },
 ];
 
@@ -80,6 +86,7 @@ export function createInitialExamState(track: ExamTrack = "Beginner"): ExamSessi
       code: q.starterCode,
       attempted: false,
       passed: false,
+      hintVisible: false,
       lastResult: null,
     };
   }
@@ -148,25 +155,25 @@ export function CertificationExam({
     const intermediateScore = intermediateQs.filter((q) => examState.answersById[q.id]?.passed).length;
     const advancedScore = advancedQs.filter((q) => examState.answersById[q.id]?.passed).length;
 
-    let awardedLevel: ExamBand | null = null;
-    const beginnerPassed = beginnerScore >= 4;
-    const intermediatePassed = beginnerPassed && intermediateScore >= 4;
-    const advancedPassed = intermediatePassed && advancedScore >= 4;
+    let awardedLevel: CertificateAwardLevel | null = null;
+    const beginnerPassed = beginnerScore >= 3;
+    const intermediatePassed = beginnerPassed && intermediateScore >= 3;
+    const advancedPassed = intermediatePassed && advancedScore >= 3;
 
     if (examState.selectedTrack === "Full") {
       awardedLevel = advancedPassed
-        ? "Advanced"
+        ? "Complete"
         : intermediatePassed
           ? "Intermediate"
           : beginnerPassed
             ? "Beginner"
             : null;
     } else if (examState.selectedTrack === "Beginner") {
-      awardedLevel = beginnerScore >= 4 ? "Beginner" : null;
+      awardedLevel = beginnerScore >= 3 ? "Beginner" : null;
     } else if (examState.selectedTrack === "Intermediate") {
-      awardedLevel = intermediateScore >= 4 ? "Intermediate" : null;
+      awardedLevel = intermediateScore >= 3 ? "Intermediate" : null;
     } else if (examState.selectedTrack === "Advanced") {
-      awardedLevel = advancedScore >= 4 ? "Advanced" : null;
+      awardedLevel = advancedScore >= 3 ? "Advanced" : null;
     }
 
     const activePassed = activeQuestions.filter((q) => examState.answersById[q.id]?.passed).length;
@@ -306,8 +313,8 @@ export function CertificationExam({
 
           <p className="text-base leading-relaxed text-slate-700">
             Select a single certification level to focus on right now, or take the Full Tiered Assessment across all 15
-            questions. Exams run without hints or sample solutions and check your code locally against hidden Python
-            assertions.
+            questions. Your code runs locally against automated Python assertions, with optional hints available if you
+            need a nudge.
           </p>
 
           {/* Selectable Exam Tracks in a Single List */}
@@ -435,9 +442,11 @@ export function CertificationExam({
                   : `${examState.selectedTrack} Exam Graded · ${bandSummary.activePassed} of 5 Passed`}
               </p>
               <h2 className="mt-0.5 text-2xl font-bold tracking-tight text-slate-900">
-                {bandSummary.awardedLevel
-                  ? `Congratulations! You earned the ${bandSummary.awardedLevel} Python Certificate`
-                  : `Keep Practising — Review ${getModuleTitleForBand(targetBand)}`}
+                {bandSummary.awardedLevel === "Complete"
+                  ? "Congratulations! You completed all 3 tiers and earned the Complete Python Certificate"
+                  : bandSummary.awardedLevel
+                    ? `Congratulations! You earned the ${bandSummary.awardedLevel} Python Certificate`
+                    : `Keep Practising — Review ${getModuleTitleForBand(targetBand)}`}
               </h2>
             </div>
 
@@ -445,16 +454,16 @@ export function CertificationExam({
               <button
                 type="button"
                 onClick={handleChooseAnotherLevel}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 whitespace-nowrap shrink-0"
               >
                 <span>Choose Level</span>
               </button>
               <button
                 type="button"
                 onClick={handleRetakeExam}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 whitespace-nowrap shrink-0"
               >
-                <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
                 <span>Retake Exam</span>
               </button>
             </div>
@@ -469,10 +478,10 @@ export function CertificationExam({
                     : "border-amber-200 bg-amber-50/70"
                 }`}
               >
-                <div className="flex items-center justify-between text-xs font-semibold">
+                <div className="flex items-center justify-between text-sm font-semibold">
                   <span className="text-slate-700">Beginner Band</span>
                   <span className={bandSummary.beginnerPassed ? "text-emerald-700" : "text-amber-800"}>
-                    {bandSummary.beginnerPassed ? "Passed" : "Needs 4/5"}
+                    {bandSummary.beginnerPassed ? "Passed" : "Needs 3/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -487,14 +496,14 @@ export function CertificationExam({
                     : "border-slate-200 bg-slate-50"
                 }`}
               >
-                <div className="flex items-center justify-between text-xs font-semibold">
+                <div className="flex items-center justify-between text-sm font-semibold">
                   <span className="text-slate-700">Intermediate Band</span>
                   <span className={bandSummary.intermediatePassed ? "text-emerald-700" : "text-slate-600"}>
                     {bandSummary.intermediatePassed
                       ? "Passed"
                       : !bandSummary.beginnerPassed
                         ? "Requires Beginner Pass"
-                        : "Needs 4/5"}
+                        : "Needs 3/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -509,14 +518,14 @@ export function CertificationExam({
                     : "border-slate-200 bg-slate-50"
                 }`}
               >
-                <div className="flex items-center justify-between text-xs font-semibold">
+                <div className="flex items-center justify-between text-sm font-semibold">
                   <span className="text-slate-700">Advanced Band</span>
                   <span className={bandSummary.advancedPassed ? "text-emerald-700" : "text-slate-600"}>
                     {bandSummary.advancedPassed
                       ? "Passed"
                       : !bandSummary.intermediatePassed
                         ? "Requires Intermediate Pass"
-                        : "Needs 4/5"}
+                        : "Needs 3/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -532,10 +541,10 @@ export function CertificationExam({
                   : "border-amber-200 bg-amber-50/70"
               }`}
             >
-              <div className="flex items-center justify-between text-xs font-semibold">
+              <div className="flex items-center justify-between text-sm font-semibold">
                 <span className="text-slate-700">{examState.selectedTrack} Track Score</span>
                 <span className={bandSummary.awardedLevel ? "text-emerald-700" : "text-amber-800"}>
-                  {bandSummary.awardedLevel ? "Passed (≥ 4/5)" : "Needs 4/5 to Pass"}
+                  {bandSummary.awardedLevel ? "Passed (≥ 3/5)" : "Needs 3/5 to Pass"}
                 </span>
               </div>
               <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -547,11 +556,11 @@ export function CertificationExam({
           {/* Supportive Breakdown when selected track did not pass */}
           {!bandSummary.awardedLevel && (
             <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50/60 p-5">
-              <h3 className="text-sm font-bold text-amber-950">
+              <h3 className="text-base font-bold text-amber-950">
                 Recommended Self-Study Lessons Before Retaking
               </h3>
-              <p className="mt-1 text-xs leading-relaxed text-amber-900">
-                You scored {bandSummary.activePassed} / 5 (4 / 5 is needed to unlock the {targetBand} Python
+              <p className="mt-1 text-sm leading-relaxed text-amber-900">
+                You scored {bandSummary.activePassed} / 5 (3 / 5 is needed to unlock the {targetBand} Python
                 Certificate). Review these topics in <strong>{getModuleTitleForBand(targetBand)}</strong> and try
                 again:
               </p>
@@ -743,9 +752,33 @@ export function CertificationExam({
               </pre>
             </div>
 
-            <p className="mt-4 border-t border-slate-200 pt-3.5 text-sm text-slate-600">
-              Exam mode checks your code against hidden automated assertions. Hints and sample solutions are disabled.
-            </p>
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              <button
+                type="button"
+                onClick={() =>
+                  onUpdateExamState((prev) => ({
+                    ...prev,
+                    answersById: {
+                      ...prev.answersById,
+                      [currentQuestion.id]: {
+                        ...prev.answersById[currentQuestion.id],
+                        hintVisible: !prev.answersById[currentQuestion.id].hintVisible,
+                      },
+                    },
+                  }))
+                }
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+              >
+                <Lightbulb className="h-4 w-4 text-amber-600" aria-hidden="true" />
+                <span>{currentAnswer.hintVisible ? "Hide Hint" : "Show Hint"}</span>
+              </button>
+
+              {currentAnswer.hintVisible && (
+                <div className="mt-3 whitespace-pre-line rounded-lg border border-amber-200 bg-amber-50/70 p-4 text-sm leading-relaxed text-amber-950">
+                  {currentQuestion.hint}
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
@@ -770,6 +803,7 @@ export function CertificationExam({
                 answersById: {
                   ...prev.answersById,
                   [currentQuestion.id]: {
+                    ...prev.answersById[currentQuestion.id],
                     code: currentQuestion.starterCode,
                     attempted: false,
                     passed: false,

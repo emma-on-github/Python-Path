@@ -8,6 +8,8 @@ export interface ExamQuestion {
   prompt: string;
   exampleSummary: string;
   starterCode: string;
+  hint: string;
+  solution: string;
   recommendedLessonId: string;
   hiddenTests: string;
 }
@@ -25,6 +27,8 @@ export const EXAM_QUESTIONS: ExamQuestion[] = [
       'Write a function greet(name) that returns the exact string "Hello, <name>!".',
     exampleSummary: 'greet("Sam") -> "Hello, Sam!"',
     starterCode: `def greet(name):\n    # Return "Hello, <name>!"\n    pass\n`,
+    hint: 'Use an f-string inside the function: return f"Hello, {name}!"',
+    solution: `def greet(name):\n    return f"Hello, {name}!"`,
     recommendedLessonId: "b3",
     hiddenTests: `
 assert callable(globals().get("greet")), "Define function greet(name)."
@@ -41,6 +45,8 @@ assert greet("Ada") == "Hello, Ada!", "Function must work for any name."
       'Write a function check_pass(score) that returns "Pass" if score >= 50, and "Retry" otherwise.',
     exampleSummary: 'check_pass(65) -> "Pass", check_pass(40) -> "Retry"',
     starterCode: `def check_pass(score):\n    # Return "Pass" if score >= 50 else "Retry"\n    pass\n`,
+    hint: 'Use if score >= 50: return "Pass" followed by else: return "Retry". Remember to write >= (not =>).',
+    solution: `def check_pass(score):\n    if score >= 50:\n        return "Pass"\n    else:\n        return "Retry"`,
     recommendedLessonId: "b5",
     hiddenTests: `
 assert callable(globals().get("check_pass")), "Define function check_pass(score)."
@@ -58,6 +64,8 @@ assert check_pass(49) == "Retry", "49 should return 'Retry'."
       "Write a function sum_all(nums) that loops through the list nums and returns the total sum.",
     exampleSummary: "sum_all([2, 4, 6]) -> 12",
     starterCode: `def sum_all(nums):\n    total = 0\n    # Loop through nums and return total\n    return total\n`,
+    hint: "Add a loop before return total: for n in nums: followed by total += n.",
+    solution: `def sum_all(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total`,
     recommendedLessonId: "b6",
     hiddenTests: `
 assert callable(globals().get("sum_all")), "Define function sum_all(nums)."
@@ -75,6 +83,8 @@ assert sum_all([]) == 0, "Empty list should return 0."
       "Write a function get_first(items) that returns the first element of a non-empty list.",
     exampleSummary: 'get_first(["red", "blue", "green"]) -> "red"',
     starterCode: `def get_first(items):\n    # Return the first item in items\n    pass\n`,
+    hint: "Python lists start at index 0, so write return items[0].",
+    solution: `def get_first(items):\n    return items[0]`,
     recommendedLessonId: "b4",
     hiddenTests: `
 assert callable(globals().get("get_first")), "Define function get_first(items)."
@@ -91,6 +101,8 @@ assert get_first([42]) == 42, "Should return 42."
       "Write a function count_a(text) that returns how many times the lowercase letter 'a' appears in text.",
     exampleSummary: 'count_a("banana") -> 3',
     starterCode: `def count_a(text):\n    # Count how many 'a' characters are in text\n    pass\n`,
+    hint: 'Loop over each character in text with a counter (if ch == "a": total += 1), or use text.count("a").',
+    solution: `def count_a(text):\n    total = 0\n    for ch in text:\n        if ch == "a":\n            total += 1\n    return total`,
     recommendedLessonId: "b6",
     hiddenTests: `
 assert callable(globals().get("count_a")), "Define function count_a(text)."
@@ -112,6 +124,8 @@ assert count_a("python") == 0, "'python' contains 0 'a' characters."
       "Write a function double_all(nums) that uses a list comprehension to return a new list with every number multiplied by 2.",
     exampleSummary: "double_all([1, 2, 3]) -> [2, 4, 6]",
     starterCode: `def double_all(nums):\n    # Return doubled list\n    pass\n`,
+    hint: "Use the list comprehension pattern: return [n * 2 for n in nums].",
+    solution: `def double_all(nums):\n    return [n * 2 for n in nums]`,
     recommendedLessonId: "i1",
     hiddenTests: `
 assert callable(globals().get("double_all")), "Define function double_all(nums)."
@@ -128,6 +142,8 @@ assert double_all([]) == [], "Empty list should return []."
       "Write a function get_price(prices, item) that returns the price of item from the dictionary prices, or 0 if the item is not in prices.",
     exampleSummary: 'get_price({"pen": 2, "book": 8}, "book") -> 8; missing item -> 0',
     starterCode: `def get_price(prices, item):\n    # Return prices.get(item, 0)\n    pass\n`,
+    hint: "Use dictionary .get() with a default fallback: return prices.get(item, 0).",
+    solution: `def get_price(prices, item):\n    return prices.get(item, 0)`,
     recommendedLessonId: "i2",
     hiddenTests: `
 assert callable(globals().get("get_price")), "Define function get_price(prices, item)."
@@ -145,6 +161,8 @@ assert get_price({}, "pen") == 0, "Empty dictionary should return 0."
       "Write a function divide_or_zero(a, b) that returns a / b, or 0 if b is 0 (using try / except ZeroDivisionError).",
     exampleSummary: "divide_or_zero(12, 3) -> 4.0, divide_or_zero(12, 0) -> 0",
     starterCode: `def divide_or_zero(a, b):\n    # Return a / b or 0 on ZeroDivisionError\n    pass\n`,
+    hint: "Put return a / b inside a try: block and return 0 inside except ZeroDivisionError:.",
+    solution: `def divide_or_zero(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0`,
     recommendedLessonId: "i3",
     hiddenTests: `
 assert callable(globals().get("divide_or_zero")), "Define function divide_or_zero(a, b)."
@@ -161,6 +179,8 @@ assert divide_or_zero(5, 0) == 0, "Zero divisor should return 0."
       "Complete the Score class so __init__(self) sets self.points = 0 and add(self, amount) adds amount to self.points.",
     exampleSummary: "s = Score(); s.add(5); s.points -> 5",
     starterCode: `class Score:\n    def __init__(self):\n        # Set self.points = 0\n        pass\n\n    def add(self, amount):\n        # Add amount to self.points\n        pass\n`,
+    hint: "In __init__, write self.points = 0. In add, write self.points += amount.",
+    solution: `class Score:\n    def __init__(self):\n        self.points = 0\n\n    def add(self, amount):\n        self.points += amount`,
     recommendedLessonId: "i4",
     hiddenTests: `
 assert "Score" in globals(), "Define class Score."
@@ -180,6 +200,8 @@ assert s.points == 8, "After adding 5 and 3, points should be 8."
       'Write a function read_name(json_str) that parses a JSON string (e.g. \'{"name": "Ada"}\') using json.loads() and returns the value of "name".',
     exampleSummary: 'read_name(\'{"name": "Ada"}\') -> "Ada"',
     starterCode: `import json\n\ndef read_name(json_str):\n    # Parse json_str and return the "name" value\n    pass\n`,
+    hint: 'Call data = json.loads(json_str) and then return data["name"].',
+    solution: `import json\n\ndef read_name(json_str):\n    data = json.loads(json_str)\n    return data["name"]`,
     recommendedLessonId: "i5",
     hiddenTests: `
 assert callable(globals().get("read_name")), "Define function read_name(json_str)."
@@ -200,6 +222,8 @@ assert read_name('{"name": "Sam", "age": 25}') == "Sam", "Expected 'Sam'."
       "Complete the decorator make_upper(fn) so its wrapper calls fn(*args, **kwargs) and returns the string result converted to .upper().",
     exampleSummary: '@make_upper def greet(n): return f"Hi {n}" -> greet("Ada") == "HI ADA"',
     starterCode: `def make_upper(fn):\n    def wrapper(*args, **kwargs):\n        # Call fn(*args, **kwargs) and return .upper()\n        pass\n    return wrapper\n`,
+    hint: "Inside wrapper, replace pass with return fn(*args, **kwargs).upper().",
+    solution: `def make_upper(fn):\n    def wrapper(*args, **kwargs):\n        return fn(*args, **kwargs).upper()\n    return wrapper`,
     recommendedLessonId: "a1",
     hiddenTests: `
 assert callable(globals().get("make_upper")), "Define decorator make_upper(fn)."
@@ -218,6 +242,8 @@ assert _g("Ada") == "HI ADA", "Decorated call should return 'HI ADA'."
       "Write a generator function count_up(n) that yields the integers from 1 up to n (inclusive).",
     exampleSummary: "list(count_up(4)) -> [1, 2, 3, 4]",
     starterCode: `def count_up(n):\n    # Use yield inside a loop from 1 to n\n    pass\n`,
+    hint: "Loop with for i in range(1, n + 1): and yield i on each step.",
+    solution: `def count_up(n):\n    for i in range(1, n + 1):\n        yield i`,
     recommendedLessonId: "a2",
     hiddenTests: `
 import types
@@ -237,6 +263,8 @@ assert list(count_up(0)) == [], "count_up(0) should yield []."
       'Complete Tracker so __enter__ appends "open" to self.log and returns self, and __exit__ appends "close" to self.log and returns False.',
     exampleSummary: 'with Tracker(log): log.append("work") -> ["open", "work", "close"]',
     starterCode: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        # Append "open" and return self\n        pass\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Append "close" and return False\n        pass\n`,
+    hint: 'In __enter__, call self.log.append("open") and return self. In __exit__, call self.log.append("close") and return False.',
+    solution: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        self.log.append("open")\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.log.append("close")\n        return False`,
     recommendedLessonId: "a3",
     hiddenTests: `
 assert "Tracker" in globals(), "Define class Tracker."
@@ -255,6 +283,8 @@ assert log == ["open", "work", "close"], f"Expected ['open', 'work', 'close'], g
       "Complete the @dataclass named Book with fields title: str and pages: int = 100.",
     exampleSummary: 'Book("Python").pages == 100',
     starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    # Add title: str and pages: int = 100\n    pass\n`,
+    hint: "Replace pass with title: str on the first line and pages: int = 100 on the next line.",
+    solution: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    pages: int = 100`,
     recommendedLessonId: "a5",
     hiddenTests: `
 from dataclasses import is_dataclass
@@ -273,6 +303,8 @@ assert b1 == b2 and b1.pages == 100, "Book should default pages to 100 and suppo
       "Write a function has_duplicate(items) that returns True if any item appears more than once in items, and False otherwise.",
     exampleSummary: "has_duplicate([1, 2, 2]) -> True, has_duplicate([1, 2, 3]) -> False",
     starterCode: `def has_duplicate(items):\n    # Return True if items contains duplicates, else False\n    pass\n`,
+    hint: "Compare the list length with a set of its items: return len(items) != len(set(items)).",
+    solution: `def has_duplicate(items):\n    return len(items) != len(set(items))`,
     recommendedLessonId: "a6",
     hiddenTests: `
 assert callable(globals().get("has_duplicate")), "Define function has_duplicate(items)."

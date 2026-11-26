@@ -18,6 +18,7 @@ export interface CourseLesson {
   taskPrompt: string;
   starterCode: string;
   hint: string;
+  solution: string;
   expectedSummary: string;
   hiddenTests: string;
 }
@@ -60,6 +61,7 @@ export const COURSE_LESSONS: CourseLesson[] = [
     taskPrompt: 'Use print() to output the exact message Hello, Python! to the console.',
     starterCode: `# Write your print() statement below\n`,
     hint: 'Type print("Hello, Python!") with exact capitalisation and punctuation.',
+    solution: `print("Hello, Python!")`,
     expectedSummary: "Console prints Hello, Python!",
     hiddenTests: `
 assert __captured_stdout__.strip() == "Hello, Python!", f"Expected 'Hello, Python!' in output, got '{__captured_stdout__.strip()}'."
@@ -78,6 +80,7 @@ assert __captured_stdout__.strip() == "Hello, Python!", f"Expected 'Hello, Pytho
     taskPrompt: "Create a variable area = width * height, then print(area).",
     starterCode: `width = 8\nheight = 5\n\n# Calculate area and print it\n`,
     hint: "Write area = width * height on one line, then print(area) on the next line.",
+    solution: `width = 8\nheight = 5\n\narea = width * height\nprint(area)`,
     expectedSummary: "area == 40 and console prints 40",
     hiddenTests: `
 assert "area" in globals(), "Please create a variable named area."
@@ -98,6 +101,7 @@ assert __captured_stdout__.strip() == "40", "Make sure you call print(area)."
     taskPrompt: 'Given name = "Sam", use an f-string to print Hello, Sam! to the console.',
     starterCode: `name = "Sam"\n\n# Use an f-string with print() below\n`,
     hint: 'Try print(f"Hello, {name}!").',
+    solution: `name = "Sam"\n\nprint(f"Hello, {name}!")`,
     expectedSummary: "Console prints Hello, Sam!",
     hiddenTests: `
 assert __captured_stdout__.strip() == "Hello, Sam!", f"Expected 'Hello, Sam!', got '{__captured_stdout__.strip()}'."
@@ -116,6 +120,7 @@ assert __captured_stdout__.strip() == "Hello, Sam!", f"Expected 'Hello, Sam!', g
     taskPrompt: 'Given colours = ["red", "blue", "green", "gold"], print the first colour and the total count using len().',
     starterCode: `colours = ["red", "blue", "green", "gold"]\n\n# Print colours[0] on line 1, and len(colours) on line 2\n`,
     hint: "Write print(colours[0]) on one line, then print(len(colours)) on the next line.",
+    solution: `colours = ["red", "blue", "green", "gold"]\n\nprint(colours[0])\nprint(len(colours))`,
     expectedSummary: "Prints red on the first line and 4 on the second line",
     hiddenTests: `
 lines = [l.strip() for l in __captured_stdout__.strip().splitlines() if l.strip()]
@@ -134,7 +139,8 @@ assert lines == ["red", "4"], f"Expected lines ['red', '4'], got {lines}."
       "Branching logic enables validation rules, grading checks, alerts, and decision trees.",
     taskPrompt: 'Given score = 85, write an if / elif / else block that sets result to "Distinction" if score >= 80, "Pass" if score >= 50, or "Retry" otherwise, then prints result.',
     starterCode: `score = 85\nresult = ""\n\n# Write your if / elif / else block below\n\n\nprint(result)\n`,
-    hint: 'Line up if, elif, and else at the left edge:\nif score >= 80:\n    result = "Distinction"\nelif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"',
+    hint: 'Line up if, elif, and else at the left edge, and indent each result line by 4 spaces. Remember to use >= (greater than or equal to), not =>.',
+    solution: `score = 85\nresult = ""\n\nif score >= 80:\n    result = "Distinction"\nelif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"\n\nprint(result)`,
     expectedSummary: 'result == "Distinction" and console prints Distinction',
     hiddenTests: `
 assert "if " in __user_code__ or "if(" in __user_code__, "Use an if / elif / else statement to set result."
@@ -156,6 +162,7 @@ if "result" in globals() and result != "":
     taskPrompt: "Complete the function sum_list(nums) so it loops through every number in nums, adds it to total, and returns total.",
     starterCode: `def sum_list(nums):\n    total = 0\n    # Loop through nums and add each number to total\n    \n    return total\n`,
     hint: "Add two lines inside the function: for n in nums: followed by total += n (indented 4 more spaces).",
+    solution: `def sum_list(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total`,
     expectedSummary: "sum_list([2, 4, 6]) == 12",
     hiddenTests: `
 assert callable(globals().get("sum_list")), "Keep the function named sum_list(nums)."
@@ -181,6 +188,7 @@ assert sum_list([]) == 0, "sum_list([]) should return 0."
     taskPrompt: "Complete double_numbers(nums) using a list comprehension so it returns each number multiplied by 2.",
     starterCode: `def double_numbers(nums):\n    # Return [n * 2 for n in nums]\n    pass\n`,
     hint: "Replace pass with return [n * 2 for n in nums].",
+    solution: `def double_numbers(nums):\n    return [n * 2 for n in nums]`,
     expectedSummary: "double_numbers([1, 3, 5]) == [2, 6, 10]",
     hiddenTests: `
 assert callable(globals().get("double_numbers")), "Define double_numbers(nums)."
@@ -201,6 +209,7 @@ assert double_numbers([]) == [], "Empty list should return []."
     taskPrompt: "Complete get_score(scores, name) so it returns the score for name from the dictionary scores, or 0 if the name is missing.",
     starterCode: `def get_score(scores, name):\n    # Use scores.get(name, 0)\n    pass\n`,
     hint: "Write return scores.get(name, 0).",
+    solution: `def get_score(scores, name):\n    return scores.get(name, 0)`,
     expectedSummary: 'get_score({"Alex": 90}, "Alex") == 90; missing name returns 0',
     hiddenTests: `
 assert callable(globals().get("get_score")), "Define get_score(scores, name)."
@@ -221,6 +230,7 @@ assert get_score({"Alex": 90}, "Mia") == 0, "Missing name should return 0."
     taskPrompt: "Complete safe_divide(a, b) using try / except ZeroDivisionError so it returns a / b, or 0 when b is 0.",
     starterCode: `def safe_divide(a, b):\n    # Use try / except ZeroDivisionError\n    pass\n`,
     hint: "Inside try: write return a / b. Inside except ZeroDivisionError: write return 0.",
+    solution: `def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0`,
     expectedSummary: "safe_divide(10, 2) == 5.0 and safe_divide(10, 0) == 0",
     hiddenTests: `
 assert callable(globals().get("safe_divide")), "Define safe_divide(a, b)."
@@ -241,6 +251,7 @@ assert safe_divide(10, 0) == 0, "Division by zero should return 0."
     taskPrompt: "Complete the Counter class so __init__ sets self.count = 0 and increment(self) adds 1 to self.count.",
     starterCode: `class Counter:\n    def __init__(self):\n        # Set self.count = 0\n        pass\n\n    def increment(self):\n        # Add 1 to self.count\n        pass\n`,
     hint: "Use self.count = 0 inside __init__, and self.count += 1 inside increment.",
+    solution: `class Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1`,
     expectedSummary: "c = Counter(); c.increment(); c.count == 1",
     hiddenTests: `
 assert "Counter" in globals(), "Define a class named Counter."
@@ -264,6 +275,7 @@ assert c.count == 2, "Calling increment() twice should make count equal 2."
     taskPrompt: 'Complete get_user_name(json_str) by parsing json_str with json.loads() and returning data["name"].',
     starterCode: `import json\n\ndef get_user_name(json_str):\n    # Parse json_str with json.loads() and return data["name"]\n    pass\n`,
     hint: 'Write data = json.loads(json_str) followed by return data["name"].',
+    solution: `import json\n\ndef get_user_name(json_str):\n    data = json.loads(json_str)\n    return data["name"]`,
     expectedSummary: 'get_user_name(\'{"name": "Alex"}\') == "Alex"',
     hiddenTests: `
 assert callable(globals().get("get_user_name")), "Define get_user_name(json_str)."
@@ -284,6 +296,7 @@ assert get_user_name('{"name": "Sam"}') == "Sam", "Should return 'Sam'."
     taskPrompt: "Complete count_items(items) so it uses Counter(items) and returns a regular dictionary with the item counts.",
     starterCode: `from collections import Counter\n\ndef count_items(items):\n    # Return dict(Counter(items))\n    pass\n`,
     hint: "Replace pass with return dict(Counter(items)).",
+    solution: `from collections import Counter\n\ndef count_items(items):\n    return dict(Counter(items))`,
     expectedSummary: 'count_items(["a", "b", "a"]) == {"a": 2, "b": 1}',
     hiddenTests: `
 assert callable(globals().get("count_items")), "Define count_items(items)."
@@ -308,6 +321,7 @@ assert count_items([]) == {}, "Empty list should return {}."
     taskPrompt: "Complete the wrapper inside double_result(fn) so it calls fn(*args, **kwargs) and returns the result multiplied by 2.",
     starterCode: `def double_result(fn):\n    def wrapper(*args, **kwargs):\n        # Return fn(*args, **kwargs) * 2\n        pass\n    return wrapper\n`,
     hint: "Replace pass with return fn(*args, **kwargs) * 2.",
+    solution: `def double_result(fn):\n    def wrapper(*args, **kwargs):\n        return fn(*args, **kwargs) * 2\n    return wrapper`,
     expectedSummary: "@double_result on add(2, 3) returns 10",
     hiddenTests: `
 assert callable(globals().get("double_result")), "Define decorator double_result(fn)."
@@ -334,6 +348,7 @@ assert _sample_one(x=7) == 14, "Decorator must pass keyword arguments (**kwargs)
     taskPrompt: "Complete the generator function count_up_to(n) so it yields integers from 1 up to n (inclusive).",
     starterCode: `def count_up_to(n):\n    # Loop i from 1 to n and yield i\n    pass\n`,
     hint: "Write for i in range(1, n + 1): followed by yield i.",
+    solution: `def count_up_to(n):\n    for i in range(1, n + 1):\n        yield i`,
     expectedSummary: "list(count_up_to(4)) == [1, 2, 3, 4]",
     hiddenTests: `
 import types
@@ -357,6 +372,7 @@ assert list(count_up_to(0)) == [], "count_up_to(0) should yield []."
     taskPrompt: "Complete TagTracker so __enter__ appends 'enter' to self.log (and returns self) and __exit__ appends 'exit' to self.log (and returns False).",
     starterCode: `class TagTracker:\n    def __init__(self, log_list):\n        self.log = log_list\n\n    def __enter__(self):\n        # Append 'enter' to self.log and return self\n        pass\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Append 'exit' to self.log and return False\n        pass\n`,
     hint: "In __enter__: self.log.append('enter') then return self. In __exit__: self.log.append('exit') then return False.",
+    solution: `class TagTracker:\n    def __init__(self, log_list):\n        self.log = log_list\n\n    def __enter__(self):\n        self.log.append("enter")\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.log.append("exit")\n        return False`,
     expectedSummary: "Using with TagTracker(logs): records ['enter', ..., 'exit']",
     hiddenTests: `
 assert "TagTracker" in globals(), "Define class TagTracker."
@@ -378,7 +394,8 @@ assert logs == ["enter", "work", "exit"], f"Expected ['enter', 'work', 'exit'], 
       "Understanding __iter__ and __next__ shows how Python loops and streams work behind the scenes.",
     taskPrompt: "Complete __next__(self) on Countdown so it counts down from start to 1 (inclusive) and raises StopIteration when self.current <= 0.",
     starterCode: `class Countdown:\n    def __init__(self, start):\n        self.current = start\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        # If self.current <= 0: raise StopIteration\n        # Otherwise save value, subtract 1 from self.current, and return value\n        pass\n`,
-    hint: "Write: if self.current <= 0: raise StopIteration; val = self.current; self.current -= 1; return val.",
+    hint: "Inside __next__, check if self.current <= 0 and raise StopIteration. Otherwise store val = self.current, set self.current -= 1, and return val.",
+    solution: `class Countdown:\n    def __init__(self, start):\n        self.current = start\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.current <= 0:\n            raise StopIteration\n        val = self.current\n        self.current -= 1\n        return val`,
     expectedSummary: "list(Countdown(3)) == [3, 2, 1]",
     hiddenTests: `
 assert "Countdown" in globals(), "Define class Countdown."
@@ -399,6 +416,7 @@ assert list(Countdown(0)) == [], "Countdown(0) should produce []."
     taskPrompt: "Complete the @dataclass named Product with two fields: name: str and price: float.",
     starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Product:\n    # Add name: str and price: float\n    pass\n`,
     hint: "Replace pass with name: str on one line and price: float on the next line.",
+    solution: `from dataclasses import dataclass\n\n@dataclass\nclass Product:\n    name: str\n    price: float`,
     expectedSummary: 'Product("Book", 12.5) stores name, price, and supports equality',
     hiddenTests: `
 from dataclasses import is_dataclass
@@ -422,6 +440,7 @@ assert p1 == p2, "Dataclass instances with equal fields should be equal."
     taskPrompt: "Complete has_duplicates(items) so it returns True if any item appears more than once in items, or False if all items are unique.",
     starterCode: `def has_duplicates(items):\n    # Return True if items contains any duplicates, else False\n    pass\n`,
     hint: "You can write return len(items) != len(set(items)) or track seen items in a set.",
+    solution: `def has_duplicates(items):\n    return len(items) != len(set(items))`,
     expectedSummary: "has_duplicates([1, 2, 2, 3]) == True; has_duplicates([1, 2, 3]) == False",
     hiddenTests: `
 assert callable(globals().get("has_duplicates")), "Define has_duplicates(items)."

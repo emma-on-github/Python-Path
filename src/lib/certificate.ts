@@ -1,9 +1,11 @@
 import { jsPDF } from "jspdf";
 import { ExamBand } from "../data/examQuestions";
 
+export type CertificateAwardLevel = ExamBand | "Complete";
+
 export interface CertificateData {
   recipientName: string;
-  awardedLevel: ExamBand;
+  awardedLevel: CertificateAwardLevel;
   completionDate: string;
   certificateId: string;
 }
@@ -22,34 +24,48 @@ export function generateCertificateId(): string {
   return `CERT-${code}`;
 }
 
-export function getCompetencyLines(level: ExamBand): [string, string] {
+export function getCertificateTitle(level: CertificateAwardLevel): string {
+  if (level === "Complete") {
+    return "Python Path — Complete Python Certificate";
+  }
+  return `Python Path — ${level} Python Certificate`;
+}
+
+export function getCompetencyLines(level: CertificateAwardLevel): [string, string] {
   switch (level) {
     case "Beginner":
       return [
         "Variables & Arithmetic  •  Strings & f-strings  •  Lists, Indexing & len()",
-        "if / elif / else Conditionals  •  for Loops  •  Reusable Functions",
+        "if / elif / else Conditionals  •  for Loops  •  Simple Functions",
       ];
     case "Intermediate":
       return [
-        "Beginner Foundations  •  List Comprehensions  •  Dictionaries & Sets",
+        "List Comprehensions  •  Dictionaries & Safe Lookups",
         "try / except Error Handling  •  OOP Classes  •  JSON & collections",
       ];
     case "Advanced":
       return [
-        "Beginner & Intermediate Foundations  •  Decorators  •  Generators (yield)",
-        "Context Managers (with)  •  Custom Iterators & Dataclasses  •  Algorithms",
+        "Function Decorators  •  Generators (yield)  •  Context Managers (with)",
+        "Custom Iterators & Dataclasses  •  Set-Based Algorithms",
+      ];
+    case "Complete":
+      return [
+        "Core Syntax, Control Flow & Functions  •  Comprehensions, OOP & JSON",
+        "Decorators, Generators & Context Managers  •  Dataclasses & Algorithms",
       ];
   }
 }
 
-export function getCompetencyParagraph(level: ExamBand): string {
+export function getCompetencyParagraph(level: CertificateAwardLevel): string {
   switch (level) {
     case "Beginner":
-      return "for passing the Beginner Band of the Python Path Certification Exam, demonstrating solid command of core Python foundations:";
+      return "for passing the Beginner Python Certification Exam, demonstrating solid command of core Python skills:";
     case "Intermediate":
-      return "for passing the Beginner and Intermediate Bands of the Python Path Certification Exam, demonstrating proficiency across:";
+      return "for passing the Intermediate Python Certification Exam, demonstrating proficiency across:";
     case "Advanced":
-      return "for passing all three tiers of the Python Path Certification Exam, demonstrating mastery across:";
+      return "for passing the Advanced Python Certification Exam, demonstrating expertise across:";
+    case "Complete":
+      return "for successfully completing all three tiers of the Python Path Assessment, demonstrating full-curriculum mastery across:";
   }
 }
 
@@ -74,6 +90,7 @@ export async function downloadCertificatePdf({
   const logicalW = 990;
   const logicalH = 700;
   const scale = 2;
+  const isComplete = awardedLevel === "Complete";
 
   const canvas = document.createElement("canvas");
   canvas.width = logicalW * scale;
@@ -86,53 +103,66 @@ export async function downloadCertificatePdf({
 
   ctx.scale(scale, scale);
 
-  // 1. Crisp off-white parchment background (#fcfbf7)
-  ctx.fillStyle = "#fcfbf7";
+  // 1. Crisp parchment background (warm ivory-cream for Complete tier)
+  ctx.fillStyle = isComplete ? "#fefcf5" : "#fcfbf7";
   ctx.fillRect(0, 0, logicalW, logicalH);
 
-  // 2. Thick deep-navy outer frame (#1e3a8a)
-  ctx.strokeStyle = "#1e3a8a";
+  // 2. Outer frame (rich metallic gold accent for Complete tier, deep navy for single levels)
+  ctx.strokeStyle = isComplete ? "#b45309" : "#1e3a8a";
   ctx.lineWidth = 6;
   ctx.strokeRect(23, 23, logicalW - 46, logicalH - 46);
 
-  // 3. Thin metallic-gold inner frame (#d97706)
-  ctx.strokeStyle = "#d97706";
-  ctx.lineWidth = 1.5;
+  // 3. Inner frame
+  ctx.strokeStyle = isComplete ? "#1e3a8a" : "#d97706";
+  ctx.lineWidth = isComplete ? 2.5 : 1.5;
   ctx.strokeRect(36, 36, logicalW - 72, logicalH - 72);
 
-  // 4. Top-right gold-and-navy circular seal
+  if (isComplete) {
+    // Additional subtle gold hairline and soft header band for Complete tier
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(43, 43, logicalW - 86, logicalH - 86);
+
+    ctx.fillStyle = "#fef3c7";
+    ctx.fillRect(150, 74, logicalW - 300, 38);
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(150, 74, logicalW - 300, 38);
+  }
+
+  // 4. Top-right circular seal (Gold medallion for Complete, Navy seal for single levels)
   const sealX = 864;
   const sealY = 118;
   ctx.beginPath();
   ctx.arc(sealX, sealY, 51, 0, Math.PI * 2);
-  ctx.fillStyle = "#1e3a8a";
+  ctx.fillStyle = isComplete ? "#b45309" : "#1e3a8a";
   ctx.fill();
   ctx.lineWidth = 3;
-  ctx.strokeStyle = "#d97706";
+  ctx.strokeStyle = isComplete ? "#1e3a8a" : "#d97706";
   ctx.stroke();
 
   ctx.beginPath();
   ctx.arc(sealX, sealY, 44, 0, Math.PI * 2);
   ctx.lineWidth = 1;
-  ctx.strokeStyle = "#fbbf24";
+  ctx.strokeStyle = isComplete ? "#fef3c7" : "#fbbf24";
   ctx.stroke();
 
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillStyle = "#fde68a";
+  ctx.fillStyle = isComplete ? "#fef3c7" : "#fde68a";
   ctx.font = "700 8.5px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText("VERIFIED •", sealX, sealY - 9);
+  ctx.fillText(isComplete ? "ALL 3 TIERS" : "VERIFIED •", sealX, sealY - 9);
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "700 10.5px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText(`${awardedLevel.toUpperCase()}`, sealX, sealY + 8);
+  ctx.fillText(awardedLevel.toUpperCase(), sealX, sealY + 8);
 
   // 5. Header Section
   const centerX = logicalW / 2;
   ctx.textBaseline = "alphabetic";
-  ctx.fillStyle = "#1e3a8a";
+  ctx.fillStyle = isComplete ? "#92400e" : "#1e3a8a";
   ctx.font = "700 14.5px 'Plus Jakarta Sans', Helvetica, Arial, sans-serif";
-  ctx.fillText(`PYTHON PATH — ${awardedLevel.toUpperCase()} PYTHON CERTIFICATE`, centerX, 102);
+  ctx.fillText(getCertificateTitle(awardedLevel).toUpperCase(), centerX, isComplete ? 98 : 102);
 
   ctx.fillStyle = "#0f172a";
   ctx.font = "700 44px 'Playfair Display', Georgia, 'Times New Roman', serif";
@@ -162,9 +192,9 @@ export async function downloadCertificatePdf({
   ctx.fillText(getCompetencyParagraph(awardedLevel), centerX, 336);
 
   const [line1, line2] = getCompetencyLines(awardedLevel);
-  ctx.fillStyle = "#f8f6f0";
+  ctx.fillStyle = isComplete ? "#fef9ec" : "#f8f6f0";
   ctx.fillRect(90, 366, logicalW - 180, 66);
-  ctx.strokeStyle = "#e2e8f0";
+  ctx.strokeStyle = isComplete ? "#fde68a" : "#e2e8f0";
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(90, 366);

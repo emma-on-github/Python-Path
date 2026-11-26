@@ -6,6 +6,7 @@ import {
   Award,
   BookOpen,
   CheckCircle2,
+  Code2,
   Lightbulb,
   Loader2,
   Play,
@@ -24,6 +25,7 @@ export interface LessonProgress {
   code: string;
   passed: boolean;
   hintVisible: boolean;
+  solutionVisible: boolean;
   lastResult: PythonExecutionResult | null;
 }
 
@@ -34,6 +36,7 @@ export function createInitialCourseProgress(): Record<string, LessonProgress> {
       code: lesson.starterCode,
       passed: false,
       hintVisible: false,
+      solutionVisible: false,
       lastResult: null,
     };
   }
@@ -381,23 +384,62 @@ export function SelfStudyCourse({
           </div>
 
           <div className="mt-4 border-t border-slate-200 pt-4">
-            <button
-              type="button"
-              onClick={() =>
-                onUpdateLesson(activeLesson.id, (prev) => ({
-                  ...prev,
-                  hintVisible: !prev.hintVisible,
-                }))
-              }
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
-            >
-              <Lightbulb className="h-4 w-4 text-amber-600" aria-hidden="true" />
-              <span>{currentState.hintVisible ? "Hide Hint" : "Show Hint"}</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  onUpdateLesson(activeLesson.id, (prev) => ({
+                    ...prev,
+                    hintVisible: !prev.hintVisible,
+                  }))
+                }
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+              >
+                <Lightbulb className="h-4 w-4 text-amber-600" aria-hidden="true" />
+                <span>{currentState.hintVisible ? "Hide Hint" : "Show Hint"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  onUpdateLesson(activeLesson.id, (prev) => ({
+                    ...prev,
+                    solutionVisible: !prev.solutionVisible,
+                  }))
+                }
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 whitespace-nowrap shrink-0"
+              >
+                <Code2 className="h-4 w-4 text-sky-600" aria-hidden="true" />
+                <span>{currentState.solutionVisible ? "Hide Solution" : "Show Solution"}</span>
+              </button>
+            </div>
 
             {currentState.hintVisible && (
-              <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/70 p-4 text-sm leading-relaxed text-amber-950">
+              <div className="mt-3 whitespace-pre-line rounded-lg border border-amber-200 bg-amber-50/70 p-4 text-sm leading-relaxed text-amber-950">
                 {activeLesson.hint}
+              </div>
+            )}
+
+            {currentState.solutionVisible && (
+              <div className="mt-3 rounded-lg border border-sky-200 bg-sky-50/60 p-4">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-sm font-semibold text-sky-950">Sample Solution</p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onUpdateLesson(activeLesson.id, (prev) => ({
+                        ...prev,
+                        code: activeLesson.solution,
+                      }))
+                    }
+                    className="rounded-md border border-sky-300 bg-white px-3 py-1 text-xs font-semibold text-sky-800 transition-colors hover:bg-sky-100"
+                  >
+                    Load into Sandbox
+                  </button>
+                </div>
+                <pre className="overflow-x-auto rounded-md bg-slate-900 px-3.5 py-3 font-mono text-sm leading-relaxed text-slate-100">
+                  <code>{activeLesson.solution}</code>
+                </pre>
               </div>
             )}
           </div>
