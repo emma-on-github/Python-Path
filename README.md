@@ -2,8 +2,6 @@
 
 A free, privacy-first interactive Python self-study course and certification studio built around zero-storage UK GDPR principles. All Python execution, automated grading, progress tracking, and PDF certificate generation run directly in the learner's browser with no accounts, no cookies, and no backend user storage.
 
-Created by **Emma Hicks**.
-
 ---
 
 ## Key Features
@@ -28,7 +26,8 @@ Created by **Emma Hicks**.
 - **Live Executive Certificate & Client-Side PDF Export**  
   Passing a level unlocks a live parchment-and-navy **Certificate of Completion** (`Python Path — [Beginner / Intermediate / Advanced] Python Certificate`). Learners can enter or edit their name right before exporting and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a Completion Date (`DD/MM/YYYY`) and an on-device **Certificate ID** (`CERT-XXXXXX`).
 
-  Sample certificate PDF: [python-foundations-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35270199/python-foundations-certificate-emma-hicks.pdf)
+  Sample certificate PDF: [python-path-complete-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35475492/python-path-complete-certificate-emma-hicks.pdf)
+
 
 - **Filterable Python Cheat Sheet**  
   Copyable syntax reference snippets filterable by **All**, **Beginner**, **Intermediate**, and **Advanced** topics, accessible anytime from the top navigation bar.
