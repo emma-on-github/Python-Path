@@ -15,16 +15,16 @@ A free, privacy-first interactive Python self-study course and certification stu
   2. **Module 2: Intermediate Python** — list comprehensions, dictionaries & sets, `try / except` error handling, classes & OOP, JSON parsing, and `collections.Counter`.
   3. **Module 3: Advanced Python** — decorators, generators (`yield`), context managers, custom iterators, dataclasses, and algorithmic problem-solving.
 
-  The course workspace places a **vertical lesson progression sidebar** on the left, the **Lesson Explanation & Hands-On Exercise** (with an optional **Show Hint** toggle) on the right, and an enlarged **Python 3 Sandbox** underneath.
+  The course workspace places a **vertical lesson progression sidebar** on the left, and stacks the **Lesson Explanation**, **Hands-On Exercise** (with optional **Show Hint**, **Show Solution**, and **Load into Sandbox** controls), and an enlarged **Python 3 Sandbox** on the right.
 
 - **In-Browser Python 3 Sandbox (Pyodide WebAssembly)**  
-  Executes Python code safely inside the browser without sending user code to any remote server. Captures `print()` standard output, standalone return values, and Python tracebacks paired with plain-English coaching tips for common errors (`SyntaxError`, `IndentationError`, `NameError`, `TypeError`, `IndexError`, `KeyError`, and `ZeroDivisionError`).
+  Executes Python code safely inside the browser without sending user code to any remote server. Captures `print()` standard output, standalone return values, and Python tracebacks paired with plain-English coaching tips for common errors (`SyntaxError`, `IndentationError`, `NameError`, `TypeError`, `IndexError`, `KeyError`, and `ZeroDivisionError`), using a ligature-free monospace editor so operators such as `>=`, `<=`, and `==` display exactly as typed.
 
 - **Selectable Certification Exam & Full Tiered Assessment**  
-  Learners can choose a focused single-level exam (**Beginner**, **Intermediate**, or **Advanced** — 5 coding challenges each, requiring at least `4 / 5` to pass) or take the **Full Tiered Assessment** across all 15 challenges with sequential `4 / 5` band thresholds. Exam submissions are validated quietly against hidden Python `assert` tests with hints and sample solutions disabled, and unsuccessful attempts recommend specific Self-Study lessons to review.
+  Learners can choose a focused single-level exam (**Beginner**, **Intermediate**, or **Advanced** — 5 coding challenges each, requiring at least `3 / 5` to pass) or take the **Full Tiered Assessment** across all 15 challenges with sequential `3 / 5` band thresholds. Exam submissions are validated quietly against hidden Python `assert` tests, with an optional **Show Hint** toggle available (sample solutions are omitted in exams), and unsuccessful attempts recommend specific Self-Study lessons to review.
 
 - **Live Executive Certificate & Client-Side PDF Export**  
-  Passing a level unlocks a live parchment-and-navy **Certificate of Completion** (`Python Path — [Beginner / Intermediate / Advanced] Python Certificate`). Learners can enter or edit their name right before exporting and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a Completion Date (`DD/MM/YYYY`) and an on-device **Certificate ID** (`CERT-XXXXXX`).
+  Passing a single level unlocks a parchment-and-navy **Certificate of Completion** (`Python Path — [Beginner / Intermediate / Advanced] Python Certificate`), while passing all three tiers in the Full Tiered Assessment unlocks a distinct gold-framed **Complete Python Certificate** (`ALL 3 TIERS` seal). Learners can enter or edit their name right before exporting and download a high-resolution A4 landscape PDF generated locally via HTML5 Canvas (`2×` scale) and `jsPDF`, featuring a Completion Date (`DD/MM/YYYY`) and an on-device **Certificate ID** (`CERT-XXXXXX`).
 
   Sample certificate PDF: [python-path-complete-certificate-emma-hicks.pdf](https://github.com/user-attachments/files/35475492/python-path-complete-certificate-emma-hicks.pdf)
 
