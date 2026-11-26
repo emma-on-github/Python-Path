@@ -39,8 +39,8 @@ export const CHEAT_SHEET_ITEMS: CheatSheetItem[] = [
   {
     level: "Intermediate",
     title: "Dictionaries & Sets",
-    summary: "Fast key-value lookups and deduplicated unique sets.",
-    code: `counts = {"a": 1}\nunique = set([1, 1, 2])`,
+    summary: "Safe key lookups with .get() and unique items with set().",
+    code: `scores = {"Alex": 90}\nval = scores.get("Sam", 0)\nunique = set([1, 1, 2])`,
   },
   {
     level: "Intermediate",

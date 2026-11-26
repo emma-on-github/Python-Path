@@ -183,6 +183,7 @@ def __run_sandbox__(code_str, hidden_tests_str):
         sys.stderr = test_buf
         try:
             ns["__captured_stdout__"] = captured_stdout
+            ns["__user_code__"] = code_str
             exec(compile(hidden_tests_str, "<tests>", "exec"), ns)
         except AssertionError as ae:
             tests_passed = False

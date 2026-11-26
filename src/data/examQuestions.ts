@@ -122,34 +122,34 @@ assert double_all([]) == [], "Empty list should return []."
   {
     id: 7,
     band: "Intermediate",
-    topic: "Dictionaries & Sets",
-    title: "Unique Sorted Items",
+    topic: "Dictionaries & Safe Lookups",
+    title: "Look Up Item Price",
     prompt:
-      "Write a function unique_sorted(items) that removes duplicates from items and returns a sorted list.",
-    exampleSummary: "unique_sorted([3, 1, 2, 2, 3]) -> [1, 2, 3]",
-    starterCode: `def unique_sorted(items):\n    # Return a sorted list of unique items\n    pass\n`,
+      "Write a function get_price(prices, item) that returns the price of item from the dictionary prices, or 0 if the item is not in prices.",
+    exampleSummary: 'get_price({"pen": 2, "book": 8}, "book") -> 8; missing item -> 0',
+    starterCode: `def get_price(prices, item):\n    # Return prices.get(item, 0)\n    pass\n`,
     recommendedLessonId: "i2",
     hiddenTests: `
-assert callable(globals().get("unique_sorted")), "Define function unique_sorted(items)."
-assert unique_sorted([3, 1, 2, 2, 3]) == [1, 2, 3], "Expected [1, 2, 3]."
-assert unique_sorted(["b", "a", "b"]) == ["a", "b"], "Should work with strings too."
-assert unique_sorted([]) == [], "Empty list should return []."
+assert callable(globals().get("get_price")), "Define function get_price(prices, item)."
+assert get_price({"pen": 2, "book": 8}, "book") == 8, "Should return 8 for 'book'."
+assert get_price({"pen": 2, "book": 8}, "bag") == 0, "Missing item should return 0."
+assert get_price({}, "pen") == 0, "Empty dictionary should return 0."
 `,
   },
   {
     id: 8,
     band: "Intermediate",
     topic: "Error Handling (try / except)",
-    title: "Safe Division",
+    title: "Divide Safely",
     prompt:
-      "Write a function safe_divide(a, b) that returns a / b, or 0 if b is 0 (using try / except ZeroDivisionError).",
-    exampleSummary: "safe_divide(10, 2) -> 5.0, safe_divide(10, 0) -> 0",
-    starterCode: `def safe_divide(a, b):\n    # Return a / b or 0 on ZeroDivisionError\n    pass\n`,
+      "Write a function divide_or_zero(a, b) that returns a / b, or 0 if b is 0 (using try / except ZeroDivisionError).",
+    exampleSummary: "divide_or_zero(12, 3) -> 4.0, divide_or_zero(12, 0) -> 0",
+    starterCode: `def divide_or_zero(a, b):\n    # Return a / b or 0 on ZeroDivisionError\n    pass\n`,
     recommendedLessonId: "i3",
     hiddenTests: `
-assert callable(globals().get("safe_divide")), "Define function safe_divide(a, b)."
-assert safe_divide(10, 2) == 5.0, "safe_divide(10, 2) should return 5.0."
-assert safe_divide(5, 0) == 0, "Zero divisor should return 0."
+assert callable(globals().get("divide_or_zero")), "Define function divide_or_zero(a, b)."
+assert divide_or_zero(12, 3) == 4.0, "divide_or_zero(12, 3) should return 4.0."
+assert divide_or_zero(5, 0) == 0, "Zero divisor should return 0."
 `,
   },
   {

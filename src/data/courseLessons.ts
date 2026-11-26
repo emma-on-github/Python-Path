@@ -128,18 +128,19 @@ assert lines == ["red", "4"], f"Expected lines ['red', '4'], got {lines}."
     lessonNumber: 5,
     title: "Making Decisions with if / elif / else",
     explanation:
-      "Conditionals let your programme choose different paths using comparisons such as >= (greater than or equal to), <= (less than or equal to), or == (equal to). Every if, elif, and else line ends with a colon (:), and the code inside must be indented by 4 spaces. Python runs only the first branch whose condition is True.",
-    syntaxExample: `score = 75\nif score >= 80:\n    result = "Distinction"\nelif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"\nprint(result)`,
+      "Conditionals let your programme choose different paths using comparisons such as >= (greater than or equal to), <= (less than or equal to), or == (equal to). Every if, elif, and else line ends with a colon (:), and the code inside must be indented by 4 spaces. Make sure if, elif, and else all line up at the left edge.",
+    syntaxExample: `temp = 22\nif temp >= 25:\n    label = "Hot"\nelif temp >= 15:\n    label = "Mild"\nelse:\n    label = "Cold"\nprint(label)`,
     whyItMatters:
       "Branching logic enables validation rules, grading checks, alerts, and decision trees.",
-    taskPrompt: 'Given score = 85, write an if / elif / else statement that sets result to "Distinction" if score >= 80, "Pass" if score >= 50, or "Retry" otherwise, then call print(result).',
-    starterCode: `score = 85\n\n# Write your if / elif / else block below to set result\n\n\n# Then print(result)\n`,
-    hint: 'Use if score >= 80: result = "Distinction", elif score >= 50: result = "Pass", else: result = "Retry", followed by print(result).',
+    taskPrompt: 'Given score = 85, write an if / elif / else block that sets result to "Distinction" if score >= 80, "Pass" if score >= 50, or "Retry" otherwise, then prints result.',
+    starterCode: `score = 85\nresult = ""\n\n# Write your if / elif / else block below\n\n\nprint(result)\n`,
+    hint: 'Line up if, elif, and else at the left edge:\nif score >= 80:\n    result = "Distinction"\nelif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"',
     expectedSummary: 'result == "Distinction" and console prints Distinction',
     hiddenTests: `
-assert "result" in globals(), "Please create a variable named result inside your if / elif / else block."
-assert result == "Distinction", f"For score = 85, expected result to be 'Distinction', got '{result}'."
-assert __captured_stdout__.strip() == "Distinction", f"Expected console output 'Distinction', got '{__captured_stdout__.strip()}'."
+assert "if " in __user_code__ or "if(" in __user_code__, "Use an if / elif / else statement to set result."
+assert __captured_stdout__.strip() == "Distinction", f"For score = 85, expected console output 'Distinction', got '{__captured_stdout__.strip()}'."
+if "result" in globals() and result != "":
+    assert result == "Distinction", f"For score = 85, expected result to be 'Distinction', got '{result}'."
 `,
   },
   {
@@ -391,8 +392,8 @@ assert list(Countdown(0)) == [], "Countdown(0) should produce []."
     lessonNumber: 5,
     title: "Dataclasses for Clean Data Models",
     explanation:
-      "The @dataclass decorator automatically writes __init__, __repr__, and equality (__eq__) methods from simple type-annotated fields. This saves repetitive code when modelling structured items like products or users.",
-    syntaxExample: `from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: float\n    y: float`,
+      "The @dataclass decorator automatically writes __init__, __repr__, and equality (__eq__) methods from simple type-annotated fields, and you can also provide default values like qty: int = 1. This saves repetitive code when modelling structured items like products or books.",
+    syntaxExample: `from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: float\n    y: float = 0.0`,
     whyItMatters:
       "Dataclasses make structured data models concise, readable, and easy to compare.",
     taskPrompt: "Complete the @dataclass named Product with two fields: name: str and price: float.",
