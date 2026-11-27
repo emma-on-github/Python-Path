@@ -35,23 +35,23 @@ export function getCompetencyLines(level: CertificateAwardLevel): [string, strin
   switch (level) {
     case "Beginner":
       return [
-        "Variables & Arithmetic  •  Strings & f-strings  •  Lists, Indexing & len()",
-        "if / elif / else Conditionals  •  for Loops  •  Simple Functions",
+        "print() Output  •  Variables & Simple Maths  •  f-strings",
+        "Simple Lists  •  if / else Decisions  •  for Loops",
       ];
     case "Intermediate":
       return [
-        "List Comprehensions  •  Dictionaries & Safe Lookups",
-        "try / except Error Handling  •  OOP Classes  •  JSON & collections",
+        "Functions & List Comprehensions  •  Dictionaries & Safe Lookups",
+        "try / except Error Handling  •  Simple Classes  •  JSON & Counter",
       ];
     case "Advanced":
       return [
         "Function Decorators  •  Generators (yield)  •  Context Managers (with)",
-        "Custom Iterators & Dataclasses  •  Set-Based Algorithms",
+        "Custom Iterators & Dataclasses  •  Unique Sets",
       ];
     case "Complete":
       return [
-        "Core Syntax, Control Flow & Functions  •  Comprehensions, OOP & JSON",
-        "Decorators, Generators & Context Managers  •  Dataclasses & Algorithms",
+        "Core Syntax, Loops & Decisions  •  Functions, Classes & JSON",
+        "Decorators, Generators & Context Managers  •  Dataclasses & Sets",
       ];
   }
 }

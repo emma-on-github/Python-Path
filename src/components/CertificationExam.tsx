@@ -54,21 +54,21 @@ const EXAM_TRACKS: {
     badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Beginner Exam",
     description:
-      "Core syntax, conditionals, loops, lists, and functions. Score at least 4/5 to earn the Beginner Python Certificate.",
+      "Gentle first steps: print(), variables, f-strings, lists, and if / else checks. Score at least 4/5 to earn the Beginner Python Certificate.",
   },
   {
     id: "Intermediate",
     badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Intermediate Exam",
     description:
-      "Comprehensions, dictionaries, try/except, OOP classes, and JSON. Score at least 4/5 to earn the Intermediate Python Certificate.",
+      "List comprehensions, dictionaries, try / except, simple classes, and JSON. Score at least 4/5 to earn the Intermediate Python Certificate.",
   },
   {
     id: "Advanced",
     badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Advanced Exam",
     description:
-      "Decorators, generators, context managers, dataclasses, and algorithms. Score at least 4/5 for the Advanced Certificate.",
+      "Simple decorators, yield generators, context managers, dataclasses, and sets. Score at least 4/5 for the Advanced Certificate.",
   },
   {
     id: "Full",
@@ -560,9 +560,12 @@ export function CertificationExam({
                 Recommended Self-Study Lessons Before Retaking
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-amber-900">
-                You scored {bandSummary.activePassed} / 5 (4 / 5 is needed to unlock the {targetBand} Python
-                Certificate). Review these topics in <strong>{getModuleTitleForBand(targetBand)}</strong> and try
-                again:
+                You scored{" "}
+                {examState.selectedTrack === "Full"
+                  ? bandSummary.beginnerScore
+                  : bandSummary.activePassed}{" "}
+                / 5 (4 / 5 is needed to unlock the {targetBand} Python Certificate). Review these topics in{" "}
+                <strong>{getModuleTitleForBand(targetBand)}</strong> and try again:
               </p>
 
               <div className="mt-3.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">

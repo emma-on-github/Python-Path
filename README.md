@@ -11,9 +11,9 @@ A free, privacy-first interactive Python self-study course and certification stu
 
 - **Self-Study Course (3 Modules · 18 Guided Lessons)**  
   Structured across three progressive modules (6 lessons per module):
-  1. **Module 1: Beginner Python** — `print()` output, variables & basic maths, strings & f-strings, lists & indexing, `if / elif / else` & `for` loops, and functions.
-  2. **Module 2: Intermediate Python** — list comprehensions, dictionaries & sets, `try / except` error handling, classes & OOP, JSON parsing, and `collections.Counter`.
-  3. **Module 3: Advanced Python** — decorators, generators (`yield`), context managers, custom iterators, dataclasses, and algorithmic problem-solving.
+  1. **Module 1: Beginner Python** — `print()` output, variables & simple maths, f-strings, simple lists, `if / else` decisions, and `for` loops.
+  2. **Module 2: Intermediate Python** — functions & list comprehensions, dictionaries & `.get()`, `try / except` error handling, simple classes, JSON reading, and `collections.Counter`.
+  3. **Module 3: Advanced Python** — simple decorators, generators (`yield`), context managers (`with`), custom iterators, `@dataclass`, and removing duplicates with `set()`.
 
   The course workspace places a **vertical lesson progression sidebar** on the left, and stacks the **Lesson Explanation**, **Hands-On Exercise** (with optional **Show Hint**, **Show Solution**, and **Load into Sandbox** controls), and an enlarged **Python 3 Sandbox** on the right.
 
