@@ -51,31 +51,31 @@ const EXAM_TRACKS: {
 }[] = [
   {
     id: "Beginner",
-    badge: "5 Questions · Pass threshold: 3 / 5",
+    badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Beginner Exam",
     description:
-      "Core syntax, conditionals, loops, lists, and functions. Score at least 3/5 to earn the Beginner Python Certificate.",
+      "Core syntax, conditionals, loops, lists, and functions. Score at least 4/5 to earn the Beginner Python Certificate.",
   },
   {
     id: "Intermediate",
-    badge: "5 Questions · Pass threshold: 3 / 5",
+    badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Intermediate Exam",
     description:
-      "Comprehensions, dictionaries, try/except, OOP classes, and JSON. Score at least 3/5 to earn the Intermediate Python Certificate.",
+      "Comprehensions, dictionaries, try/except, OOP classes, and JSON. Score at least 4/5 to earn the Intermediate Python Certificate.",
   },
   {
     id: "Advanced",
-    badge: "5 Questions · Pass threshold: 3 / 5",
+    badge: "5 Questions · Pass threshold: 4 / 5",
     title: "Advanced Exam",
     description:
-      "Decorators, generators, context managers, dataclasses, and algorithms. Score at least 3/5 for the Advanced Certificate.",
+      "Decorators, generators, context managers, dataclasses, and algorithms. Score at least 4/5 for the Advanced Certificate.",
   },
   {
     id: "Full",
     badge: "15 Questions · All Levels",
     title: "Full Tiered Assessment",
     description:
-      "Take all 3 levels together (3/5 per level to pass). Passing all 3 tiers unlocks the Complete Python Certificate.",
+      "Take all 3 levels together (4/5 per level to pass). Passing all 3 tiers unlocks the Complete Python Certificate.",
   },
 ];
 
@@ -156,9 +156,9 @@ export function CertificationExam({
     const advancedScore = advancedQs.filter((q) => examState.answersById[q.id]?.passed).length;
 
     let awardedLevel: CertificateAwardLevel | null = null;
-    const beginnerPassed = beginnerScore >= 3;
-    const intermediatePassed = beginnerPassed && intermediateScore >= 3;
-    const advancedPassed = intermediatePassed && advancedScore >= 3;
+    const beginnerPassed = beginnerScore >= 4;
+    const intermediatePassed = beginnerPassed && intermediateScore >= 4;
+    const advancedPassed = intermediatePassed && advancedScore >= 4;
 
     if (examState.selectedTrack === "Full") {
       awardedLevel = advancedPassed
@@ -169,11 +169,11 @@ export function CertificationExam({
             ? "Beginner"
             : null;
     } else if (examState.selectedTrack === "Beginner") {
-      awardedLevel = beginnerScore >= 3 ? "Beginner" : null;
+      awardedLevel = beginnerScore >= 4 ? "Beginner" : null;
     } else if (examState.selectedTrack === "Intermediate") {
-      awardedLevel = intermediateScore >= 3 ? "Intermediate" : null;
+      awardedLevel = intermediateScore >= 4 ? "Intermediate" : null;
     } else if (examState.selectedTrack === "Advanced") {
-      awardedLevel = advancedScore >= 3 ? "Advanced" : null;
+      awardedLevel = advancedScore >= 4 ? "Advanced" : null;
     }
 
     const activePassed = activeQuestions.filter((q) => examState.answersById[q.id]?.passed).length;
@@ -481,7 +481,7 @@ export function CertificationExam({
                 <div className="flex items-center justify-between text-sm font-semibold">
                   <span className="text-slate-700">Beginner Band</span>
                   <span className={bandSummary.beginnerPassed ? "text-emerald-700" : "text-amber-800"}>
-                    {bandSummary.beginnerPassed ? "Passed" : "Needs 3/5"}
+                    {bandSummary.beginnerPassed ? "Passed" : "Needs 4/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -503,7 +503,7 @@ export function CertificationExam({
                       ? "Passed"
                       : !bandSummary.beginnerPassed
                         ? "Requires Beginner Pass"
-                        : "Needs 3/5"}
+                        : "Needs 4/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -525,7 +525,7 @@ export function CertificationExam({
                       ? "Passed"
                       : !bandSummary.intermediatePassed
                         ? "Requires Intermediate Pass"
-                        : "Needs 3/5"}
+                        : "Needs 4/5"}
                   </span>
                 </div>
                 <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -544,7 +544,7 @@ export function CertificationExam({
               <div className="flex items-center justify-between text-sm font-semibold">
                 <span className="text-slate-700">{examState.selectedTrack} Track Score</span>
                 <span className={bandSummary.awardedLevel ? "text-emerald-700" : "text-amber-800"}>
-                  {bandSummary.awardedLevel ? "Passed (≥ 3/5)" : "Needs 3/5 to Pass"}
+                  {bandSummary.awardedLevel ? "Passed (≥ 4/5)" : "Needs 4/5 to Pass"}
                 </span>
               </div>
               <p className="mt-1.5 text-2xl font-bold text-slate-900 tabular-nums">
@@ -560,7 +560,7 @@ export function CertificationExam({
                 Recommended Self-Study Lessons Before Retaking
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-amber-900">
-                You scored {bandSummary.activePassed} / 5 (3 / 5 is needed to unlock the {targetBand} Python
+                You scored {bandSummary.activePassed} / 5 (4 / 5 is needed to unlock the {targetBand} Python
                 Certificate). Review these topics in <strong>{getModuleTitleForBand(targetBand)}</strong> and try
                 again:
               </p>

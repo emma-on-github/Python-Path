@@ -34,13 +34,13 @@ export const COURSE_MODULES: CourseModuleMeta[] = [
     id: "intermediate",
     number: 2,
     title: "Module 2: Intermediate Python",
-    subtitle: "Comprehensions, dictionaries & sets, error handling, OOP classes, and JSON.",
+    subtitle: "Comprehensions, dictionaries, error handling, OOP classes, and JSON.",
   },
   {
     id: "advanced",
     number: 3,
     title: "Module 3: Advanced Python",
-    subtitle: "Decorators, generators, context managers, iterators, dataclasses, and algorithms.",
+    subtitle: "Decorators, generators, context managers, iterators, dataclasses, and sets.",
   },
 ];
 
@@ -58,9 +58,9 @@ export const COURSE_LESSONS: CourseLesson[] = [
     syntaxExample: `print("Welcome to Python!")\nprint(2026)`,
     whyItMatters:
       "Printing values is the fastest way to inspect what your programme is doing and verify results as you learn.",
-    taskPrompt: 'Use print() to output the exact message Hello, Python! to the console.',
-    starterCode: `# Write your print() statement below\n`,
-    hint: 'Type print("Hello, Python!") with exact capitalisation and punctuation.',
+    taskPrompt: 'Put the exact message Hello, Python! inside print("") below to output it to the console.',
+    starterCode: `# Type Hello, Python! inside the quotes below\nprint("")\n`,
+    hint: 'Update the line to print("Hello, Python!") with exact capitalisation and punctuation.',
     solution: `print("Hello, Python!")`,
     expectedSummary: "Console prints Hello, Python!",
     hiddenTests: `
@@ -77,13 +77,13 @@ assert __captured_stdout__.strip() == "Hello, Python!", f"Expected 'Hello, Pytho
     syntaxExample: `price = 12\nquantity = 3\ntotal = price * quantity\nprint(total)  # 36`,
     whyItMatters:
       "Variables let your code adapt to changing inputs instead of repeating fixed numbers everywhere.",
-    taskPrompt: "Create a variable area = width * height, then print(area).",
-    starterCode: `width = 8\nheight = 5\n\n# Calculate area and print it\n`,
-    hint: "Write area = width * height on one line, then print(area) on the next line.",
+    taskPrompt: "Update area so it multiplies width * height, then run the code to print the result.",
+    starterCode: `width = 8\nheight = 5\n\n# Replace 0 with width * height\narea = 0\nprint(area)\n`,
+    hint: "Change area = 0 to area = width * height.",
     solution: `width = 8\nheight = 5\n\narea = width * height\nprint(area)`,
     expectedSummary: "area == 40 and console prints 40",
     hiddenTests: `
-assert "area" in globals(), "Please create a variable named area."
+assert "area" in globals(), "Please keep the variable named area."
 assert area == 40, f"Expected area to be 40, got {area}."
 assert __captured_stdout__.strip() == "40", "Make sure you call print(area)."
 `,
@@ -98,9 +98,9 @@ assert __captured_stdout__.strip() == "40", "Make sure you call print(area)."
     syntaxExample: `city = "Bristol"\ntemp = 18\nprint(f"{city} is {temp}C today")`,
     whyItMatters:
       "f-strings are the modern Python standard for formatting reports, alerts, and user messages cleanly.",
-    taskPrompt: 'Given name = "Sam", use an f-string to print Hello, Sam! to the console.',
-    starterCode: `name = "Sam"\n\n# Use an f-string with print() below\n`,
-    hint: 'Try print(f"Hello, {name}!").',
+    taskPrompt: 'Given name = "Sam", finish the f-string inside print(f"") so it prints Hello, Sam! to the console.',
+    starterCode: `name = "Sam"\n\n# Put Hello, {name}! inside the f-string quotes below\nprint(f"")\n`,
+    hint: 'Update the print line to print(f"Hello, {name}!").',
     solution: `name = "Sam"\n\nprint(f"Hello, {name}!")`,
     expectedSummary: "Console prints Hello, Sam!",
     hiddenTests: `
@@ -113,18 +113,17 @@ assert __captured_stdout__.strip() == "Hello, Sam!", f"Expected 'Hello, Sam!', g
     lessonNumber: 4,
     title: "Lists, Indexing, and len()",
     explanation:
-      "A list stores an ordered sequence of items inside square brackets, separated by commas. Python uses zero-based indexing, meaning the very first item is at position [0] and the second is at [1]. You can count the total items in any list using len().",
+      "A list stores an ordered sequence of items inside square brackets, separated by commas. Python uses zero-based indexing, meaning the very first item is at position [0] and the second is at [1]. You can also count the total items in any list using len().",
     syntaxExample: `colours = ["red", "blue", "green"]\nprint(colours[0])      # red\nprint(len(colours))  # 3`,
     whyItMatters:
       "Lists are one of Python's workhorse structures for holding datasets, queues, and collections of items.",
-    taskPrompt: 'Given colours = ["red", "blue", "green", "gold"], print the first colour and the total count using len().',
-    starterCode: `colours = ["red", "blue", "green", "gold"]\n\n# Print colours[0] on line 1, and len(colours) on line 2\n`,
-    hint: "Write print(colours[0]) on one line, then print(len(colours)) on the next line.",
-    solution: `colours = ["red", "blue", "green", "gold"]\n\nprint(colours[0])\nprint(len(colours))`,
-    expectedSummary: "Prints red on the first line and 4 on the second line",
+    taskPrompt: 'Given colours = ["red", "blue", "green", "gold"], print the first colour using index [0].',
+    starterCode: `colours = ["red", "blue", "green", "gold"]\n\n# Print the first colour using colours[0]\nprint()\n`,
+    hint: "Put colours[0] inside print() so it reads print(colours[0]).",
+    solution: `colours = ["red", "blue", "green", "gold"]\n\nprint(colours[0])`,
+    expectedSummary: "Console prints red",
     hiddenTests: `
-lines = [l.strip() for l in __captured_stdout__.strip().splitlines() if l.strip()]
-assert lines == ["red", "4"], f"Expected lines ['red', '4'], got {lines}."
+assert __captured_stdout__.strip() == "red", f"Expected 'red', got '{__captured_stdout__.strip()}'."
 `,
   },
   {
@@ -133,20 +132,20 @@ assert lines == ["red", "4"], f"Expected lines ['red', '4'], got {lines}."
     lessonNumber: 5,
     title: "Making Decisions with if / elif / else",
     explanation:
-      "Conditionals let your programme choose different paths using comparisons such as >= (greater than or equal to), <= (less than or equal to), or == (equal to). Every if, elif, and else line ends with a colon (:), and the code inside must be indented by 4 spaces. Make sure if, elif, and else all line up at the left edge.",
+      "Conditionals let your programme choose different paths using comparisons such as >= (greater than or equal to), <= (less than or equal to), or == (equal to). Every if, elif, and else line ends with a colon (:), and the code inside must be indented by 4 spaces.",
     syntaxExample: `temp = 22\nif temp >= 25:\n    label = "Hot"\nelif temp >= 15:\n    label = "Mild"\nelse:\n    label = "Cold"\nprint(label)`,
     whyItMatters:
       "Branching logic enables validation rules, grading checks, alerts, and decision trees.",
-    taskPrompt: 'Given score = 85, write an if / elif / else block that sets result to "Distinction" if score >= 80, "Pass" if score >= 50, or "Retry" otherwise, then prints result.',
-    starterCode: `score = 85\nresult = ""\n\n# Write your if / elif / else block below\n\n\nprint(result)\n`,
-    hint: 'Line up if, elif, and else at the left edge, and indent each result line by 4 spaces. Remember to use >= (greater than or equal to), not =>.',
-    solution: `score = 85\nresult = ""\n\nif score >= 80:\n    result = "Distinction"\nelif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"\n\nprint(result)`,
-    expectedSummary: 'result == "Distinction" and console prints Distinction',
+    taskPrompt: 'Given score = 75, complete the if / else block below so result is set to "Pass" when score >= 50, or "Retry" otherwise.',
+    starterCode: `score = 75\nresult = ""\n\nif score >= 50:\n    # Set result = "Pass"\n    pass\nelse:\n    # Set result = "Retry"\n    pass\n\nprint(result)\n`,
+    hint: 'Replace the first pass with result = "Pass" and the second pass with result = "Retry" (keep the 4-space indentation).',
+    solution: `score = 75\nresult = ""\n\nif score >= 50:\n    result = "Pass"\nelse:\n    result = "Retry"\n\nprint(result)`,
+    expectedSummary: 'result == "Pass" and console prints Pass',
     hiddenTests: `
-assert "if " in __user_code__ or "if(" in __user_code__, "Use an if / elif / else statement to set result."
-assert __captured_stdout__.strip() == "Distinction", f"For score = 85, expected console output 'Distinction', got '{__captured_stdout__.strip()}'."
+assert "if " in __user_code__ or "if(" in __user_code__, "Keep the if / else statement to set result."
+assert __captured_stdout__.strip() == "Pass", f"For score = 75, expected console output 'Pass', got '{__captured_stdout__.strip()}'."
 if "result" in globals() and result != "":
-    assert result == "Distinction", f"For score = 85, expected result to be 'Distinction', got '{result}'."
+    assert result == "Pass", f"For score = 75, expected result to be 'Pass', got '{result}'."
 `,
   },
   {
@@ -159,9 +158,9 @@ if "result" in globals() and result != "":
     syntaxExample: `def sum_list(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total`,
     whyItMatters:
       "Functions and loops form the core building blocks of almost every real Python script.",
-    taskPrompt: "Complete the function sum_list(nums) so it loops through every number in nums, adds it to total, and returns total.",
-    starterCode: `def sum_list(nums):\n    total = 0\n    # Loop through nums and add each number to total\n    \n    return total\n`,
-    hint: "Add two lines inside the function: for n in nums: followed by total += n (indented 4 more spaces).",
+    taskPrompt: "Complete the loop inside sum_list(nums) so it adds each number n to total and returns total.",
+    starterCode: `def sum_list(nums):\n    total = 0\n    for n in nums:\n        # Add n to total\n        pass\n    return total\n`,
+    hint: "Replace pass with total += n (or total = total + n).",
     solution: `def sum_list(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total`,
     expectedSummary: "sum_list([2, 4, 6]) == 12",
     hiddenTests: `
@@ -207,8 +206,8 @@ assert double_numbers([]) == [], "Empty list should return []."
     whyItMatters:
       "Safe dictionary lookups prevent crashes when optional keys or names are missing from your data.",
     taskPrompt: "Complete get_score(scores, name) so it returns the score for name from the dictionary scores, or 0 if the name is missing.",
-    starterCode: `def get_score(scores, name):\n    # Use scores.get(name, 0)\n    pass\n`,
-    hint: "Write return scores.get(name, 0).",
+    starterCode: `def get_score(scores, name):\n    # Return scores.get(name, 0)\n    pass\n`,
+    hint: "Replace pass with return scores.get(name, 0).",
     solution: `def get_score(scores, name):\n    return scores.get(name, 0)`,
     expectedSummary: 'get_score({"Alex": 90}, "Alex") == 90; missing name returns 0',
     hiddenTests: `
@@ -227,9 +226,9 @@ assert get_score({"Alex": 90}, "Mia") == 0, "Missing name should return 0."
     syntaxExample: `def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0`,
     whyItMatters:
       "Defensive error handling keeps your code running smoothly even when unexpected inputs arrive.",
-    taskPrompt: "Complete safe_divide(a, b) using try / except ZeroDivisionError so it returns a / b, or 0 when b is 0.",
-    starterCode: `def safe_divide(a, b):\n    # Use try / except ZeroDivisionError\n    pass\n`,
-    hint: "Inside try: write return a / b. Inside except ZeroDivisionError: write return 0.",
+    taskPrompt: "Complete the try / except block in safe_divide(a, b) so it returns a / b, or 0 when b is 0.",
+    starterCode: `def safe_divide(a, b):\n    try:\n        # Return a / b\n        pass\n    except ZeroDivisionError:\n        # Return 0\n        pass\n`,
+    hint: "Replace the first pass with return a / b and the second pass with return 0.",
     solution: `def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0`,
     expectedSummary: "safe_divide(10, 2) == 5.0 and safe_divide(10, 0) == 0",
     hiddenTests: `
@@ -250,7 +249,7 @@ assert safe_divide(10, 0) == 0, "Division by zero should return 0."
       "Classes keep related state and behaviour neatly organised in larger Python projects.",
     taskPrompt: "Complete the Counter class so __init__ sets self.count = 0 and increment(self) adds 1 to self.count.",
     starterCode: `class Counter:\n    def __init__(self):\n        # Set self.count = 0\n        pass\n\n    def increment(self):\n        # Add 1 to self.count\n        pass\n`,
-    hint: "Use self.count = 0 inside __init__, and self.count += 1 inside increment.",
+    hint: "Replace the first pass with self.count = 0, and the second pass with self.count += 1.",
     solution: `class Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1`,
     expectedSummary: "c = Counter(); c.increment(); c.count == 1",
     hiddenTests: `
@@ -272,9 +271,9 @@ assert c.count == 2, "Calling increment() twice should make count equal 2."
     syntaxExample: `import json\nuser = json.loads('{"name": "Alex", "role": "editor"}')\nprint(user["name"])  # Alex`,
     whyItMatters:
       "Reading JSON payloads is one of the most common tasks when working with APIs and config files.",
-    taskPrompt: 'Complete get_user_name(json_str) by parsing json_str with json.loads() and returning data["name"].',
-    starterCode: `import json\n\ndef get_user_name(json_str):\n    # Parse json_str with json.loads() and return data["name"]\n    pass\n`,
-    hint: 'Write data = json.loads(json_str) followed by return data["name"].',
+    taskPrompt: 'Complete get_user_name(json_str) by returning data["name"] from the parsed dictionary data.',
+    starterCode: `import json\n\ndef get_user_name(json_str):\n    data = json.loads(json_str)\n    # Return data["name"]\n    pass\n`,
+    hint: 'Replace pass with return data["name"].',
     solution: `import json\n\ndef get_user_name(json_str):\n    data = json.loads(json_str)\n    return data["name"]`,
     expectedSummary: 'get_user_name(\'{"name": "Alex"}\') == "Alex"',
     hiddenTests: `
@@ -289,18 +288,18 @@ assert get_user_name('{"name": "Sam"}') == "Sam", "Should return 'Sam'."
     lessonNumber: 6,
     title: "Counting Items with collections.Counter",
     explanation:
-      "Python's collections module includes Counter, a helpful tool that counts how many times each item appears in a list automatically. Converting a Counter back to a regular dict with dict(Counter(items)) gives you a clean frequency dictionary.",
+      "Python's collections module includes Counter, a helpful tool that counts how many times each item appears in a list automatically. You can return Counter(items) directly or wrap it in dict(Counter(items)) for a plain dictionary.",
     syntaxExample: `from collections import Counter\ncounts = Counter(["apple", "pear", "apple"])\nprint(dict(counts))  # {'apple': 2, 'pear': 1}`,
     whyItMatters:
       "Counter saves you from writing manual counting loops whenever you need item totals.",
-    taskPrompt: "Complete count_items(items) so it uses Counter(items) and returns a regular dictionary with the item counts.",
-    starterCode: `from collections import Counter\n\ndef count_items(items):\n    # Return dict(Counter(items))\n    pass\n`,
-    hint: "Replace pass with return dict(Counter(items)).",
+    taskPrompt: "Complete count_items(items) so it returns Counter(items) (or dict(Counter(items))) with the item counts.",
+    starterCode: `from collections import Counter\n\ndef count_items(items):\n    # Return Counter(items)\n    pass\n`,
+    hint: "Replace pass with return Counter(items) (or return dict(Counter(items))).",
     solution: `from collections import Counter\n\ndef count_items(items):\n    return dict(Counter(items))`,
     expectedSummary: 'count_items(["a", "b", "a"]) == {"a": 2, "b": 1}',
     hiddenTests: `
 assert callable(globals().get("count_items")), "Define count_items(items)."
-assert count_items(["a", "b", "a"]) == {"a": 2, "b": 1}, "Should return {'a': 2, 'b': 1}."
+assert count_items(["a", "b", "a"]) == {"a": 2, "b": 1}, "Should match {'a': 2, 'b': 1}."
 assert count_items([]) == {}, "Empty list should return {}."
 `,
   },
@@ -318,7 +317,7 @@ assert count_items([]) == {}, "Empty list should return {}."
     syntaxExample: `def add_one(fn):\n    def wrapper(*args, **kwargs):\n        return fn(*args, **kwargs) + 1\n    return wrapper`,
     whyItMatters:
       "Decorators are widely used across Python frameworks for logging, caching, and access checks.",
-    taskPrompt: "Complete the wrapper inside double_result(fn) so it calls fn(*args, **kwargs) and returns the result multiplied by 2.",
+    taskPrompt: "Complete wrapper inside double_result(fn) so it calls fn(*args, **kwargs) and returns the result multiplied by 2.",
     starterCode: `def double_result(fn):\n    def wrapper(*args, **kwargs):\n        # Return fn(*args, **kwargs) * 2\n        pass\n    return wrapper\n`,
     hint: "Replace pass with return fn(*args, **kwargs) * 2.",
     solution: `def double_result(fn):\n    def wrapper(*args, **kwargs):\n        return fn(*args, **kwargs) * 2\n    return wrapper`,
@@ -345,9 +344,9 @@ assert _sample_one(x=7) == 14, "Decorator must pass keyword arguments (**kwargs)
     syntaxExample: `def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1`,
     whyItMatters:
       "Generators let you process large streams of data efficiently without loading everything into memory.",
-    taskPrompt: "Complete the generator function count_up_to(n) so it yields integers from 1 up to n (inclusive).",
-    starterCode: `def count_up_to(n):\n    # Loop i from 1 to n and yield i\n    pass\n`,
-    hint: "Write for i in range(1, n + 1): followed by yield i.",
+    taskPrompt: "Complete the loop inside count_up_to(n) so it uses yield to produce each number i from 1 up to n.",
+    starterCode: `def count_up_to(n):\n    for i in range(1, n + 1):\n        # Yield i\n        pass\n`,
+    hint: "Replace pass with yield i.",
     solution: `def count_up_to(n):\n    for i in range(1, n + 1):\n        yield i`,
     expectedSummary: "list(count_up_to(4)) == [1, 2, 3, 4]",
     hiddenTests: `
@@ -365,13 +364,13 @@ assert list(count_up_to(0)) == [], "count_up_to(0) should yield []."
     lessonNumber: 3,
     title: "Context Managers and the with Statement",
     explanation:
-      "A context manager guarantees that setup and cleanup code runs reliably around a block using Python's with statement. Implementing __enter__ handles setup, while __exit__ handles cleanup when the block finishes.",
+      "A context manager guarantees that setup and cleanup code runs reliably around a block using Python's with statement. Implementing __enter__ handles setup and returns self, while __exit__ handles cleanup when the block finishes.",
     syntaxExample: `class Session:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        return False`,
     whyItMatters:
       "Context managers ensure files, connections, and temporary resources are always cleaned up safely.",
-    taskPrompt: "Complete TagTracker so __enter__ appends 'enter' to self.log (and returns self) and __exit__ appends 'exit' to self.log (and returns False).",
-    starterCode: `class TagTracker:\n    def __init__(self, log_list):\n        self.log = log_list\n\n    def __enter__(self):\n        # Append 'enter' to self.log and return self\n        pass\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Append 'exit' to self.log and return False\n        pass\n`,
-    hint: "In __enter__: self.log.append('enter') then return self. In __exit__: self.log.append('exit') then return False.",
+    taskPrompt: 'Complete TagTracker so __enter__ appends "enter" to self.log and __exit__ appends "exit" to self.log.',
+    starterCode: `class TagTracker:\n    def __init__(self, log_list):\n        self.log = log_list\n\n    def __enter__(self):\n        # Append "enter" to self.log\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Append "exit" to self.log\n        return False\n`,
+    hint: 'Add self.log.append("enter") before return self, and self.log.append("exit") before return False.',
     solution: `class TagTracker:\n    def __init__(self, log_list):\n        self.log = log_list\n\n    def __enter__(self):\n        self.log.append("enter")\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.log.append("exit")\n        return False`,
     expectedSummary: "Using with TagTracker(logs): records ['enter', ..., 'exit']",
     hiddenTests: `
@@ -392,15 +391,15 @@ assert logs == ["enter", "work", "exit"], f"Expected ['enter', 'work', 'exit'], 
     syntaxExample: `class StepUp:\n    def __init__(self, max_val):\n        self.cur = 0\n        self.max_val = max_val\n    def __iter__(self):\n        return self\n    def __next__(self):\n        if self.cur >= self.max_val:\n            raise StopIteration\n        self.cur += 1\n        return self.cur`,
     whyItMatters:
       "Understanding __iter__ and __next__ shows how Python loops and streams work behind the scenes.",
-    taskPrompt: "Complete __next__(self) on Countdown so it counts down from start to 1 (inclusive) and raises StopIteration when self.current <= 0.",
-    starterCode: `class Countdown:\n    def __init__(self, start):\n        self.current = start\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        # If self.current <= 0: raise StopIteration\n        # Otherwise save value, subtract 1 from self.current, and return value\n        pass\n`,
-    hint: "Inside __next__, check if self.current <= 0 and raise StopIteration. Otherwise store val = self.current, set self.current -= 1, and return val.",
-    solution: `class Countdown:\n    def __init__(self, start):\n        self.current = start\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.current <= 0:\n            raise StopIteration\n        val = self.current\n        self.current -= 1\n        return val`,
-    expectedSummary: "list(Countdown(3)) == [3, 2, 1]",
+    taskPrompt: "Complete __next__(self) on CountUp so it adds 1 to self.current and returns self.current.",
+    starterCode: `class CountUp:\n    def __init__(self, max_val):\n        self.current = 0\n        self.max_val = max_val\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.current >= self.max_val:\n            raise StopIteration\n        # Replace raise StopIteration below with self.current += 1 and return self.current\n        raise StopIteration\n`,
+    hint: "Replace the second raise StopIteration with self.current += 1 followed by return self.current.",
+    solution: `class CountUp:\n    def __init__(self, max_val):\n        self.current = 0\n        self.max_val = max_val\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.current >= self.max_val:\n            raise StopIteration\n        self.current += 1\n        return self.current`,
+    expectedSummary: "list(CountUp(3)) == [1, 2, 3]",
     hiddenTests: `
-assert "Countdown" in globals(), "Define class Countdown."
-assert list(Countdown(3)) == [3, 2, 1], "list(Countdown(3)) should equal [3, 2, 1]."
-assert list(Countdown(0)) == [], "Countdown(0) should produce []."
+assert "CountUp" in globals(), "Define class CountUp."
+assert list(CountUp(3)) == [1, 2, 3], "list(CountUp(3)) should equal [1, 2, 3]."
+assert list(CountUp(0)) == [], "CountUp(0) should produce []."
 `,
   },
   {
@@ -433,13 +432,13 @@ assert p1 == p2, "Dataclass instances with equal fields should be equal."
     lessonNumber: 6,
     title: "Fast Duplicate Checking with Sets",
     explanation:
-      "Checking every pair of items in a list with nested loops takes O(n²) time, which slows down on large inputs. Because Python sets check membership in O(1) average time, tracking seen items in a set (or comparing len(items) with len(set(items))) solves duplicate checks in a single pass.",
+      "Checking every pair of items in a list with nested loops takes O(n²) time, which slows down on large inputs. Because Python sets check membership in O(1) average time, comparing len(items) with len(set(items)) solves duplicate checks in a single pass.",
     syntaxExample: `def has_duplicates(items):\n    return len(items) != len(set(items))`,
     whyItMatters:
       "Choosing a set instead of nested loops keeps scripts fast as lists grow larger.",
     taskPrompt: "Complete has_duplicates(items) so it returns True if any item appears more than once in items, or False if all items are unique.",
-    starterCode: `def has_duplicates(items):\n    # Return True if items contains any duplicates, else False\n    pass\n`,
-    hint: "You can write return len(items) != len(set(items)) or track seen items in a set.",
+    starterCode: `def has_duplicates(items):\n    # Return len(items) != len(set(items))\n    pass\n`,
+    hint: "Replace pass with return len(items) != len(set(items)).",
     solution: `def has_duplicates(items):\n    return len(items) != len(set(items))`,
     expectedSummary: "has_duplicates([1, 2, 2, 3]) == True; has_duplicates([1, 2, 3]) == False",
     hiddenTests: `
