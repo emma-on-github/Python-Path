@@ -190,17 +190,14 @@ export function CertificationExam({
     };
   }, [examState.answersById, examState.selectedTrack, activeQuestions]);
 
-  const handleRunCurrentTests = async () => {
+  const handleRunCurrentCode = async () => {
     if (engineStatus !== "ready" || isRunning || isGradingAll) return;
     setIsRunning(true);
     const q = currentQuestion;
     const codeToRun = currentAnswer.code;
 
     try {
-      const result = await runPythonCode(codeToRun, {
-        hiddenTests: q.hiddenTests,
-      });
-      const passed = !result.errorType && result.testsPassed;
+      const result = await runPythonCode(codeToRun);
       onUpdateExamState((prev) => ({
         ...prev,
         answersById: {
@@ -208,7 +205,7 @@ export function CertificationExam({
           [q.id]: {
             ...prev.answersById[q.id],
             attempted: true,
-            passed,
+            passed: false,
             lastResult: result,
           },
         },
@@ -227,7 +224,7 @@ export function CertificationExam({
               returnValue: null,
               errorType: "RuntimeError",
               traceback: err instanceof Error ? err.message : "Execution error",
-              friendlyTip: "Unable to execute test checks right now.",
+              friendlyTip: "Unable to run Python code right now.",
               testsPassed: false,
               testMessage: null,
             },
@@ -621,7 +618,11 @@ export function CertificationExam({
   // =========================================================================
   // 3. ACTIVE EXAM WORKSPACE
   // =========================================================================
-  const progressPercent = Math.round((bandSummary.activePassed / activeQuestions.length) * 100);
+  const answeredCount = activeQuestions.filter((q) => {
+    const entry = examState.answersById[q.id];
+    return Boolean(entry && (entry.attempted || entry.code.trim() !== q.starterCode.trim()));
+  }).length;
+  const progressPercent = Math.round((answeredCount / activeQuestions.length) * 100);
 
   return (
     <div className="space-y-6">
@@ -653,7 +654,7 @@ export function CertificationExam({
               Change Level
             </button>
             <span className="text-xs font-medium text-slate-600 tabular-nums">
-              {bandSummary.activePassed} / {activeQuestions.length} passed
+              {answeredCount} / {activeQuestions.length} answered
             </span>
             <button
               type="button"
@@ -678,10 +679,10 @@ export function CertificationExam({
 
         <div
           role="progressbar"
-          aria-valuenow={bandSummary.activePassed}
+          aria-valuenow={answeredCount}
           aria-valuemin={0}
           aria-valuemax={activeQuestions.length}
-          aria-label="Exam challenges passed"
+          aria-label="Exam questions answered"
           className="mb-3.5 h-2 w-full overflow-hidden rounded-full bg-slate-100"
         >
           <div
@@ -698,6 +699,9 @@ export function CertificationExam({
           {activeQuestions.map((q, idx) => {
             const state = examState.answersById[q.id];
             const isCurrent = idx === safeIndex;
+            const isAnswered = Boolean(
+              state && (state.attempted || state.code.trim() !== q.starterCode.trim())
+            );
 
             return (
               <button
@@ -713,17 +717,12 @@ export function CertificationExam({
                 className={`flex h-9 items-center justify-center gap-1 rounded-lg border text-xs font-semibold tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 ${
                   isCurrent
                     ? "border-sky-600 bg-sky-600 text-white"
-                    : state?.passed
-                      ? "border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100"
-                      : state?.attempted
-                        ? "border-amber-200 bg-amber-50 text-amber-900 hover:bg-amber-100"
-                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                    : isAnswered
+                      ? "border-sky-200 bg-sky-50 text-sky-900 hover:bg-sky-100"
+                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
                 }`}
               >
                 <span>{idx + 1}</span>
-                {state?.passed && !isCurrent && (
-                  <CheckCircle2 className="h-3 w-3 text-emerald-600" aria-hidden="true" />
-                )}
               </button>
             );
           })}
@@ -815,14 +814,14 @@ export function CertificationExam({
                 },
               }))
             }
-            onRunShortcut={handleRunCurrentTests}
+            onRunShortcut={handleRunCurrentCode}
             disabled={isRunning || isGradingAll}
           />
 
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
-              onClick={handleRunCurrentTests}
+              onClick={handleRunCurrentCode}
               disabled={engineStatus !== "ready" || isRunning || isGradingAll}
               className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600 whitespace-nowrap shrink-0"
             >
@@ -835,8 +834,8 @@ export function CertificationExam({
                 {engineStatus === "loading"
                   ? "Initialising Python..."
                   : isRunning
-                    ? "Running Tests..."
-                    : "Run Automated Tests"}
+                    ? "Running Code..."
+                    : "Run Code"}
               </span>
             </button>
 
@@ -888,7 +887,7 @@ export function CertificationExam({
             <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2.5">
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
                 <Terminal className="h-4 w-4 text-slate-500" aria-hidden="true" />
-                <span>Console &amp; Test Output</span>
+                <span>Console Output</span>
               </div>
               {currentAnswer.lastResult && !currentAnswer.lastResult.errorType && (
                 <span className="text-sm text-slate-500">Executed in browser</span>
@@ -898,7 +897,7 @@ export function CertificationExam({
             <div className="p-4">
               {!currentAnswer.lastResult ? (
                 <p className="font-mono text-sm text-slate-400">
-                  Click &quot;Run Automated Tests&quot; to check your solution against hidden assertions.
+                  Click &quot;Run Code&quot; to test your Python code in the console before submitting.
                 </p>
               ) : (
                 <div className="space-y-3">
@@ -934,36 +933,6 @@ export function CertificationExam({
               )}
             </div>
           </div>
-
-          {currentAnswer.lastResult && !currentAnswer.lastResult.errorType && currentAnswer.passed && (
-            <div
-              role="status"
-              className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4"
-            >
-              <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-700" aria-hidden="true" />
-              <div>
-                <p className="text-base font-semibold text-emerald-950">
-                  All Hidden Test Assertions Passed
-                </p>
-                <p className="text-sm text-emerald-800">
-                  Question {safeIndex + 1} is marked as passed in temporary page memory.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {currentAnswer.lastResult && !currentAnswer.lastResult.errorType && !currentAnswer.passed && (
-            <div
-              role="status"
-              className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-950"
-            >
-              <p className="text-base font-semibold text-amber-900">Automated Checks Did Not Pass Yet</p>
-              <p className="mt-1 text-sm leading-relaxed text-amber-900">
-                {currentAnswer.lastResult.testMessage ||
-                  "Review the prompt requirements and test edge cases, then run your tests again."}
-              </p>
-            </div>
-          )}
         </section>
       </div>
     </div>
