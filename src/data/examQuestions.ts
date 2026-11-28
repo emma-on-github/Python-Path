@@ -16,7 +16,7 @@ export interface ExamQuestion {
 
 export const EXAM_QUESTIONS: ExamQuestion[] = [
   // =========================================================================
-  // BEGINNER BAND (Gentle First-Time Programming Questions)
+  // BEGINNER BAND
   // =========================================================================
   {
     id: 1,
@@ -24,10 +24,10 @@ export const EXAM_QUESTIONS: ExamQuestion[] = [
     topic: "Printing Output",
     title: "Print a Welcome Message",
     prompt:
-      'Put the word Welcome! inside print("") so it prints Welcome! on screen.',
+      "Write code that prints the exact message Welcome! to the console.",
     exampleSummary: 'print("Welcome!") -> Welcome!',
-    starterCode: `# Type Welcome! inside the quotes\nprint("")\n`,
-    hint: 'Change the line to print("Welcome!").',
+    starterCode: `# Write your print statement below\n`,
+    hint: 'Use print() with matching quotes: print("Welcome!")',
     solution: `print("Welcome!")`,
     recommendedLessonId: "b1",
     hiddenTests: `
@@ -40,16 +40,16 @@ assert __captured_stdout__.strip() == "Welcome!", f"Expected 'Welcome!', got '{_
     topic: "Variables & Simple Maths",
     title: "Add Two Variables",
     prompt:
-      "Change total = 0 so it adds a and b together (a + b), then prints the result.",
+      "Given a = 4 and b = 6, create a variable named total equal to a + b, then print total.",
     exampleSummary: "a = 4, b = 6 -> total == 10",
-    starterCode: `a = 4\nb = 6\n\n# Replace 0 with a + b\ntotal = 0\nprint(total)\n`,
-    hint: "Change total = 0 to total = a + b.",
+    starterCode: `a = 4\nb = 6\n\n# Create total and print it below\n`,
+    hint: "Write total = a + b on one line, then print(total) on the next line.",
     solution: `a = 4\nb = 6\n\ntotal = a + b\nprint(total)`,
     recommendedLessonId: "b2",
     hiddenTests: `
-assert "total" in globals(), "Keep the variable named total."
+assert "total" in globals(), "Create a variable named total."
 assert total == 10, f"Expected total to be 10, got {total}."
-assert __captured_stdout__.strip() == "10", "Make sure print(total) runs."
+assert __captured_stdout__.strip() == "10", "Make sure you call print(total)."
 `,
   },
   {
@@ -58,10 +58,10 @@ assert __captured_stdout__.strip() == "10", "Make sure print(total) runs."
     topic: "f-strings",
     title: "Greeting with an f-string",
     prompt:
-      'Given name = "Ada", finish print(f"") so it prints Hello, Ada!.',
+      'Given name = "Ada", use an f-string to print Hello, Ada! to the console.',
     exampleSummary: 'name = "Ada" -> Hello, Ada!',
-    starterCode: `name = "Ada"\n\n# Put Hello, {name}! inside the quotes\nprint(f"")\n`,
-    hint: 'Update the line to print(f"Hello, {name}!").',
+    starterCode: `name = "Ada"\n\n# Print the greeting using an f-string\n`,
+    hint: 'Use an f-string: print(f"Hello, {name}!")',
     solution: `name = "Ada"\n\nprint(f"Hello, {name}!")`,
     recommendedLessonId: "b3",
     hiddenTests: `
@@ -74,10 +74,10 @@ assert __captured_stdout__.strip() == "Hello, Ada!", f"Expected 'Hello, Ada!', g
     topic: "Simple Lists",
     title: "First Item in a List",
     prompt:
-      'Given colours = ["blue", "green", "red"], print the first colour using colours[0].',
+      'Given colours = ["blue", "green", "red"], print the first colour from the list.',
     exampleSummary: 'colours[0] -> blue',
-    starterCode: `colours = ["blue", "green", "red"]\n\n# Put colours[0] inside print()\nprint()\n`,
-    hint: "Python lists start at 0, so write print(colours[0]).",
+    starterCode: `colours = ["blue", "green", "red"]\n\n# Print the first colour below\n`,
+    hint: "Python lists start at index 0, so write print(colours[0]).",
     solution: `colours = ["blue", "green", "red"]\n\nprint(colours[0])`,
     recommendedLessonId: "b4",
     hiddenTests: `
@@ -90,20 +90,20 @@ assert __captured_stdout__.strip() == "blue", f"Expected 'blue', got '{__capture
     topic: "if / else Choices",
     title: "Pass or Retry Check",
     prompt:
-      'Given score = 80, replace pass under if score >= 50: with print("Pass").',
+      'Given score = 80, write an if / else statement that prints "Pass" when score >= 50, and "Retry" otherwise.',
     exampleSummary: "score = 80 -> prints Pass",
-    starterCode: `score = 80\n\nif score >= 50:\n    # Replace pass with print("Pass") (keep 4 spaces)\n    pass\nelse:\n    print("Retry")\n`,
-    hint: 'Delete pass and write print("Pass") indented by 4 spaces.',
+    starterCode: `score = 80\n\n# Write your if / else block below\n`,
+    hint: 'Use if score >= 50: followed by print("Pass"), then else: followed by print("Retry"). Remember to indent with 4 spaces.',
     solution: `score = 80\n\nif score >= 50:\n    print("Pass")\nelse:\n    print("Retry")`,
     recommendedLessonId: "b5",
     hiddenTests: `
-assert "if " in __user_code__ or "if(" in __user_code__, "Keep the if / else block."
+assert "if " in __user_code__ or "if(" in __user_code__, "Use an if / else statement."
 assert __captured_stdout__.strip() == "Pass", f"Expected 'Pass', got '{__captured_stdout__.strip()}'."
 `,
   },
 
   // =========================================================================
-  // INTERMEDIATE BAND (1-Line Guided Functions & Classes)
+  // INTERMEDIATE BAND
   // =========================================================================
   {
     id: 6,
@@ -111,14 +111,14 @@ assert __captured_stdout__.strip() == "Pass", f"Expected 'Pass', got '{__capture
     topic: "List Comprehensions",
     title: "Add 2 to Every Number",
     prompt:
-      "Inside add_two(nums), replace [] with [n + 2 for n in nums].",
+      "Complete add_two(nums) so it returns a new list with 2 added to every number in nums.",
     exampleSummary: "add_two([1, 2, 3]) -> [3, 4, 5]",
-    starterCode: `def add_two(nums):\n    # Replace [] with [n + 2 for n in nums]\n    return []\n`,
-    hint: "Change return [] to return [n + 2 for n in nums].",
+    starterCode: `def add_two(nums):\n    # Your code here\n    pass\n`,
+    hint: "Use a list comprehension: return [n + 2 for n in nums].",
     solution: `def add_two(nums):\n    return [n + 2 for n in nums]`,
     recommendedLessonId: "i1",
     hiddenTests: `
-assert callable(globals().get("add_two")), "Keep function add_two(nums)."
+assert callable(globals().get("add_two")), "Define function add_two(nums)."
 assert add_two([1, 2, 3]) == [3, 4, 5], "Expected [3, 4, 5]."
 assert add_two([]) == [], "Empty list should return []."
 `,
@@ -129,14 +129,14 @@ assert add_two([]) == [], "Empty list should return []."
     topic: "Dictionaries & Safe Lookups",
     title: "Look Up Item Price",
     prompt:
-      "Inside get_price(prices, item), replace 0 with prices.get(item, 0).",
+      "Complete get_price(prices, item) so it returns the price of item from the dictionary prices, or 0 if item is missing.",
     exampleSummary: 'get_price({"pen": 2, "book": 8}, "book") -> 8; missing -> 0',
-    starterCode: `def get_price(prices, item):\n    # Replace 0 with prices.get(item, 0)\n    return 0\n`,
-    hint: "Change return 0 to return prices.get(item, 0).",
+    starterCode: `def get_price(prices, item):\n    # Your code here\n    pass\n`,
+    hint: "Use dictionary .get() with a fallback: return prices.get(item, 0).",
     solution: `def get_price(prices, item):\n    return prices.get(item, 0)`,
     recommendedLessonId: "i2",
     hiddenTests: `
-assert callable(globals().get("get_price")), "Keep function get_price(prices, item)."
+assert callable(globals().get("get_price")), "Define function get_price(prices, item)."
 assert get_price({"pen": 2, "book": 8}, "book") == 8, "Should return 8 for 'book'."
 assert get_price({"pen": 2, "book": 8}, "bag") == 0, "Missing item should return 0."
 `,
@@ -147,14 +147,14 @@ assert get_price({"pen": 2, "book": 8}, "bag") == 0, "Missing item should return
     topic: "try / except",
     title: "Divide Safely",
     prompt:
-      "Finish divide_or_zero(a, b) by replacing pass with return 0 inside the except block.",
+      "Complete divide_or_zero(a, b) using try / except so it returns a / b, or 0 if b is 0.",
     exampleSummary: "divide_or_zero(12, 3) -> 4.0, divide_or_zero(12, 0) -> 0",
-    starterCode: `def divide_or_zero(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        # Replace pass with return 0\n        pass\n`,
-    hint: "Delete pass and write return 0.",
+    starterCode: `def divide_or_zero(a, b):\n    # Your code here\n    pass\n`,
+    hint: "Put return a / b inside a try: block, and return 0 inside except ZeroDivisionError:.",
     solution: `def divide_or_zero(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0`,
     recommendedLessonId: "i3",
     hiddenTests: `
-assert callable(globals().get("divide_or_zero")), "Keep function divide_or_zero(a, b)."
+assert callable(globals().get("divide_or_zero")), "Define function divide_or_zero(a, b)."
 assert divide_or_zero(12, 3) == 4.0, "divide_or_zero(12, 3) should return 4.0."
 assert divide_or_zero(5, 0) == 0, "Zero divisor should return 0."
 `,
@@ -165,10 +165,10 @@ assert divide_or_zero(5, 0) == 0, "Zero divisor should return 0."
     topic: "Classes",
     title: "Simple Book Class",
     prompt:
-      "Finish the Book class by replacing pass with self.title = title inside __init__.",
+      "Complete the Book class so __init__(self, title) stores title on self.title.",
     exampleSummary: 'Book("Python").title -> "Python"',
-    starterCode: `class Book:\n    def __init__(self, title):\n        # Replace pass with self.title = title\n        pass\n`,
-    hint: "Delete pass and write self.title = title.",
+    starterCode: `class Book:\n    def __init__(self, title):\n        # Your code here\n        pass\n`,
+    hint: "Inside __init__, write self.title = title.",
     solution: `class Book:\n    def __init__(self, title):\n        self.title = title`,
     recommendedLessonId: "i4",
     hiddenTests: `
@@ -183,21 +183,21 @@ assert getattr(b, "title", None) == "Python", 'Book("Python").title should be "P
     topic: "JSON & Dictionaries",
     title: "Read a Name from JSON",
     prompt:
-      'Finish read_name(json_str) by replacing "" with data["name"].',
+      'Complete read_name(json_str) so it parses the JSON string and returns the value for "name".',
     exampleSummary: 'read_name(\'{"name": "Ada"}\') -> "Ada"',
-    starterCode: `import json\n\ndef read_name(json_str):\n    data = json.loads(json_str)\n    # Replace "" with data["name"]\n    return ""\n`,
-    hint: 'Change return "" to return data["name"].',
+    starterCode: `import json\n\ndef read_name(json_str):\n    # Your code here\n    pass\n`,
+    hint: 'Call data = json.loads(json_str) and return data["name"].',
     solution: `import json\n\ndef read_name(json_str):\n    data = json.loads(json_str)\n    return data["name"]`,
     recommendedLessonId: "i5",
     hiddenTests: `
-assert callable(globals().get("read_name")), "Keep function read_name(json_str)."
+assert callable(globals().get("read_name")), "Define function read_name(json_str)."
 assert read_name('{"name": "Ada"}') == "Ada", "Expected 'Ada'."
 assert read_name('{"name": "Sam"}') == "Sam", "Expected 'Sam'."
 `,
   },
 
   // =========================================================================
-  // ADVANCED BAND (Gentle 1-Line Guided Exercises)
+  // ADVANCED BAND
   // =========================================================================
   {
     id: 11,
@@ -205,10 +205,10 @@ assert read_name('{"name": "Sam"}') == "Sam", "Expected 'Sam'."
     topic: "Decorators",
     title: "Uppercase Decorator",
     prompt:
-      'Inside wrapper(), replace "" with fn().upper() so the wrapped function returns UPPERCASE text.',
+      "Complete the decorator make_upper(fn) so its wrapper calls fn() and returns the string converted to uppercase.",
     exampleSummary: '@make_upper def say(): return "hi" -> say() == "HI"',
-    starterCode: `def make_upper(fn):\n    def wrapper():\n        # Replace "" with fn().upper()\n        return ""\n    return wrapper\n`,
-    hint: 'Change return "" to return fn().upper().',
+    starterCode: `def make_upper(fn):\n    def wrapper():\n        # Your code here\n        pass\n    return wrapper\n`,
+    hint: "Inside wrapper(), write return fn().upper().",
     solution: `def make_upper(fn):\n    def wrapper():\n        return fn().upper()\n    return wrapper`,
     recommendedLessonId: "a1",
     hiddenTests: `
@@ -225,10 +225,10 @@ assert _say() == "HELLO", "Decorated call should return 'HELLO'."
     topic: "Generators (yield)",
     title: "Three Numbers Generator",
     prompt:
-      "Inside three_numbers(), replace pass with yield n so it yields 1, 2, and 3.",
+      "Complete the generator function three_numbers() so it yields 1, 2, and 3 one by one.",
     exampleSummary: "list(three_numbers()) -> [1, 2, 3]",
-    starterCode: `def three_numbers():\n    for n in [1, 2, 3]:\n        # Replace pass with yield n\n        pass\n`,
-    hint: "Delete pass and write yield n.",
+    starterCode: `def three_numbers():\n    # Your code here\n    pass\n`,
+    hint: "Loop with for n in [1, 2, 3]: and yield n on each step.",
     solution: `def three_numbers():\n    for n in [1, 2, 3]:\n        yield n`,
     recommendedLessonId: "a2",
     hiddenTests: `
@@ -245,10 +245,10 @@ assert list(gen) == [1, 2, 3], "Expected [1, 2, 3]."
     topic: "Context Managers",
     title: "Tracker Context Manager",
     prompt:
-      'Look at how __exit__ appends "close". Add self.log.append("open") inside __enter__ right above return self.',
+      'Complete Tracker so __enter__ appends "open" to self.log (and returns self), and __exit__ appends "close" to self.log (and returns False).',
     exampleSummary: 'with Tracker(log): log.append("work") -> ["open", "work", "close"]',
-    starterCode: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        # Add self.log.append("open") below\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.log.append("close")\n        return False\n`,
-    hint: 'Write self.log.append("open") on a line above return self inside __enter__.',
+    starterCode: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        # Your code here\n        pass\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Your code here\n        pass\n`,
+    hint: 'In __enter__, write self.log.append("open") and return self. In __exit__, write self.log.append("close") and return False.',
     solution: `class Tracker:\n    def __init__(self, log):\n        self.log = log\n\n    def __enter__(self):\n        self.log.append("open")\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.log.append("close")\n        return False`,
     recommendedLessonId: "a3",
     hiddenTests: `
@@ -265,10 +265,10 @@ assert log == ["open", "work", "close"], f"Expected ['open', 'work', 'close'], g
     topic: "Dataclasses",
     title: "Book Dataclass",
     prompt:
-      "Look at title: str in the Book dataclass. Add pages: int right underneath it.",
+      "Complete the @dataclass named Book with two fields: title (str) and pages (int).",
     exampleSummary: 'Book("Python", 120).pages == 120',
-    starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    # Add pages: int below\n`,
-    hint: "Add pages: int on the line directly under title: str.",
+    starterCode: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    # Add your fields below\n    pass\n`,
+    hint: "Replace pass with title: str on one line and pages: int on the next line.",
     solution: `from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    pages: int`,
     recommendedLessonId: "a5",
     hiddenTests: `
@@ -285,10 +285,10 @@ assert b1 == b2 and b1.pages == 120, "Book should store title and pages."
     topic: "Sets & Unique Items",
     title: "Remove Duplicates with set()",
     prompt:
-      "Inside get_unique(items), replace [] with list(set(items)) to remove repeated items.",
+      "Complete get_unique(items) so it returns a list (or set) of the unique items with duplicates removed.",
     exampleSummary: "get_unique([1, 2, 2, 3]) -> contains 1, 2, and 3 once each",
-    starterCode: `def get_unique(items):\n    # Replace [] with list(set(items))\n    return []\n`,
-    hint: "Change return [] to return list(set(items)).",
+    starterCode: `def get_unique(items):\n    # Your code here\n    pass\n`,
+    hint: "Convert items to a set and back to a list: return list(set(items)).",
     solution: `def get_unique(items):\n    return list(set(items))`,
     recommendedLessonId: "a6",
     hiddenTests: `
